@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.documentElement.classList.add("has-js");
+
   const year = document.querySelector("[data-current-year]");
   const menuButton = document.querySelector("[data-menu-button]");
   const mobileNav = document.querySelector("[data-mobile-nav]");
   const filterPanel = document.querySelector("[data-gathering-filter]");
+  const revealTargets = document.querySelectorAll(".home-banner, .image-frame");
   const language = document.documentElement.lang === "ko" ? "ko" : "ja";
   const menuLabels = {
     ja: { open: "メニューを開く", close: "メニューを閉じる" },
@@ -15,6 +18,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (window.lucide) {
     lucide.createIcons();
+  }
+
+  if (revealTargets.length) {
+    revealTargets.forEach((target) => {
+      target.classList.add("image-reveal");
+    });
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.18 });
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    } else {
+      revealTargets.forEach((target) => {
+        target.classList.add("is-visible");
+      });
+    }
   }
 
   if (menuButton && mobileNav) {
