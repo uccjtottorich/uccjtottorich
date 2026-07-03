@@ -158,27 +158,66 @@ a {
   border-radius: 999px;
   background: var(--brand-bg);
   color: var(--brand-primary);
+  cursor: pointer;
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
+}
+
+.menu-button:hover,
+.menu-button[aria-expanded="true"] {
+  border-color: rgba(138, 37, 44, 0.36);
+  background: #fffdf9;
+  box-shadow: 0 8px 22px rgba(46, 43, 42, 0.08);
+}
+
+.menu-button[aria-expanded="true"] {
+  transform: rotate(90deg);
 }
 
 .mobile-nav {
-  display: none;
-  border-top: 1px solid rgba(209, 202, 198, 0.42);
-  padding: 10px 0 16px;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  border-top: 1px solid rgba(209, 202, 198, 0);
+  padding: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: max-height 0.48s ease, opacity 0.34s ease, transform 0.48s ease, padding 0.48s ease, border-color 0.48s ease, visibility 0s linear 0.48s;
 }
 
 .mobile-nav.open {
-  display: block;
+  max-height: 360px;
+  visibility: visible;
+  border-top-color: rgba(209, 202, 198, 0.42);
+  padding: 10px 0 16px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height 0.55s ease, opacity 0.42s ease, transform 0.55s ease, padding 0.55s ease, border-color 0.55s ease, visibility 0s;
 }
 
 .mobile-nav .container {
   display: grid;
   gap: 4px;
+  transform: translateY(-6px);
+  transition: transform 0.48s ease;
+}
+
+.mobile-nav.open .container {
+  transform: translateY(0);
 }
 
 .mobile-nav a {
   padding: 10px 0;
   color: var(--brand-muted);
   font-weight: 600;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: color 0.2s ease, opacity 0.34s ease, transform 0.34s ease;
+}
+
+.mobile-nav.open a,
+.mobile-nav.open .mobile-language-switch {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mobile-language-switch {
@@ -191,6 +230,9 @@ a {
   color: var(--brand-muted);
   font-size: 0.82rem;
   font-weight: 700;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.34s ease, transform 0.34s ease;
 }
 
 .mobile-language-switch a {
