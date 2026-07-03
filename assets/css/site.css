@@ -12,6 +12,9 @@
   --card-border: rgba(196, 185, 174, 0.62);
   --card-accent: #6f655d;
   --card-accent-soft: #eee8df;
+  --selection-surface: #f3f7ef;
+  --selection-border: rgba(123, 143, 105, 0.72);
+  --selection-accent: #6f835c;
   --brand-dark: #1c1a19;
   --shadow-soft: 0 18px 50px rgba(46, 43, 42, 0.09);
 }
@@ -400,6 +403,22 @@ main {
   box-shadow: 0 12px 30px rgba(46, 43, 42, 0.045);
 }
 
+.home-link-card {
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.home-link-card:hover,
+.home-link-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(111, 101, 93, 0.85);
+  background: #fffefb;
+  box-shadow: 0 18px 42px rgba(46, 43, 42, 0.085);
+}
+
+.home-link-card:active {
+  transform: translateY(-2px);
+}
+
 .card-icon {
   width: 38px;
   height: 38px;
@@ -409,6 +428,13 @@ main {
   background: var(--card-accent-soft);
   color: var(--card-accent);
   margin-bottom: 18px;
+  transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+}
+
+.home-link-card:hover .card-icon,
+.home-link-card:focus-within .card-icon {
+  background: #e5ded2;
+  transform: translateY(-1px);
 }
 
 .card h3 {
@@ -617,9 +643,14 @@ main {
 
 .schedule-row.is-highlighted,
 .filterable-card.is-highlighted {
-  border-color: rgba(154, 141, 128, 0.72);
-  background: #fffdf9;
-  box-shadow: inset 4px 0 0 rgba(154, 141, 128, 0.34), 0 12px 30px rgba(46, 43, 42, 0.055);
+  border-color: var(--selection-border);
+  background: var(--selection-surface);
+  box-shadow: inset 4px 0 0 rgba(111, 131, 92, 0.48), 0 14px 34px rgba(65, 76, 55, 0.08);
+}
+
+.filterable-card.is-highlighted .card-icon {
+  background: #e1ebd8;
+  color: var(--selection-accent);
 }
 
 .schedule-time {
