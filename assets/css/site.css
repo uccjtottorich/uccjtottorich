@@ -283,6 +283,7 @@ main {
   height: clamp(260px, 50vw, 600px);
   overflow: hidden;
   background: var(--brand-surface);
+  transition: transform 0.65s ease, box-shadow 0.65s ease;
 }
 
 .home-banner img {
@@ -290,6 +291,9 @@ main {
   height: 100%;
   object-fit: cover;
   filter: brightness(0.93);
+  transform-origin: center;
+  transition: transform 1.25s ease, opacity 1s ease, filter 0.8s ease;
+  will-change: transform, opacity;
 }
 
 .home-banner::after {
@@ -461,12 +465,59 @@ main {
   border-radius: 8px;
   border: 1px solid rgba(209, 202, 198, 0.52);
   box-shadow: var(--shadow-soft);
+  transition: transform 0.55s ease, border-color 0.55s ease, box-shadow 0.55s ease, opacity 1s ease;
 }
 
 .image-frame img {
   width: 100%;
   height: 390px;
   object-fit: cover;
+  transform-origin: center;
+  transition: transform 1.15s ease, opacity 1s ease, filter 0.8s ease;
+  will-change: transform, opacity;
+}
+
+.has-js .image-reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.has-js .image-reveal img {
+  opacity: 0;
+  transform: scale(1.045);
+}
+
+.has-js .image-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.has-js .image-reveal.is-visible img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.image-frame:hover,
+.image-frame:focus-within {
+  transform: translateY(-8px);
+  border-color: rgba(196, 185, 174, 0.82);
+  box-shadow: 0 20px 48px rgba(46, 43, 42, 0.12);
+}
+
+.home-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 44px rgba(46, 43, 42, 0.08);
+}
+
+.image-frame:hover img,
+.image-frame:focus-within img {
+  filter: brightness(0.98);
+  transform: translateY(-8px) scale(1.045);
+}
+
+.home-banner:hover img {
+  filter: brightness(0.98);
+  transform: translateY(-10px) scale(1.035);
 }
 
 .button-row {
