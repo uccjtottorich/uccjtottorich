@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="日本基督教団 鳥取教会の主日説教ページです。">
+  <title>主日説教 | 日本基督教団 鳥取教会</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand-link" href="index.html"><img class="brand-logo" src="assets/images/church-logo.png" alt="鳥取教会 ロゴ"><span><span class="brand-title">日本基督教団 鳥取教会</span><span class="brand-subtitle">Tottori Church of the United Church of Christ in Japan</span></span></a>
+        <nav class="desktop-nav" aria-label="メインメニュー"><a href="index.html">ホーム</a><a href="history.html">教会の歴史</a><a href="worship.html">礼拝・集会</a><a href="pastor.html">牧師紹介</a><a href="sermon.html" aria-current="page">主日説教</a><a href="first-time.html">初めての方へ</a><a href="access.html">アクセス</a><span class="language-switch" aria-label="言語切り替え"><a href="sermon.html" aria-current="true">日本語</a><span>|</span><a href="ko/sermon.html">한국어</a></span></nav>
+        <button class="menu-button" type="button" data-menu-button aria-controls="mobile-nav" aria-expanded="false" aria-label="メニューを開く"><i data-lucide="menu"></i></button>
+      </div>
+      <nav id="mobile-nav" class="mobile-nav" data-mobile-nav aria-label="モバイルメニュー"><div class="container"><a href="index.html">ホーム</a><a href="history.html">教会の歴史</a><a href="worship.html">礼拝・集会</a><a href="pastor.html">牧師紹介</a><a href="sermon.html" aria-current="page">主日説教</a><a href="first-time.html">初めての方へ</a><a href="access.html">アクセス</a><div class="mobile-language-switch" aria-label="言語切り替え"><a href="sermon.html" aria-current="true">日本語</a><span>|</span><a href="ko/sermon.html">한국어</a></div></div></nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <span class="eyebrow">Sunday Sermon</span>
+          <h1 class="page-title">主日説教</h1>
+          <p class="page-copy">その週の主日礼拝で語られた説教を掲載するページです。説教の追加は、専用のデータファイルを更新するだけで反映できます。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container sermon-layout">
+          <article class="sermon-paper" data-sermon-current>
+            <div class="sermon-meta">
+              <span data-sermon-date>2026年7月5日 主日礼拝</span>
+              <span data-sermon-preacher>説教者：牧師名をここに掲載</span>
+            </div>
+            <h2 data-sermon-title>説教題をここに掲載します</h2>
+            <p class="sermon-scripture" data-sermon-scripture>聖書箇所：聖書箇所をここに掲載します</p>
+            <div class="sermon-body" data-sermon-body>
+              <p>
+                ここに今週の主日説教の本文、または要約を掲載します。礼拝で語られた言葉を、初めて読む方にも分かりやすい段落に整えることができます。
+              </p>
+              <p>
+                原稿をそのまま掲載することもできますし、長い説教原稿を読みやすい形に整理して掲載することもできます。後から聖書箇所、説教題、説教者名を差し替えれば、毎週の更新にも対応できます。
+              </p>
+            </div>
+          </article>
+          <aside class="card sermon-side">
+            <span class="card-icon"><i data-lucide="file-text"></i></span>
+            <h3>更新のしかた</h3>
+            <p>毎週の更新では、<strong>assets/js/sermon-data.js</strong> に新しい説教を追加します。</p>
+            <p>一番上に追加した説教が「今週の主日説教」として表示され、下の一覧にも自動で並びます。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section surface">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Archive</span>
+            <h2 class="section-title">これまでの主日説教</h2>
+            <p class="section-copy">過去に掲載した説教を、日付順に残していくための一覧です。カードをクリックすると、説教本文をその場で開いて読むことができます。</p>
+          </div>
+          <div class="sermon-board" data-sermon-board>
+            <article class="sermon-card">
+              <time datetime="2026-07-05">2026年7月5日</time>
+              <h3>説教題をここに掲載します</h3>
+              <p class="sermon-scripture">聖書箇所：聖書箇所をここに掲載します</p>
+              <p>説教の要旨を2、3行ほどで掲載します。礼拝で語られた中心的なメッセージを、初めて読む方にも分かりやすくまとめます。</p>
+            </article>
+            <article class="sermon-card">
+              <time datetime="2026-06-28">2026年6月28日</time>
+              <h3>過去の説教題サンプル</h3>
+              <p class="sermon-scripture">聖書箇所：聖書箇所をここに掲載します</p>
+              <p>ここに過去の説教要旨を掲載します。不要になったサンプルは削除して、実際の説教内容に差し替えられます。</p>
+            </article>
+            <article class="sermon-card">
+              <time datetime="2026-06-21">2026年6月21日</time>
+              <h3>過去の説教題サンプル</h3>
+              <p class="sermon-scripture">聖書箇所：聖書箇所をここに掲載します</p>
+              <p>短い要約だけでも掲載できます。長い原稿を載せたい場合は、このカードから個別ページへ広げることもできます。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div><span class="footer-title">日本基督教団 鳥取教会</span><p class="footer-copy">1890年に創立され、鳥取の街の中心で祈りをささげ続けてきたプロテスタント教会です。</p></div>
+          <div><span class="footer-title">メニュー</span><ul class="footer-list"><li><a href="history.html">教会の歴史</a></li><li><a href="worship.html">礼拝・集会</a></li><li><a href="pastor.html">牧師紹介</a></li><li><a href="sermon.html">主日説教</a></li><li><a href="first-time.html">初めての方へ</a></li><li><a href="access.html">アクセス</a></li></ul></div>
+          <div><span class="footer-title">連絡先</span><ul class="footer-list"><li>〒680-0022 鳥取県鳥取市西町1-425-1</li><li>0857-23-1388</li><li><a href="mailto:uccjtottorich@gmail.com">uccjtottorich@gmail.com</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><span>© <span data-current-year></span> 日本基督教団 鳥取教会</span><span>統一教会、エホバの証人、モルモン教等とは一切関係ございません。</span></div>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/js/sermon-data.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

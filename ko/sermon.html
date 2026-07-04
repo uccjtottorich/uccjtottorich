@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="일본기독교단 돗토리교회의 주일설교 페이지입니다.">
+  <title>주일설교 | 일본기독교단 돗토리교회</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand-link" href="index.html"><img class="brand-logo" src="../assets/images/church-logo.png" alt="돗토리교회 로고"><span><span class="brand-title">일본기독교단 돗토리교회</span><span class="brand-subtitle">Tottori Church of the United Church of Christ in Japan</span></span></a>
+        <nav class="desktop-nav" aria-label="주 메뉴"><a href="index.html">홈</a><a href="history.html">교회 역사</a><a href="worship.html">예배・집회</a><a href="pastor.html">목회자 소개</a><a href="sermon.html" aria-current="page">주일설교</a><a href="first-time.html">처음 오시는 분</a><a href="access.html">오시는 길</a><span class="language-switch" aria-label="언어 전환"><a href="../sermon.html">日本語</a><span>|</span><a href="sermon.html" aria-current="true">한국어</a></span></nav>
+        <button class="menu-button" type="button" data-menu-button aria-controls="mobile-nav" aria-expanded="false" aria-label="메뉴 열기"><i data-lucide="menu"></i></button>
+      </div>
+      <nav id="mobile-nav" class="mobile-nav" data-mobile-nav aria-label="모바일 메뉴"><div class="container"><a href="index.html">홈</a><a href="history.html">교회 역사</a><a href="worship.html">예배・집회</a><a href="pastor.html">목회자 소개</a><a href="sermon.html" aria-current="page">주일설교</a><a href="first-time.html">처음 오시는 분</a><a href="access.html">오시는 길</a><div class="mobile-language-switch" aria-label="언어 전환"><a href="../sermon.html">日本語</a><span>|</span><a href="sermon.html" aria-current="true">한국어</a></div></div></nav>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <span class="eyebrow">Sunday Sermon</span>
+          <h1 class="page-title">주일설교</h1>
+          <p class="page-copy">그 주의 주일예배에서 전해진 설교를 싣는 페이지입니다. 설교 추가는 전용 데이터 파일 하나를 수정하는 방식으로 관리할 수 있습니다.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container sermon-layout">
+          <article class="sermon-paper" data-sermon-current>
+            <div class="sermon-meta">
+              <span data-sermon-date>2026년 7월 5일 주일예배</span>
+              <span data-sermon-preacher>설교자: 목회자명을 여기에 입력</span>
+            </div>
+            <h2 data-sermon-title>설교 제목을 여기에 입력합니다</h2>
+            <p class="sermon-scripture" data-sermon-scripture>성경본문: 성경본문을 여기에 입력합니다</p>
+            <div class="sermon-body" data-sermon-body>
+              <p>여기에 이번 주 주일설교 본문 또는 요약을 실을 수 있습니다. 예배에서 전해진 말씀을 처음 읽는 사람도 이해하기 쉽도록 단락을 정리할 수 있습니다.</p>
+              <p>설교 원고를 그대로 싣는 것도 가능하고, 긴 원고를 홈페이지에서 읽기 편한 형태로 다듬는 것도 가능합니다. 이후 날짜, 본문, 제목, 설교자명만 바꾸면 매주 업데이트할 수 있습니다.</p>
+            </div>
+          </article>
+          <aside class="card sermon-side">
+            <span class="card-icon"><i data-lucide="file-text"></i></span>
+            <h3>업데이트 방법</h3>
+            <p>매주 업데이트할 때는 <strong>assets/js/sermon-data.js</strong>에 새 설교를 추가하면 됩니다.</p>
+            <p>맨 위에 추가한 설교가 “이번 주 주일설교”로 표시되고, 아래 목록에도 자동으로 들어갑니다.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section surface">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Archive</span>
+            <h2 class="section-title">지난 주일설교</h2>
+            <p class="section-copy">지금까지 게시한 설교를 날짜순으로 남겨두는 목록입니다. 카드를 클릭하면 그 자리에서 설교 전문을 펼쳐 읽을 수 있습니다.</p>
+          </div>
+          <div class="sermon-board" data-sermon-board>
+            <article class="sermon-card">
+              <time datetime="2026-07-05">2026년 7월 5일</time>
+              <h3>설교 제목을 여기에 입력합니다</h3>
+              <p class="sermon-scripture">성경본문: 성경본문을 여기에 입력합니다</p>
+              <p>설교 요지를 2, 3줄 정도로 적습니다. 예배에서 전해진 중심 메시지를 처음 읽는 사람도 이해하기 쉽게 정리합니다.</p>
+            </article>
+            <article class="sermon-card">
+              <time datetime="2026-06-28">2026년 6월 28일</time>
+              <h3>지난 설교 제목 샘플</h3>
+              <p class="sermon-scripture">성경본문: 성경본문을 여기에 입력합니다</p>
+              <p>여기에 지난 설교 요지를 입력합니다. 필요 없으면 이 샘플을 삭제하고 실제 설교 내용으로 바꿀 수 있습니다.</p>
+            </article>
+            <article class="sermon-card">
+              <time datetime="2026-06-21">2026년 6월 21일</time>
+              <h3>지난 설교 제목 샘플</h3>
+              <p class="sermon-scripture">성경본문: 성경본문을 여기에 입력합니다</p>
+              <p>짧은 요약만 올릴 수도 있습니다. 긴 원고를 싣고 싶어지면 나중에 개별 설교 페이지로 확장할 수도 있습니다.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div><span class="footer-title">일본기독교단 돗토리교회</span><p class="footer-copy">1890년에 창립되어 돗토리의 중심에서 오랜 세월 기도를 드려 온 프로테스탄트 교회입니다.</p></div>
+          <div><span class="footer-title">메뉴</span><ul class="footer-list"><li><a href="history.html">교회 역사</a></li><li><a href="worship.html">예배・집회</a></li><li><a href="pastor.html">목회자 소개</a></li><li><a href="sermon.html">주일설교</a></li><li><a href="first-time.html">처음 오시는 분</a></li><li><a href="access.html">오시는 길</a></li></ul></div>
+          <div><span class="footer-title">연락처</span><ul class="footer-list"><li>〒680-0022 鳥取県鳥取市西町1-425-1</li><li>0857-23-1388</li><li><a href="mailto:uccjtottorich@gmail.com">uccjtottorich@gmail.com</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><span>© <span data-current-year></span> 일본기독교단 돗토리교회</span><span>통일교, 여호와의 증인, 모르몬교 등과는 일절 관계가 없습니다.</span></div>
+      </div>
+    </footer>
+  </div>
+  <script src="../assets/js/sermon-data.js"></script>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
