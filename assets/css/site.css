@@ -747,15 +747,38 @@ main {
   gap: 34px;
 }
 
+.profile-photo,
 .profile-photo-placeholder {
   min-height: 420px;
-  display: grid;
-  place-items: center;
   border: 1px solid var(--card-border);
   border-radius: 8px;
   background: var(--card-surface);
   color: var(--card-accent);
+  overflow: hidden;
   box-shadow: var(--shadow-soft);
+}
+
+.profile-photo {
+  aspect-ratio: 4 / 5;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+.profile-photo:hover img,
+.profile-photo:focus-within img {
+  filter: brightness(0.98);
+  transform: scale(1.035);
+}
+
+.profile-photo-placeholder {
+  display: grid;
+  place-items: center;
 }
 
 .profile-photo-placeholder svg {
@@ -1081,6 +1104,7 @@ main {
     flex-direction: column;
   }
 
+  .profile-photo,
   .profile-photo-placeholder {
     min-height: 260px;
   }
