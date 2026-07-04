@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         close: "閉じる"
       };
 
-      sermonBoard.innerHTML = sermons.map((sermon, index) => `
+      sermonBoard.innerHTML = sermons.slice(0, 3).map((sermon, index) => `
         <article class="sermon-card">
           <button class="sermon-card-toggle" type="button" aria-expanded="false" aria-controls="sermon-detail-${index}">
             <span class="sermon-card-main">
