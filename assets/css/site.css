@@ -802,13 +802,6 @@ main {
   font-size: 1.02rem;
 }
 
-.sermon-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 28px;
-  align-items: start;
-}
-
 .sermon-paper {
   border: 1px solid var(--card-border);
   border-radius: 8px;
@@ -847,11 +840,6 @@ main {
 
 .sermon-body p {
   margin: 0 0 1.3em;
-}
-
-.sermon-side {
-  position: sticky;
-  top: 108px;
 }
 
 .sermon-board {
@@ -1071,8 +1059,7 @@ main {
   .grid-2,
   .grid-3,
   .footer-grid,
-  .profile-panel,
-  .sermon-layout {
+  .profile-panel {
     grid-template-columns: 1fr;
   }
 
@@ -1102,9 +1089,6 @@ main {
     flex-direction: column;
   }
 
-  .sermon-side {
-    position: static;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
