@@ -456,6 +456,10 @@ main {
   margin-bottom: 0;
 }
 
+.visit-guide {
+  align-self: start;
+}
+
 .image-frame {
   overflow: hidden;
   border-radius: 8px;
