@@ -991,8 +991,15 @@ main {
   margin: 18px 0 0;
 }
 
+.access-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px;
+  align-items: stretch;
+}
+
 .map-embed {
-  min-height: 420px;
+  min-height: 0;
   border: 1px solid rgba(209, 202, 198, 0.52);
   border-radius: 8px;
   overflow: hidden;
@@ -1001,7 +1008,9 @@ main {
 
 .map-embed iframe {
   width: 100%;
-  height: 420px;
+  height: 100%;
+  min-height: 100%;
+  display: block;
   border: 0;
 }
 
@@ -1085,6 +1094,7 @@ main {
 
   .grid-2,
   .grid-3,
+  .access-layout,
   .footer-grid,
   .profile-panel {
     grid-template-columns: 1fr;
@@ -1102,6 +1112,11 @@ main {
 
   .image-frame img {
     height: 280px;
+  }
+
+  .map-embed,
+  .map-embed iframe {
+    min-height: 320px;
   }
 
   .footer-bottom {
