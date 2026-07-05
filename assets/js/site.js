@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileNav = document.querySelector("[data-mobile-nav]");
   const filterPanel = document.querySelector("[data-gathering-filter]");
   const revealTargets = document.querySelectorAll(".home-banner, .image-frame");
+  const homeGallery = document.querySelector("[data-home-gallery]");
   const sermonCurrent = document.querySelector("[data-sermon-current]");
   const sermonBoard = document.querySelector("[data-sermon-board]");
   const menuLabels = {
@@ -97,6 +98,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderSermons();
+
+  if (homeGallery) {
+    const slides = homeGallery.querySelectorAll(".home-banner-slide");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (slides.length > 1 && !reduceMotion) {
+      let activeSlide = 0;
+
+      window.setInterval(() => {
+        slides[activeSlide].classList.remove("is-active");
+        activeSlide = (activeSlide + 1) % slides.length;
+        slides[activeSlide].classList.add("is-active");
+      }, 6500);
+    }
+  }
 
   if (revealTargets.length) {
     revealTargets.forEach((target) => {
