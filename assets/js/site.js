@@ -100,16 +100,47 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSermons();
 
   if (homeGallery) {
-    const slides = homeGallery.querySelectorAll(".home-banner-slide");
+    const slides = Array.from(homeGallery.querySelectorAll(".home-banner-slide"));
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let activeSlide = slides.findIndex((slide) => slide.classList.contains("is-active"));
+
+    if (activeSlide < 0) {
+      activeSlide = 0;
+    }
+
+    function prepareSlidePositions(current, next) {
+      homeGallery.classList.add("is-preparing-slide");
+
+      slides.forEach((slide, index) => {
+        slide.classList.remove("is-active", "is-before", "is-after");
+
+        if (index === current) {
+          slide.classList.add("is-active");
+        } else if (index === next) {
+          slide.classList.add("is-after");
+        } else {
+          slide.classList.add(index < current ? "is-before" : "is-after");
+        }
+      });
+
+      void homeGallery.offsetWidth;
+      homeGallery.classList.remove("is-preparing-slide");
+    }
+
+    prepareSlidePositions(activeSlide, (activeSlide + 1) % slides.length);
 
     if (slides.length > 1 && !reduceMotion) {
-      let activeSlide = 0;
-
       window.setInterval(() => {
-        slides[activeSlide].classList.remove("is-active");
-        activeSlide = (activeSlide + 1) % slides.length;
-        slides[activeSlide].classList.add("is-active");
+        const currentSlide = activeSlide;
+        const nextSlide = (activeSlide + 1) % slides.length;
+
+        prepareSlidePositions(currentSlide, nextSlide);
+
+        slides[currentSlide].classList.remove("is-active");
+        slides[currentSlide].classList.add("is-before");
+        slides[nextSlide].classList.remove("is-after");
+        slides[nextSlide].classList.add("is-active");
+        activeSlide = nextSlide;
       }, 6500);
     }
   }
