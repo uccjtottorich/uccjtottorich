@@ -35,6 +35,44 @@ body {
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
 }
 
+html[lang="ko"] body {
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, sans-serif;
+  word-break: keep-all;
+}
+
+html[lang="ko"] .brand-title,
+html[lang="ko"] .page-title,
+html[lang="ko"] .section-title,
+html[lang="ko"] .card h3,
+html[lang="ko"] .footer-title {
+  font-family: "Noto Serif KR", "Noto Serif JP", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+html[lang="ko"] .brand-title {
+  font-size: clamp(1.05rem, 1.75vw, 1.34rem);
+  line-height: 1.32;
+}
+
+html[lang="ko"] .page-copy,
+html[lang="ko"] .section-copy,
+html[lang="ko"] .lead-text,
+html[lang="ko"] .card p,
+html[lang="ko"] .card li,
+html[lang="ko"] .footer-copy,
+html[lang="ko"] .footer-list {
+  letter-spacing: 0;
+  line-height: 1.88;
+}
+
+html[lang="ko"] .desktop-nav,
+html[lang="ko"] .mobile-nav,
+html[lang="ko"] .button,
+html[lang="ko"] .language-link {
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -130,6 +168,25 @@ a {
 .mobile-nav a:hover,
 .mobile-nav a[aria-current="page"] {
   color: var(--brand-primary);
+}
+
+.language-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(138, 37, 44, 0.24);
+  border-radius: 999px;
+  color: var(--brand-primary);
+  background: rgba(255, 253, 249, 0.78);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.language-link:hover {
+  background: #f7f1e8;
 }
 
 .menu-button {
@@ -1276,6 +1333,10 @@ main {
 
 @media (max-width: 840px) {
   .desktop-nav {
+    display: none;
+  }
+
+  .language-link {
     display: none;
   }
 
