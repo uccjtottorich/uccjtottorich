@@ -1245,6 +1245,11 @@ main {
   align-items: stretch;
 }
 
+.access-parking-note {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+}
+
 .map-embed {
   min-height: 0;
   border: 1px solid rgba(209, 202, 198, 0.52);
