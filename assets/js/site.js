@@ -64,11 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
         close: "閉じる"
       };
 
-      sermonBoard.innerHTML = sermons.slice(0, 3).map((sermon, index) => `
+      sermonBoard.innerHTML = sermons.slice(1, 4).map((sermon, index) => `
         <article class="sermon-card">
           <button class="sermon-card-toggle" type="button" aria-expanded="false" aria-controls="sermon-detail-${index}">
             <span class="sermon-card-main">
               <time datetime="${escapeHtml(sermon.date)}">${escapeHtml(sermon.displayDate)}</time>
+              <span class="sermon-card-preacher">説教者：${escapeHtml(sermon.preacher || "")}</span>
               <span class="sermon-card-title">${escapeHtml(sermon.title)}</span>
               <span class="sermon-scripture">${escapeHtml(sermon.scripture)}</span>
               <span class="sermon-card-summary">${escapeHtml(sermon.summary || (sermon.body || [])[0] || "")}</span>
