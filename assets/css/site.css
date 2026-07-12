@@ -1166,6 +1166,12 @@ main {
   font-weight: 700;
 }
 
+.sermon-card-preacher {
+  color: var(--brand-muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
 .sermon-card > time:first-child {
   margin: 24px 24px 10px;
 }
