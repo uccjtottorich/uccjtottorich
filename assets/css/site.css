@@ -155,6 +155,7 @@ a {
   font-size: 0.84rem;
   font-weight: 600;
   color: var(--brand-muted);
+  white-space: nowrap;
 }
 
 .desktop-nav a,
@@ -1342,7 +1343,7 @@ main {
   font-size: 0.76rem;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 1080px) {
   .desktop-nav {
     display: none;
   }
@@ -1362,10 +1363,6 @@ main {
   .brand-logo {
     width: 42px;
     height: 42px;
-  }
-
-  .brand-subtitle {
-    display: none;
   }
 
   .grid-2,
