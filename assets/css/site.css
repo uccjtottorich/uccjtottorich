@@ -1262,6 +1262,10 @@ main {
   margin: 0;
 }
 
+.reido-photo-figure {
+  margin: 0;
+}
+
 .reido-photo img {
   height: clamp(440px, 52vw, 590px);
   object-fit: cover;
@@ -1293,6 +1297,7 @@ main {
   object-position: center center;
 }
 
+.reido-photo-figure figcaption,
 .reido-legacy-figure figcaption {
   margin-top: 10px;
   color: var(--brand-muted);
