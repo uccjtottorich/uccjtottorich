@@ -1276,6 +1276,30 @@ main {
   margin-bottom: 22px;
 }
 
+.reido-legacy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  gap: clamp(34px, 6vw, 72px);
+  align-items: center;
+}
+
+.reido-legacy-figure {
+  margin: 0;
+}
+
+.reido-legacy-photo img {
+  height: clamp(260px, 32vw, 380px);
+  object-fit: cover;
+  object-position: center center;
+}
+
+.reido-legacy-figure figcaption {
+  margin-top: 10px;
+  color: var(--brand-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
 .reido-guide-grid {
   align-items: stretch;
 }
@@ -1443,7 +1467,8 @@ main {
   .footer-grid,
   .profile-panel,
   .gathering-detail-inner,
-  .reido-intro {
+  .reido-intro,
+  .reido-legacy {
     grid-template-columns: 1fr;
   }
 
