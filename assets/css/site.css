@@ -985,7 +985,7 @@ main {
   display: grid;
   grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
   gap: 34px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .pastor-list {
@@ -1006,6 +1006,8 @@ main {
 
 .profile-photo {
   aspect-ratio: 4 / 5;
+  min-height: 0;
+  width: 100%;
 }
 
 .profile-photo img {
@@ -1044,6 +1046,44 @@ main {
 .profile-content p {
   color: var(--brand-muted);
   line-height: 1.95;
+}
+
+.profile-name-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 0.32em;
+  row-gap: 0.08em;
+}
+
+.profile-reading {
+  color: var(--brand-muted);
+  font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(0.88rem, 1.45vw, 1.08rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.profile-message {
+  margin: 28px 0 0;
+  border-left: 2px solid var(--card-accent);
+  padding: 2px 0 2px 20px;
+}
+
+.profile-message-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--card-accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.profile-message p {
+  margin: 0;
+  color: var(--brand-text);
+  font-family: "Noto Serif JP", Georgia, serif;
+  line-height: 2;
 }
 
 .profile-meta {
