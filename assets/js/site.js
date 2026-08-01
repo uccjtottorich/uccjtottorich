@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (homeGallery) {
     const slides = Array.from(homeGallery.querySelectorAll(".home-banner-slide"));
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let activeSlide = slides.findIndex((slide) => slide.classList.contains("is-active"));
 
     if (activeSlide < 0) {
@@ -130,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     prepareSlidePositions(activeSlide, (activeSlide + 1) % slides.length);
 
-    if (slides.length > 1 && !reduceMotion) {
+    if (slides.length > 1) {
       window.setInterval(() => {
         const currentSlide = activeSlide;
         const nextSlide = (activeSlide + 1) % slides.length;
