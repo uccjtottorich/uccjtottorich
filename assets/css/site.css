@@ -506,6 +506,10 @@ html[lang="ko"] .home-scripture p {
   padding: 74px 0;
 }
 
+.home-welcome {
+  padding-top: 48px;
+}
+
 .section.surface {
   background: var(--brand-surface);
 }
@@ -1779,6 +1783,10 @@ html[lang="ko"] .home-scripture p {
   .home-scripture cite {
     margin-top: 6px;
     font-size: 0.74rem;
+  }
+
+  .home-welcome {
+    padding-top: 38px;
   }
 
   .site-footer {
