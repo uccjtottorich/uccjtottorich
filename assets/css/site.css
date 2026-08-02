@@ -641,7 +641,11 @@ html[lang="ko"] .home-scripture p {
 .visit-guide {
   height: auto;
   align-self: start;
-  margin-top: 18px;
+  margin-top: 113px;
+}
+
+.first-time-family {
+  padding-top: 48px;
 }
 
 .image-frame {
@@ -1699,6 +1703,10 @@ html[lang="ko"] .home-scripture p {
 
   .visit-guide {
     margin-top: 0;
+  }
+
+  .first-time-family {
+    padding-top: 40px;
   }
 
   .related-organizations-inner {
