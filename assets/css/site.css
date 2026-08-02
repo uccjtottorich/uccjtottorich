@@ -1536,6 +1536,11 @@ main {
   gap: 9px;
 }
 
+.footer-grid > div:nth-child(2) .footer-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 20px;
+}
+
 .footer-list a {
   text-decoration: none;
 }
@@ -1684,6 +1689,24 @@ main {
 }
 
 @media (max-width: 560px) {
+  .site-footer {
+    padding: 38px 0 20px;
+  }
+
+  .footer-grid {
+    gap: 26px;
+    padding-bottom: 26px;
+  }
+
+  .footer-grid > div:nth-child(2) .footer-list {
+    gap: 6px 18px;
+  }
+
+  .footer-bottom {
+    gap: 12px;
+    padding-top: 18px;
+  }
+
   .related-organizations {
     padding: 36px 0;
   }
