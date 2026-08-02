@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterPanel = document.querySelector("[data-gathering-filter]");
   const revealTargets = document.querySelectorAll(".home-banner, .image-frame, .gathering-detail-image");
   const homeGallery = document.querySelector("[data-home-gallery]");
+  const scriptureRotation = document.querySelector("[data-scripture-rotation]");
   const sermonCurrent = document.querySelector("[data-sermon-current]");
   const sermonBoard = document.querySelector("[data-sermon-board]");
   const menuLabelSets = {
@@ -101,6 +102,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderSermons();
+
+  if (scriptureRotation) {
+    const verses = Array.from(scriptureRotation.querySelectorAll("blockquote"));
+
+    if (verses.length > 1) {
+      const storageKey = `tottori-scripture-last-${document.documentElement.lang || "ja"}`;
+      let previousIndex = -1;
+
+      try {
+        previousIndex = Number.parseInt(window.sessionStorage.getItem(storageKey), 10);
+      } catch (error) {
+        previousIndex = -1;
+      }
+
+      const availableIndexes = verses
+        .map((verse, index) => index)
+        .filter((index) => index !== previousIndex);
+      const selectedIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
+
+      verses.forEach((verse, index) => {
+        verse.classList.toggle("is-active", index === selectedIndex);
+      });
+
+      try {
+        window.sessionStorage.setItem(storageKey, String(selectedIndex));
+      } catch (error) {
+        // The verse still rotates when browser storage is unavailable.
+      }
+    }
+  }
 
   if (homeGallery) {
     const slides = Array.from(homeGallery.querySelectorAll(".home-banner-slide"));

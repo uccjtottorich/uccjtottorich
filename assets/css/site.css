@@ -428,6 +428,59 @@ main {
   line-height: 1.7;
 }
 
+@media (min-width: 1081px) {
+  .home-banner {
+    height: clamp(300px, calc(100vh - 275px), 560px);
+    height: clamp(300px, calc(100svh - 275px), 560px);
+  }
+}
+
+.home-scripture {
+  border-block: 1px solid rgba(209, 202, 198, 0.5);
+  background: var(--brand-surface-low);
+}
+
+.home-scripture-inner {
+  padding-block: 34px;
+  text-align: center;
+}
+
+.home-scripture blockquote {
+  display: none;
+  margin: 0;
+}
+
+.home-scripture blockquote.is-active {
+  display: block;
+}
+
+.home-scripture p {
+  max-width: 760px;
+  margin: 0;
+  margin-inline: auto;
+  color: var(--brand-ink);
+  font-family: "Noto Serif JP", Georgia, serif;
+  font-size: clamp(1.08rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  text-wrap: balance;
+}
+
+html[lang="ko"] .home-scripture p {
+  font-family: "Noto Serif KR", "Noto Serif JP", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.home-scripture cite {
+  display: block;
+  margin-top: 8px;
+  color: var(--brand-muted);
+  font-size: 0.8rem;
+  font-style: normal;
+  letter-spacing: 0.08em;
+}
+
 .page-hero {
   padding: 74px 0 54px;
   background: linear-gradient(180deg, var(--brand-surface) 0%, var(--brand-bg) 100%);
@@ -1708,6 +1761,20 @@ main {
     line-height: 1.2;
     letter-spacing: 0;
     white-space: nowrap;
+  }
+
+  .home-scripture-inner {
+    padding-block: 26px;
+  }
+
+  .home-scripture p {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .home-scripture cite {
+    margin-top: 6px;
+    font-size: 0.74rem;
   }
 
   .site-footer {
