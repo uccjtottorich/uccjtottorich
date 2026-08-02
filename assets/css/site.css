@@ -186,6 +186,12 @@ a {
   white-space: nowrap;
 }
 
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .language-link:hover {
   background: #f7f1e8;
 }
@@ -1568,12 +1574,32 @@ main {
   font-size: 0.76rem;
 }
 
+@media (max-width: 1180px) {
+  .desktop-nav,
+  .language-switcher {
+    display: none;
+  }
+
+  .menu-button {
+    display: grid;
+  }
+
+  .header-inner {
+    min-height: 72px;
+  }
+
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+  }
+}
+
 @media (max-width: 1080px) {
   .desktop-nav {
     display: none;
   }
 
-  .language-link {
+  .language-switcher {
     display: none;
   }
 

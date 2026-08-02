@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const homeGallery = document.querySelector("[data-home-gallery]");
   const sermonCurrent = document.querySelector("[data-sermon-current]");
   const sermonBoard = document.querySelector("[data-sermon-board]");
-  const menuLabels = {
-    open: "メニューを開く",
-    close: "メニューを閉じる"
+  const menuLabelSets = {
+    ja: { open: "メニューを開く", close: "メニューを閉じる" },
+    ko: { open: "메뉴 열기", close: "메뉴 닫기" },
+    en: { open: "Open menu", close: "Close menu" }
   };
+  const menuLabels = menuLabelSets[document.documentElement.lang] || menuLabelSets.ja;
 
   if (year) {
     year.textContent = new Date().getFullYear();
