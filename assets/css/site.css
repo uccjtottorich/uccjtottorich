@@ -30,7 +30,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--brand-bg);
+  background: var(--brand-dark);
   color: var(--brand-ink);
   font-family: "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
 }
@@ -86,6 +86,7 @@ a {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--brand-bg);
 }
 
 .site-shell > main {
@@ -1501,7 +1502,7 @@ main {
 .site-footer {
   background: var(--brand-dark);
   color: #efece5;
-  padding: 50px 0 26px;
+  padding: 50px 0 calc(26px + env(safe-area-inset-bottom));
 }
 
 .footer-grid {
@@ -1689,8 +1690,28 @@ main {
 }
 
 @media (max-width: 560px) {
+  .header-inner {
+    gap: 12px;
+  }
+
+  .brand-link {
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .brand-link > span {
+    min-width: 0;
+  }
+
+  .brand-subtitle {
+    font-size: 0.52rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
   .site-footer {
-    padding: 38px 0 20px;
+    padding: 38px 0 calc(20px + env(safe-area-inset-bottom));
   }
 
   .footer-grid {
@@ -1740,6 +1761,12 @@ main {
 
   .reido-photo img {
     height: 440px;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-subtitle {
+    font-size: 0.46rem;
   }
 }
 
