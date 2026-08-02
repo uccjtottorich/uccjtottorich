@@ -639,7 +639,9 @@ html[lang="ko"] .home-scripture p {
 }
 
 .visit-guide {
+  height: auto;
   align-self: start;
+  margin-top: 18px;
 }
 
 .image-frame {
@@ -1693,6 +1695,10 @@ html[lang="ko"] .home-scripture p {
   .reido-legacy,
   .related-organizations-inner {
     grid-template-columns: 1fr;
+  }
+
+  .visit-guide {
+    margin-top: 0;
   }
 
   .related-organizations-inner {
