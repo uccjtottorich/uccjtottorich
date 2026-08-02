@@ -454,6 +454,10 @@ main {
   display: block;
 }
 
+.home-scripture blockquote[hidden] {
+  display: none;
+}
+
 .home-scripture p {
   max-width: 760px;
   margin: 0;

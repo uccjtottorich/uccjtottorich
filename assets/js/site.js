@@ -122,7 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
 
       verses.forEach((verse, index) => {
-        verse.classList.toggle("is-active", index === selectedIndex);
+        const isSelected = index === selectedIndex;
+        verse.hidden = !isSelected;
+        verse.classList.toggle("is-active", isSelected);
       });
 
       try {
