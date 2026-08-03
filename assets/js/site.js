@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const sermons = window.TOTTORI_SERMONS.ja || [];
+    const sermons = [...(window.TOTTORI_SERMONS.ja || [])]
+      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
     if (!sermons.length) {
       return;
     }
