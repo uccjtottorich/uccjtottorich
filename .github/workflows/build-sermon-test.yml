@@ -26,6 +26,7 @@ jobs:
           import html
           import urllib.request
           from datetime import datetime
+          from zoneinfo import ZoneInfo
           from pathlib import Path
 
           service_id = os.environ["MICROCMS_SERVICE_ID"]
@@ -38,7 +39,9 @@ jobs:
 
           req = urllib.request.Request(
               url,
-              headers={"X-MICROCMS-API-KEY": api_key}
+              headers={
+                  "X-MICROCMS-API-KEY": api_key
+              }
           )
 
           with urllib.request.urlopen(req) as response:
@@ -55,325 +58,624 @@ jobs:
           def format_date(value):
               if not value:
                   return ""
+
               try:
                   dt = datetime.fromisoformat(
                       value.replace("Z", "+00:00")
                   )
+
+                  dt = dt.astimezone(
+                      ZoneInfo("Asia/Tokyo")
+                  )
+
                   return f"{dt.year}年{dt.month}月{dt.day}日"
+
               except Exception:
                   return esc(value)
 
-          def summary_html(value):
-              return esc(value).replace("\n", "<br>")
+          def scripture_text(value):
+              value = str(value or "").strip()
+
+              if value.startswith("聖書箇所："):
+                  return esc(value)
+
+              return f"聖書箇所：{esc(value)}"
+
+          def preacher_text(value):
+              value = str(value or "").strip()
+
+              if value.startswith("説教者："):
+                  return esc(value)
+
+              return f"説教者：{esc(value)}"
+
+          def summary_paragraphs(value):
+              value = str(value or "").strip()
+
+              if not value:
+                  return ""
+
+              paragraphs = [
+                  p.strip()
+                  for p in value.split("\n")
+                  if p.strip()
+              ]
+
+              return "\n".join(
+                  f"<p>{esc(p)}</p>"
+                  for p in paragraphs
+              )
 
           latest = sermons[0]
 
+          latest_date = format_date(
+              latest.get("sermonDate")
+          )
+
           latest_html = f"""
-          <article class="latest-sermon">
-            <div class="sermon-meta-top">
-              <span>{format_date(latest.get("sermonDate"))} 主日礼拝</span>
-              <span>説教者：{esc(latest.get("preacher"))}</span>
-            </div>
+            <article class="sermon-paper">
+              <div class="sermon-meta">
+                <span>
+                  {latest_date} 主日礼拝
+                </span>
 
-            <h2>{esc(latest.get("title"))}</h2>
+                <span>
+                  {preacher_text(latest.get("preacher"))}
+                </span>
+              </div>
 
-            <p class="scripture">
-              聖書箇所：{esc(latest.get("scripture"))}
-            </p>
+              <h2>
+                {esc(latest.get("title"))}
+              </h2>
 
-            <div class="sermon-summary">
-              {summary_html(latest.get("summary"))}
-            </div>
-          </article>
+              <p class="sermon-scripture">
+                {scripture_text(latest.get("scripture"))}
+              </p>
+
+              <div class="sermon-body">
+                {summary_paragraphs(latest.get("summary"))}
+              </div>
+            </article>
           """
 
           archive_items = []
 
-          for sermon in sermons:
+          # 현재 실제 홈페이지와 동일하게
+          # 최신 설교 다음의 과거 설교 3건만 표시
+          for sermon in sermons[1:4]:
+
+              sermon_date = format_date(
+                  sermon.get("sermonDate")
+              )
+
               archive_items.append(f"""
-              <article class="archive-item">
-                <div class="archive-date">
-                  {format_date(sermon.get("sermonDate"))}
-                </div>
+                <article class="sermon-card">
 
-                <h3>{esc(sermon.get("title"))}</h3>
+                  <div class="sermon-card-main">
 
-                <p class="archive-scripture">
-                  聖書箇所：{esc(sermon.get("scripture"))}
-                </p>
+                    <time>
+                      {sermon_date}
+                    </time>
 
-                <p class="archive-summary">
-                  {summary_html(sermon.get("summary"))}
-                </p>
-              </article>
+                    <span class="sermon-card-preacher">
+                      {preacher_text(sermon.get("preacher"))}
+                    </span>
+
+                    <span class="sermon-card-title">
+                      {esc(sermon.get("title"))}
+                    </span>
+
+                    <span class="sermon-scripture">
+                      {scripture_text(sermon.get("scripture"))}
+                    </span>
+
+                    <span class="sermon-card-summary">
+                      {esc(sermon.get("summary"))}
+                    </span>
+
+                  </div>
+                </article>
               """)
 
           archive_html = "\n".join(archive_items)
+
+          if not archive_html:
+              archive_html = """
+                <p class="section-copy">
+                  過去の説教はまだありません。
+                </p>
+              """
 
           page = f"""<!DOCTYPE html>
           <html lang="ja">
           <head>
             <meta charset="UTF-8">
-            <meta name="viewport"
-                  content="width=device-width, initial-scale=1.0">
 
-            <meta name="robots"
-                  content="noindex, nofollow, noarchive">
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            >
 
-            <title>主日説教 CMSテスト | 日本基督教団 鳥取教会</title>
+            <meta
+              name="robots"
+              content="noindex, nofollow, noarchive"
+            >
 
-            <style>
-              * {{
-                box-sizing: border-box;
-              }}
+            <meta
+              name="description"
+              content="microCMSを利用した鳥取教会主日説教ページのテストです。"
+            >
 
-              html {{
-                scroll-behavior: smooth;
-              }}
+            <title>
+              主日説教 CMSテスト | 日本基督教団 鳥取教会
+            </title>
 
-              body {{
-                margin: 0;
-                color: #262626;
-                background: #ffffff;
-                font-family:
-                  "Hiragino Mincho ProN",
-                  "Yu Mincho",
-                  "YuMincho",
-                  "Noto Serif JP",
-                  serif;
-                line-height: 2;
-                letter-spacing: .03em;
-              }}
+            <link
+              rel="icon"
+              type="image/png"
+              sizes="512x512"
+              href="../assets/images/favicon.png"
+            >
 
-              .page-shell {{
-                width: min(1000px, calc(100% - 40px));
-                margin: 0 auto;
-                padding: 72px 0 96px;
-              }}
+            <link
+              rel="apple-touch-icon"
+              href="../assets/images/favicon.png"
+            >
 
-              .cms-test-badge {{
-                display: inline-block;
-                margin-bottom: 28px;
-                padding: 4px 11px;
-                border: 1px solid #b8b8b8;
-                border-radius: 999px;
-                color: #777;
-                font-family:
-                  -apple-system,
-                  BlinkMacSystemFont,
-                  "Hiragino Kaku Gothic ProN",
-                  "Yu Gothic",
-                  sans-serif;
-                font-size: 11px;
-                letter-spacing: .14em;
-              }}
+            <link
+              rel="preconnect"
+              href="https://fonts.googleapis.com"
+            >
 
-              .english-label {{
-                margin-bottom: 5px;
-                color: #a66b53;
-                font-family:
-                  Georgia,
-                  "Times New Roman",
-                  serif;
-                font-size: 14px;
-                letter-spacing: .13em;
-              }}
+            <link
+              rel="preconnect"
+              href="https://fonts.gstatic.com"
+              crossorigin
+            >
 
-              h1 {{
-                margin: 0;
-                font-size: clamp(30px, 5vw, 46px);
-                font-weight: 500;
-                letter-spacing: .08em;
-              }}
+            <link
+              href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600;700;900&amp;display=swap"
+              rel="stylesheet"
+            >
 
-              .lead {{
-                max-width: 760px;
-                margin: 18px 0 56px;
-                color: #555;
-                font-size: 15px;
-              }}
+            <link
+              rel="stylesheet"
+              href="../assets/css/site.css"
+            >
 
-              .latest-sermon {{
-                margin-bottom: 88px;
-              }}
-
-              .sermon-meta-top {{
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px 24px;
-                margin-bottom: 16px;
-                color: #666;
-                font-size: 14px;
-              }}
-
-              .latest-sermon h2 {{
-                margin: 0 0 14px;
-                font-size: clamp(26px, 4vw, 38px);
-                font-weight: 500;
-                letter-spacing: .06em;
-              }}
-
-              .scripture {{
-                margin: 0 0 26px;
-                color: #555;
-                font-size: 15px;
-              }}
-
-              .sermon-summary {{
-                font-size: 16px;
-                line-height: 2.2;
-              }}
-
-              .archive-section {{
-                padding-top: 18px;
-                border-top: 1px solid #d9d3cc;
-              }}
-
-              .archive-label {{
-                margin-top: 40px;
-                margin-bottom: 4px;
-                color: #a66b53;
-                font-family:
-                  Georgia,
-                  "Times New Roman",
-                  serif;
-                font-size: 14px;
-                letter-spacing: .13em;
-              }}
-
-              .archive-section h2 {{
-                margin: 0 0 40px;
-                font-size: clamp(26px, 4vw, 36px);
-                font-weight: 500;
-                letter-spacing: .06em;
-              }}
-
-              .archive-item {{
-                padding: 30px 0 32px;
-                border-bottom: 1px solid #e1ddd8;
-              }}
-
-              .archive-date {{
-                margin-bottom: 6px;
-                color: #777;
-                font-size: 14px;
-              }}
-
-              .archive-item h3 {{
-                margin: 0 0 10px;
-                font-size: 23px;
-                font-weight: 500;
-                letter-spacing: .05em;
-              }}
-
-              .archive-scripture {{
-                margin: 0 0 12px;
-                color: #606060;
-                font-size: 14px;
-              }}
-
-              .archive-summary {{
-                margin: 0;
-                color: #444;
-                font-size: 15px;
-                line-height: 2;
-              }}
-
-              @media (max-width: 700px) {{
-                .page-shell {{
-                  width: min(100% - 30px, 1000px);
-                  padding-top: 42px;
-                }}
-
-                .lead {{
-                  margin-bottom: 42px;
-                }}
-
-                .latest-sermon {{
-                  margin-bottom: 60px;
-                }}
-
-                .sermon-meta-top {{
-                  display: block;
-                }}
-
-                .sermon-meta-top span {{
-                  display: block;
-                }}
-
-                .sermon-summary {{
-                  font-size: 15px;
-                }}
-
-                .archive-item {{
-                  padding: 24px 0 26px;
-                }}
-
-                .archive-item h3 {{
-                  font-size: 21px;
-                }}
-              }}
-            </style>
+            <script
+              src="https://unpkg.com/lucide@latest">
+            </script>
           </head>
 
           <body>
-            <main class="page-shell">
 
-              <span class="cms-test-badge">
-                microCMS TEST
-              </span>
+            <div class="site-shell">
 
-              <div class="english-label">
-                Sunday Sermon
-              </div>
+              <header class="site-header">
 
-              <h1>主日説教</h1>
+                <div class="container header-inner">
 
-              <p class="lead">
-                主日礼拝で語られた説教の概要を通して、
-                聖書の言葉とその日のメッセージをお届けします。
-              </p>
+                  <a
+                    class="brand-link"
+                    href="../index.html"
+                  >
 
-              {latest_html}
+                    <img
+                      class="brand-logo"
+                      src="../assets/images/church-logo.png"
+                      alt="鳥取教会 ロゴ"
+                    >
 
-              <section class="archive-section">
+                    <span>
 
-                <div class="archive-label">
-                  Archive
+                      <span class="brand-title">
+                        日本基督教団 鳥取教会
+                      </span>
+
+                      <span class="brand-subtitle">
+                        Tottori Church of the United Church
+                        of Christ in Japan
+                      </span>
+
+                    </span>
+
+                  </a>
+
+                  <nav
+                    class="desktop-nav"
+                    aria-label="メインメニュー"
+                  >
+
+                    <a href="../index.html">
+                      ホーム
+                    </a>
+
+                    <a href="../first-time.html">
+                      初めての方へ
+                    </a>
+
+                    <a href="../worship.html">
+                      礼拝・集会
+                    </a>
+
+                    <a
+                      href="../sermon.html"
+                      aria-current="page"
+                    >
+                      主日説教
+                    </a>
+
+                    <a href="../history.html">
+                      教会の歴史
+                    </a>
+
+                    <a href="../pastor.html">
+                      牧師紹介
+                    </a>
+
+                    <a href="../access.html">
+                      アクセス
+                    </a>
+
+                  </nav>
+
+                  <button
+                    class="menu-button"
+                    type="button"
+                    data-menu-button
+                    aria-controls="mobile-nav"
+                    aria-expanded="false"
+                    aria-label="メニューを開く"
+                  >
+                    <i data-lucide="menu"></i>
+                  </button>
+
                 </div>
 
-                <h2>これまでの主日説教</h2>
+                <nav
+                  id="mobile-nav"
+                  class="mobile-nav"
+                  data-mobile-nav
+                  aria-label="モバイルメニュー"
+                >
 
-                {archive_html}
+                  <div class="container">
 
-              </section>
+                    <a href="../index.html">
+                      ホーム
+                    </a>
 
-            </main>
+                    <a href="../first-time.html">
+                      初めての方へ
+                    </a>
+
+                    <a href="../worship.html">
+                      礼拝・集会
+                    </a>
+
+                    <a
+                      href="../sermon.html"
+                      aria-current="page"
+                    >
+                      主日説教
+                    </a>
+
+                    <a href="../history.html">
+                      教会の歴史
+                    </a>
+
+                    <a href="../pastor.html">
+                      牧師紹介
+                    </a>
+
+                    <a href="../access.html">
+                      アクセス
+                    </a>
+
+                  </div>
+
+                </nav>
+
+              </header>
+
+
+              <main>
+
+                <section class="page-hero">
+
+                  <div class="container">
+
+                    <span class="eyebrow">
+                      Sunday Sermon
+                    </span>
+
+                    <h1 class="page-title">
+                      主日説教
+                    </h1>
+
+                    <p class="page-copy">
+                      主日礼拝で語られた説教の概要を通して、
+                      聖書の言葉とその日のメッセージを
+                      お届けします。
+                    </p>
+
+                  </div>
+
+                </section>
+
+
+                <section class="section">
+
+                  <div class="container sermon-layout">
+
+                    {latest_html}
+
+                  </div>
+
+                </section>
+
+
+                <section class="section surface">
+
+                  <div class="container">
+
+                    <div class="section-header">
+
+                      <span class="eyebrow">
+                        Archive
+                      </span>
+
+                      <h2 class="section-title">
+                        これまでの主日説教
+                      </h2>
+
+                    </div>
+
+                    <div class="sermon-board">
+
+                      {archive_html}
+
+                    </div>
+
+                  </div>
+
+                </section>
+
+              </main>
+
+
+              <footer class="site-footer">
+
+                <div class="container">
+
+                  <div class="footer-grid">
+
+                    <div>
+
+                      <span class="footer-title">
+                        日本基督教団 鳥取教会
+                      </span>
+
+                      <p class="footer-copy">
+                        1890年に独立（創立）し、
+                        鳥取の街の中心で祈りを
+                        ささげ続けてきた
+                        プロテスタント教会です。
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <span class="footer-title">
+                        メニュー
+                      </span>
+
+                      <ul class="footer-list">
+
+                        <li>
+                          <a href="../first-time.html">
+                            初めての方へ
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../worship.html">
+                            礼拝・集会
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../sermon.html">
+                            主日説教
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../history.html">
+                            教会の歴史
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../pastor.html">
+                            牧師紹介
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../access.html">
+                            アクセス
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="../heian-reido.html">
+                            平安霊堂
+                          </a>
+                        </li>
+
+                      </ul>
+
+                    </div>
+
+                    <div>
+
+                      <span class="footer-title">
+                        連絡先
+                      </span>
+
+                      <ul class="footer-list">
+
+                        <li>
+                          〒680-0022
+                          鳥取県鳥取市西町1-425-1
+                        </li>
+
+                        <li>
+                          0857-23-1388
+                        </li>
+
+                        <li>
+                          <a
+                            href="mailto:uccjtottorich@gmail.com"
+                          >
+                            uccjtottorich@gmail.com
+                          </a>
+                        </li>
+
+                        <li>
+
+                          <a
+                            class="footer-social-icon"
+                            href="https://www.instagram.com/uccjtottorich/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Instagram"
+                          >
+
+                            <svg
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <rect
+                                x="2.8"
+                                y="2.8"
+                                width="18.4"
+                                height="18.4"
+                                rx="5.2">
+                              </rect>
+
+                              <circle
+                                cx="12"
+                                cy="12"
+                                r="4.1">
+                              </circle>
+
+                              <circle
+                                cx="17.3"
+                                cy="6.7"
+                                r="1.1">
+                              </circle>
+                            </svg>
+
+                          </a>
+
+                        </li>
+
+                      </ul>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="footer-bottom">
+
+                    <span>
+                      ©
+                      <span data-current-year></span>
+                      日本基督教団 鳥取教会
+                    </span>
+
+                    <span>
+                      統一教会、エホバの証人、
+                      モルモン教等とは
+                      一切関係ございません。
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </footer>
+
+            </div>
+
+            <!--
+              sermon-data.js は意図的に読み込みません。
+              このページの説教データは
+              microCMS からビルド時に生成されます。
+            -->
+
+            <script src="../assets/js/site.js"></script>
+
           </body>
           </html>
           """
 
-          output = Path("test-cms-2026/sermon.html")
-          output.parent.mkdir(parents=True, exist_ok=True)
-          output.write_text(page, encoding="utf-8")
+          output = Path(
+              "test-cms-2026/sermon.html"
+          )
 
-          print(f"Generated {output}")
-          print(f"Sermons: {len(sermons)}")
-          print(f"Latest: {latest.get('title')}")
+          output.parent.mkdir(
+              parents=True,
+              exist_ok=True
+          )
+
+          output.write_text(
+              page,
+              encoding="utf-8"
+          )
+
+          print(
+              f"Generated: {output}"
+          )
+
+          print(
+              f"Published sermons: {len(sermons)}"
+          )
+
+          print(
+              f"Latest sermon: {latest.get('title')}"
+          )
+
           PY
+
 
       - name: Commit test page
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email \
+          git config \
+            user.name \
+            "github-actions[bot]"
+
+          git config \
+            user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add test-cms-2026/sermon.html
+          git add \
+            test-cms-2026/sermon.html
 
           if git diff --cached --quiet; then
+
             echo "No changes."
+
           else
-            git commit -m \
-              "Update styled microCMS sermon test page"
+
+            git commit \
+              -m "Update microCMS sermon test page"
+
             git push
+
           fi
