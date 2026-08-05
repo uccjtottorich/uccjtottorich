@@ -2,324 +2,552 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
 
-  <meta name="robots"
-        content="noindex, nofollow, noarchive">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <title>主日説教 CMSテスト | 日本基督教団 鳥取教会</title>
+  <meta
+    name="robots"
+    content="noindex, nofollow, noarchive"
+  >
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <meta
+    name="description"
+    content="microCMSを利用した鳥取教会主日説教ページのテストです。"
+  >
 
-    html {
-      scroll-behavior: smooth;
-    }
+  <title>
+    主日説教 CMSテスト | 日本基督教団 鳥取教会
+  </title>
 
-    body {
-      margin: 0;
-      color: #262626;
-      background: #ffffff;
-      font-family:
-        "Hiragino Mincho ProN",
-        "Yu Mincho",
-        "YuMincho",
-        "Noto Serif JP",
-        serif;
-      line-height: 2;
-      letter-spacing: .03em;
-    }
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="../assets/images/favicon.png"
+  >
 
-    .page-shell {
-      width: min(1000px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 72px 0 96px;
-    }
+  <link
+    rel="apple-touch-icon"
+    href="../assets/images/favicon.png"
+  >
 
-    .cms-test-badge {
-      display: inline-block;
-      margin-bottom: 28px;
-      padding: 4px 11px;
-      border: 1px solid #b8b8b8;
-      border-radius: 999px;
-      color: #777;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        sans-serif;
-      font-size: 11px;
-      letter-spacing: .14em;
-    }
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
 
-    .english-label {
-      margin-bottom: 5px;
-      color: #a66b53;
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: 14px;
-      letter-spacing: .13em;
-    }
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 5vw, 46px);
-      font-weight: 500;
-      letter-spacing: .08em;
-    }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600;700;900&amp;display=swap"
+    rel="stylesheet"
+  >
 
-    .lead {
-      max-width: 760px;
-      margin: 18px 0 56px;
-      color: #555;
-      font-size: 15px;
-    }
+  <link
+    rel="stylesheet"
+    href="../assets/css/site.css"
+  >
 
-    .latest-sermon {
-      margin-bottom: 88px;
-    }
-
-    .sermon-meta-top {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 24px;
-      margin-bottom: 16px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .latest-sermon h2 {
-      margin: 0 0 14px;
-      font-size: clamp(26px, 4vw, 38px);
-      font-weight: 500;
-      letter-spacing: .06em;
-    }
-
-    .scripture {
-      margin: 0 0 26px;
-      color: #555;
-      font-size: 15px;
-    }
-
-    .sermon-summary {
-      font-size: 16px;
-      line-height: 2.2;
-    }
-
-    .archive-section {
-      padding-top: 18px;
-      border-top: 1px solid #d9d3cc;
-    }
-
-    .archive-label {
-      margin-top: 40px;
-      margin-bottom: 4px;
-      color: #a66b53;
-      font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: 14px;
-      letter-spacing: .13em;
-    }
-
-    .archive-section h2 {
-      margin: 0 0 40px;
-      font-size: clamp(26px, 4vw, 36px);
-      font-weight: 500;
-      letter-spacing: .06em;
-    }
-
-    .archive-item {
-      padding: 30px 0 32px;
-      border-bottom: 1px solid #e1ddd8;
-    }
-
-    .archive-date {
-      margin-bottom: 6px;
-      color: #777;
-      font-size: 14px;
-    }
-
-    .archive-item h3 {
-      margin: 0 0 10px;
-      font-size: 23px;
-      font-weight: 500;
-      letter-spacing: .05em;
-    }
-
-    .archive-scripture {
-      margin: 0 0 12px;
-      color: #606060;
-      font-size: 14px;
-    }
-
-    .archive-summary {
-      margin: 0;
-      color: #444;
-      font-size: 15px;
-      line-height: 2;
-    }
-
-    @media (max-width: 700px) {
-      .page-shell {
-        width: min(100% - 30px, 1000px);
-        padding-top: 42px;
-      }
-
-      .lead {
-        margin-bottom: 42px;
-      }
-
-      .latest-sermon {
-        margin-bottom: 60px;
-      }
-
-      .sermon-meta-top {
-        display: block;
-      }
-
-      .sermon-meta-top span {
-        display: block;
-      }
-
-      .sermon-summary {
-        font-size: 15px;
-      }
-
-      .archive-item {
-        padding: 24px 0 26px;
-      }
-
-      .archive-item h3 {
-        font-size: 21px;
-      }
-    }
-  </style>
+  <script
+    src="https://unpkg.com/lucide@latest">
+  </script>
 </head>
 
 <body>
-  <main class="page-shell">
 
-    <span class="cms-test-badge">
-      microCMS TEST
-    </span>
+  <div class="site-shell">
 
-    <div class="english-label">
-      Sunday Sermon
+    <header class="site-header">
+
+      <div class="container header-inner">
+
+        <a
+          class="brand-link"
+          href="../index.html"
+        >
+
+          <img
+            class="brand-logo"
+            src="../assets/images/church-logo.png"
+            alt="鳥取教会 ロゴ"
+          >
+
+          <span>
+
+            <span class="brand-title">
+              日本基督教団 鳥取教会
+            </span>
+
+            <span class="brand-subtitle">
+              Tottori Church of the United Church
+              of Christ in Japan
+            </span>
+
+          </span>
+
+        </a>
+
+        <nav
+          class="desktop-nav"
+          aria-label="メインメニュー"
+        >
+
+          <a href="../index.html">
+            ホーム
+          </a>
+
+          <a href="../first-time.html">
+            初めての方へ
+          </a>
+
+          <a href="../worship.html">
+            礼拝・集会
+          </a>
+
+          <a
+            href="../sermon.html"
+            aria-current="page"
+          >
+            主日説教
+          </a>
+
+          <a href="../history.html">
+            教会の歴史
+          </a>
+
+          <a href="../pastor.html">
+            牧師紹介
+          </a>
+
+          <a href="../access.html">
+            アクセス
+          </a>
+
+        </nav>
+
+        <button
+          class="menu-button"
+          type="button"
+          data-menu-button
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+          aria-label="メニューを開く"
+        >
+          <i data-lucide="menu"></i>
+        </button>
+
+      </div>
+
+      <nav
+        id="mobile-nav"
+        class="mobile-nav"
+        data-mobile-nav
+        aria-label="モバイルメニュー"
+      >
+
+        <div class="container">
+
+          <a href="../index.html">
+            ホーム
+          </a>
+
+          <a href="../first-time.html">
+            初めての方へ
+          </a>
+
+          <a href="../worship.html">
+            礼拝・集会
+          </a>
+
+          <a
+            href="../sermon.html"
+            aria-current="page"
+          >
+            主日説教
+          </a>
+
+          <a href="../history.html">
+            教会の歴史
+          </a>
+
+          <a href="../pastor.html">
+            牧師紹介
+          </a>
+
+          <a href="../access.html">
+            アクセス
+          </a>
+
+        </div>
+
+      </nav>
+
+    </header>
+
+
+    <main>
+
+      <section class="page-hero">
+
+        <div class="container">
+
+          <span class="eyebrow">
+            Sunday Sermon
+          </span>
+
+          <h1 class="page-title">
+            主日説教
+          </h1>
+
+          <p class="page-copy">
+            主日礼拝で語られた説教の概要を通して、
+            聖書の言葉とその日のメッセージを
+            お届けします。
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section class="section">
+
+        <div class="container sermon-layout">
+
+          
+  <article class="sermon-paper">
+    <div class="sermon-meta">
+      <span>
+        2026年8月2日 主日礼拝
+      </span>
+
+      <span>
+        説教者：仲程愛美牧師
+      </span>
     </div>
 
-    <h1>主日説教</h1>
+    <h2>
+      線を飛び越えて
+    </h2>
 
-    <p class="lead">
-      主日礼拝で語られた説教の概要を通して、
-      聖書の言葉とその日のメッセージをお届けします。
+    <p class="sermon-scripture">
+      聖書箇所：エフェソの信徒への手紙2：14〜22
     </p>
 
+    <div class="sermon-body">
+      <p>戦後81年の夏が来た。戦争が歴史的な出来事になるには十分な時間だ。だからこそ平和を思い巡らす大切さを想う。平和と戦争を対比させる考えは「争いがない」＝「平和」という認識が下地にある。平和学の父ガルトゥングが提唱した消極的平和と積極的平和から見えてくるのは、平和とは「状態」を指すものではなく作り続けていくもの、ということだ。「平和を実現する人々は幸いである」というイエスの言葉が浮かぶ。</p>
+<p>エフェソ教会で課題となっていたのは隔ての壁にぶつかっていた人々のことだった。ユダヤ人にとって異邦人は境界線を引くべきとの考えをパウロはキリストの存在をもって否定する。我々の平和は主イエスなしにはあり得ない。それは「二つのものを一つに」する方の力と助けが必要だということだ。平和の主を知る者だからこそ、線を飛び越え、和解と共生を体現していきたい。</p>
+    </div>
+  </article>
+
+
+        </div>
+
+      </section>
+
+
+      <section class="section surface">
+
+        <div class="container">
+
+          <div class="section-header">
+
+            <span class="eyebrow">
+              Archive
+            </span>
+
+            <h2 class="section-title">
+              これまでの主日説教
+            </h2>
+
+          </div>
+
+          <div class="sermon-board">
+
+            
+      <article class="sermon-card">
+
+        <div class="sermon-card-main">
+
+          <time>
+            2026年7月26日
+          </time>
+
+          <span class="sermon-card-preacher">
+            説教者：김종규 목사
+          </span>
+
+          <span class="sermon-card-title">
+            너는 누구인가?
+          </span>
+
+          <span class="sermon-scripture">
+            聖書箇所：창세기 1:1
+          </span>
+
+          <span class="sermon-card-summary">
+            안녕하세요. 설교 요지 입니다. 
+테스트입니다. 
+
+어디까지 테스트라고요. 
+          </span>
+
+        </div>
+      </article>
     
-<article class="latest-sermon">
-  <div class="sermon-meta-top">
-    <span>2026年8月2日 主日礼拝</span>
-    <span>説教者：仲程愛美牧師</span>
+
+      <article class="sermon-card">
+
+        <div class="sermon-card-main">
+
+          <time>
+            2026年7月12日
+          </time>
+
+          <span class="sermon-card-preacher">
+            説教者：테스트
+          </span>
+
+          <span class="sermon-card-title">
+            테스트 추가 
+          </span>
+
+          <span class="sermon-scripture">
+            聖書箇所：누가복음 1:1
+          </span>
+
+          <span class="sermon-card-summary">
+            테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
+테스트 입니다.테스트 입니다.테스트 입니다.
+
+테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
+          </span>
+
+        </div>
+      </article>
+    
+
+      <article class="sermon-card">
+
+        <div class="sermon-card-main">
+
+          <time>
+            2026年6月7日
+          </time>
+
+          <span class="sermon-card-preacher">
+            説教者：테스트 입니다.
+          </span>
+
+          <span class="sermon-card-title">
+            또 테스트 
+          </span>
+
+          <span class="sermon-scripture">
+            聖書箇所：또 테스트고요.
+          </span>
+
+          <span class="sermon-card-summary">
+            테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
+
+테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
+          </span>
+
+        </div>
+      </article>
+    
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <footer class="site-footer">
+
+      <div class="container">
+
+        <div class="footer-grid">
+
+          <div>
+
+            <span class="footer-title">
+              日本基督教団 鳥取教会
+            </span>
+
+            <p class="footer-copy">
+              1890年に独立（創立）し、
+              鳥取の街の中心で祈りを
+              ささげ続けてきた
+              プロテスタント教会です。
+            </p>
+
+          </div>
+
+          <div>
+
+            <span class="footer-title">
+              メニュー
+            </span>
+
+            <ul class="footer-list">
+
+              <li>
+                <a href="../first-time.html">
+                  初めての方へ
+                </a>
+              </li>
+
+              <li>
+                <a href="../worship.html">
+                  礼拝・集会
+                </a>
+              </li>
+
+              <li>
+                <a href="../sermon.html">
+                  主日説教
+                </a>
+              </li>
+
+              <li>
+                <a href="../history.html">
+                  教会の歴史
+                </a>
+              </li>
+
+              <li>
+                <a href="../pastor.html">
+                  牧師紹介
+                </a>
+              </li>
+
+              <li>
+                <a href="../access.html">
+                  アクセス
+                </a>
+              </li>
+
+              <li>
+                <a href="../heian-reido.html">
+                  平安霊堂
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div>
+
+            <span class="footer-title">
+              連絡先
+            </span>
+
+            <ul class="footer-list">
+
+              <li>
+                〒680-0022
+                鳥取県鳥取市西町1-425-1
+              </li>
+
+              <li>
+                0857-23-1388
+              </li>
+
+              <li>
+                <a
+                  href="mailto:uccjtottorich@gmail.com"
+                >
+                  uccjtottorich@gmail.com
+                </a>
+              </li>
+
+              <li>
+
+                <a
+                  class="footer-social-icon"
+                  href="https://www.instagram.com/uccjtottorich/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="2.8"
+                      y="2.8"
+                      width="18.4"
+                      height="18.4"
+                      rx="5.2">
+                    </rect>
+
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="4.1">
+                    </circle>
+
+                    <circle
+                      cx="17.3"
+                      cy="6.7"
+                      r="1.1">
+                    </circle>
+                  </svg>
+
+                </a>
+
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+          <span>
+            ©
+            <span data-current-year></span>
+            日本基督教団 鳥取教会
+          </span>
+
+          <span>
+            統一教会、エホバの証人、
+            モルモン教等とは
+            一切関係ございません。
+          </span>
+
+        </div>
+
+      </div>
+
+    </footer>
+
   </div>
 
-  <h2>線を飛び越えて</h2>
+  <!--
+    sermon-data.js は意図的に読み込みません。
+    このページの説教データは
+    microCMS からビルド時に生成されます。
+  -->
 
-  <p class="scripture">
-    聖書箇所：エフェソの信徒への手紙2：14〜22
-  </p>
+  <script src="../assets/js/site.js"></script>
 
-  <div class="sermon-summary">
-    　戦後81年の夏が来た。戦争が歴史的な出来事になるには十分な時間だ。だからこそ平和を思い巡らす大切さを想う。平和と戦争を対比させる考えは「争いがない」＝「平和」という認識が下地にある。平和学の父ガルトゥングが提唱した消極的平和と積極的平和から見えてくるのは、平和とは「状態」を指すものではなく作り続けていくもの、ということだ。「平和を実現する人々は幸いである」というイエスの言葉が浮かぶ。<br><br>　エフェソ教会で課題となっていたのは隔ての壁にぶつかっていた人々のことだった。ユダヤ人にとって異邦人は境界線を引くべきとの考えをパウロはキリストの存在をもって否定する。我々の平和は主イエスなしにはあり得ない。それは「二つのものを一つに」する方の力と助けが必要だということだ。平和の主を知る者だからこそ、線を飛び越え、和解と共生を体現していきたい。
-  </div>
-</article>
-
-
-    <section class="archive-section">
-
-      <div class="archive-label">
-        Archive
-      </div>
-
-      <h2>これまでの主日説教</h2>
-
-      
-    <article class="archive-item">
-      <div class="archive-date">
-        2026年8月2日
-      </div>
-
-      <h3>線を飛び越えて</h3>
-
-      <p class="archive-scripture">
-        聖書箇所：エフェソの信徒への手紙2：14〜22
-      </p>
-
-      <p class="archive-summary">
-        　戦後81年の夏が来た。戦争が歴史的な出来事になるには十分な時間だ。だからこそ平和を思い巡らす大切さを想う。平和と戦争を対比させる考えは「争いがない」＝「平和」という認識が下地にある。平和学の父ガルトゥングが提唱した消極的平和と積極的平和から見えてくるのは、平和とは「状態」を指すものではなく作り続けていくもの、ということだ。「平和を実現する人々は幸いである」というイエスの言葉が浮かぶ。<br><br>　エフェソ教会で課題となっていたのは隔ての壁にぶつかっていた人々のことだった。ユダヤ人にとって異邦人は境界線を引くべきとの考えをパウロはキリストの存在をもって否定する。我々の平和は主イエスなしにはあり得ない。それは「二つのものを一つに」する方の力と助けが必要だということだ。平和の主を知る者だからこそ、線を飛び越え、和解と共生を体現していきたい。
-      </p>
-    </article>
-    
-
-    <article class="archive-item">
-      <div class="archive-date">
-        2026年7月26日
-      </div>
-
-      <h3>너는 누구인가?</h3>
-
-      <p class="archive-scripture">
-        聖書箇所：창세기 1:1
-      </p>
-
-      <p class="archive-summary">
-        안녕하세요. 설교 요지 입니다. <br>테스트입니다. <br><br>어디까지 테스트라고요. 
-      </p>
-    </article>
-    
-
-    <article class="archive-item">
-      <div class="archive-date">
-        2026年7月12日
-      </div>
-
-      <h3>테스트 추가 </h3>
-
-      <p class="archive-scripture">
-        聖書箇所：누가복음 1:1
-      </p>
-
-      <p class="archive-summary">
-        테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.<br>테스트 입니다.테스트 입니다.테스트 입니다.<br><br>테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
-      </p>
-    </article>
-    
-
-    <article class="archive-item">
-      <div class="archive-date">
-        2026年6月6日
-      </div>
-
-      <h3>또 테스트 </h3>
-
-      <p class="archive-scripture">
-        聖書箇所：또 테스트고요. 
-      </p>
-
-      <p class="archive-summary">
-        테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.<br><br>테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.테스트 입니다.
-      </p>
-    </article>
-    
-
-    </section>
-
-  </main>
 </body>
 </html>
