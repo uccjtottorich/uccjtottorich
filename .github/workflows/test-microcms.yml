@@ -1,0 +1,48 @@
+name: Test microCMS connection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch sermon from microCMS
+        env:
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SERVICE_ID: ${{ vars.MICROCMS_SERVICE_ID }}
+
+        run: |
+          set -euo pipefail
+
+          curl --fail --silent --show-error \
+            -H "X-MICROCMS-API-KEY: $MICROCMS_API_KEY" \
+            "https://${MICROCMS_SERVICE_ID}.microcms.io/api/v1/sermons?limit=1&orders=-sermonDate" \
+            -o response.json
+
+          python - <<'PY'
+          import json
+
+          with open("response.json", encoding="utf-8") as f:
+              data = json.load(f)
+
+          print("totalCount:", data.get("totalCount"))
+
+          sermons = data.get("contents", [])
+
+          if not sermons:
+              raise SystemExit("No published sermons found.")
+
+          sermon = sermons[0]
+
+          print("----- microCMS connection OK -----")
+          print("title:", sermon.get("title"))
+          print("sermonDate:", sermon.get("sermonDate"))
+          print("scripture:", sermon.get("scripture"))
+          print("preacher:", sermon.get("preacher"))
+          print("summary:", sermon.get("summary"))
+          PY
