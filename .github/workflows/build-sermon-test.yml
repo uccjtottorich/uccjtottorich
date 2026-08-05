@@ -46,6 +46,9 @@ jobs:
 
           sermons = data.get("contents", [])
 
+          if not sermons:
+              raise SystemExit("No published sermons found.")
+
           def esc(value):
               return html.escape(str(value or ""))
 
@@ -58,30 +61,54 @@ jobs:
                   )
                   return f"{dt.year}年{dt.month}月{dt.day}日"
               except Exception:
-                  return value
+                  return esc(value)
 
-          cards = []
+          def summary_html(value):
+              return esc(value).replace("\n", "<br>")
+
+          latest = sermons[0]
+
+          latest_html = f"""
+          <article class="latest-sermon">
+            <div class="sermon-meta-top">
+              <span>{format_date(latest.get("sermonDate"))} 主日礼拝</span>
+              <span>説教者：{esc(latest.get("preacher"))}</span>
+            </div>
+
+            <h2>{esc(latest.get("title"))}</h2>
+
+            <p class="scripture">
+              聖書箇所：{esc(latest.get("scripture"))}
+            </p>
+
+            <div class="sermon-summary">
+              {summary_html(latest.get("summary"))}
+            </div>
+          </article>
+          """
+
+          archive_items = []
 
           for sermon in sermons:
-              title = esc(sermon.get("title"))
-              date = esc(format_date(sermon.get("sermonDate")))
-              scripture = esc(sermon.get("scripture"))
-              preacher = esc(sermon.get("preacher"))
-              summary = esc(sermon.get("summary"))
-
-              cards.append(f"""
-              <article class="sermon-card">
-                <div class="sermon-date">{date}</div>
-                <h2>{title}</h2>
-                <div class="sermon-meta">
-                  <span>{scripture}</span>
-                  <span>{preacher}</span>
+              archive_items.append(f"""
+              <article class="archive-item">
+                <div class="archive-date">
+                  {format_date(sermon.get("sermonDate"))}
                 </div>
-                <div class="sermon-summary">{summary}</div>
+
+                <h3>{esc(sermon.get("title"))}</h3>
+
+                <p class="archive-scripture">
+                  聖書箇所：{esc(sermon.get("scripture"))}
+                </p>
+
+                <p class="archive-summary">
+                  {summary_html(sermon.get("summary"))}
+                </p>
               </article>
               """)
 
-          sermon_html = "\n".join(cards)
+          archive_html = "\n".join(archive_items)
 
           page = f"""<!DOCTYPE html>
           <html lang="ja">
@@ -90,113 +117,237 @@ jobs:
             <meta name="viewport"
                   content="width=device-width, initial-scale=1.0">
 
-            <meta name="robots" content="noindex, nofollow, noarchive">
+            <meta name="robots"
+                  content="noindex, nofollow, noarchive">
 
-            <title>主日礼拝説教 CMSテスト | 鳥取教会</title>
+            <title>主日説教 CMSテスト | 日本基督教団 鳥取教会</title>
 
             <style>
               * {{
                 box-sizing: border-box;
               }}
 
+              html {{
+                scroll-behavior: smooth;
+              }}
+
               body {{
                 margin: 0;
-                background: #f7f6f2;
-                color: #333;
+                color: #262626;
+                background: #ffffff;
+                font-family:
+                  "Hiragino Mincho ProN",
+                  "Yu Mincho",
+                  "YuMincho",
+                  "Noto Serif JP",
+                  serif;
+                line-height: 2;
+                letter-spacing: .03em;
+              }}
+
+              .page-shell {{
+                width: min(1000px, calc(100% - 40px));
+                margin: 0 auto;
+                padding: 72px 0 96px;
+              }}
+
+              .cms-test-badge {{
+                display: inline-block;
+                margin-bottom: 28px;
+                padding: 4px 11px;
+                border: 1px solid #b8b8b8;
+                border-radius: 999px;
+                color: #777;
                 font-family:
                   -apple-system,
                   BlinkMacSystemFont,
                   "Hiragino Kaku Gothic ProN",
                   "Yu Gothic",
                   sans-serif;
-                line-height: 1.9;
+                font-size: 11px;
+                letter-spacing: .14em;
               }}
 
-              .page {{
-                width: min(900px, calc(100% - 32px));
-                margin: 60px auto;
+              .english-label {{
+                margin-bottom: 5px;
+                color: #a66b53;
+                font-family:
+                  Georgia,
+                  "Times New Roman",
+                  serif;
+                font-size: 14px;
+                letter-spacing: .13em;
               }}
 
-              .test-label {{
-                display: inline-block;
-                margin-bottom: 18px;
-                padding: 5px 12px;
-                border: 1px solid #aaa;
-                border-radius: 999px;
-                font-size: 12px;
+              h1 {{
+                margin: 0;
+                font-size: clamp(30px, 5vw, 46px);
+                font-weight: 500;
                 letter-spacing: .08em;
               }}
 
-              .page-title {{
-                margin: 0 0 10px;
-                font-size: clamp(28px, 5vw, 44px);
-                font-weight: 500;
-              }}
-
               .lead {{
-                margin-bottom: 42px;
-                color: #666;
+                max-width: 760px;
+                margin: 18px 0 56px;
+                color: #555;
+                font-size: 15px;
               }}
 
-              .sermon-card {{
-                margin: 0 0 28px;
-                padding: 32px;
-                background: #fff;
-                border-radius: 12px;
-                box-shadow:
-                  0 4px 22px rgba(0,0,0,.05);
+              .latest-sermon {{
+                margin-bottom: 88px;
               }}
 
-              .sermon-date {{
-                color: #777;
-                font-size: 14px;
-                letter-spacing: .05em;
-              }}
-
-              .sermon-card h2 {{
-                margin: 8px 0 12px;
-                font-size: 25px;
-                font-weight: 500;
-              }}
-
-              .sermon-meta {{
+              .sermon-meta-top {{
                 display: flex;
                 flex-wrap: wrap;
-                gap: 8px 20px;
-                padding-bottom: 18px;
-                border-bottom: 1px solid #ddd;
+                gap: 8px 24px;
+                margin-bottom: 16px;
                 color: #666;
                 font-size: 14px;
+              }}
+
+              .latest-sermon h2 {{
+                margin: 0 0 14px;
+                font-size: clamp(26px, 4vw, 38px);
+                font-weight: 500;
+                letter-spacing: .06em;
+              }}
+
+              .scripture {{
+                margin: 0 0 26px;
+                color: #555;
+                font-size: 15px;
               }}
 
               .sermon-summary {{
-                margin-top: 22px;
-                white-space: pre-line;
+                font-size: 16px;
+                line-height: 2.2;
               }}
 
-              @media (max-width: 600px) {{
-                .page {{
-                  margin-top: 32px;
+              .archive-section {{
+                padding-top: 18px;
+                border-top: 1px solid #d9d3cc;
+              }}
+
+              .archive-label {{
+                margin-top: 40px;
+                margin-bottom: 4px;
+                color: #a66b53;
+                font-family:
+                  Georgia,
+                  "Times New Roman",
+                  serif;
+                font-size: 14px;
+                letter-spacing: .13em;
+              }}
+
+              .archive-section h2 {{
+                margin: 0 0 40px;
+                font-size: clamp(26px, 4vw, 36px);
+                font-weight: 500;
+                letter-spacing: .06em;
+              }}
+
+              .archive-item {{
+                padding: 30px 0 32px;
+                border-bottom: 1px solid #e1ddd8;
+              }}
+
+              .archive-date {{
+                margin-bottom: 6px;
+                color: #777;
+                font-size: 14px;
+              }}
+
+              .archive-item h3 {{
+                margin: 0 0 10px;
+                font-size: 23px;
+                font-weight: 500;
+                letter-spacing: .05em;
+              }}
+
+              .archive-scripture {{
+                margin: 0 0 12px;
+                color: #606060;
+                font-size: 14px;
+              }}
+
+              .archive-summary {{
+                margin: 0;
+                color: #444;
+                font-size: 15px;
+                line-height: 2;
+              }}
+
+              @media (max-width: 700px) {{
+                .page-shell {{
+                  width: min(100% - 30px, 1000px);
+                  padding-top: 42px;
                 }}
 
-                .sermon-card {{
-                  padding: 23px;
+                .lead {{
+                  margin-bottom: 42px;
+                }}
+
+                .latest-sermon {{
+                  margin-bottom: 60px;
+                }}
+
+                .sermon-meta-top {{
+                  display: block;
+                }}
+
+                .sermon-meta-top span {{
+                  display: block;
+                }}
+
+                .sermon-summary {{
+                  font-size: 15px;
+                }}
+
+                .archive-item {{
+                  padding: 24px 0 26px;
+                }}
+
+                .archive-item h3 {{
+                  font-size: 21px;
                 }}
               }}
             </style>
           </head>
 
           <body>
-            <main class="page">
-              <span class="test-label">CMS TEST</span>
+            <main class="page-shell">
 
-              <h1 class="page-title">主日礼拝説教</h1>
+              <span class="cms-test-badge">
+                microCMS TEST
+              </span>
+
+              <div class="english-label">
+                Sunday Sermon
+              </div>
+
+              <h1>主日説教</h1>
 
               <p class="lead">
-                microCMS連携テストページです。
+                主日礼拝で語られた説教の概要を通して、
+                聖書の言葉とその日のメッセージをお届けします。
               </p>
 
-              {sermon_html}
+              {latest_html}
+
+              <section class="archive-section">
+
+                <div class="archive-label">
+                  Archive
+                </div>
+
+                <h2>これまでの主日説教</h2>
+
+                {archive_html}
+
+              </section>
+
             </main>
           </body>
           </html>
@@ -208,18 +359,21 @@ jobs:
 
           print(f"Generated {output}")
           print(f"Sermons: {len(sermons)}")
+          print(f"Latest: {latest.get('title')}")
           PY
 
       - name: Commit test page
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add test-cms-2026/sermon.html
 
           if git diff --cached --quiet; then
             echo "No changes."
           else
-            git commit -m "Update microCMS sermon test page"
+            git commit -m \
+              "Update styled microCMS sermon test page"
             git push
           fi
