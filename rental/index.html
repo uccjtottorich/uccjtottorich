@@ -23,7 +23,8 @@
       --danger: #a23b35;
       --danger-bg: #fff0ef;
       --radius: 20px;
-      --shadow: 0 16px 42px rgba(15, 50, 52, .10);
+      --shadow: 0 18px 46px rgba(15, 50, 52, .10);
+      --shadow-soft: 0 8px 24px rgba(15, 50, 52, .06);
     }
     * { box-sizing: border-box; }
     html { color-scheme: light; }
@@ -31,8 +32,9 @@
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at 100% 0, rgba(201,139,50,.13), transparent 34rem),
-        linear-gradient(180deg, #eaf2ef 0, #f7f9f8 27rem, #edf3f1 100%);
+        radial-gradient(circle at 100% 0, rgba(201,139,50,.12), transparent 34rem),
+        radial-gradient(circle at 0 18%, rgba(23,107,103,.055), transparent 28rem),
+        linear-gradient(180deg, #eaf2ef 0, #f8faf9 31rem, #edf3f1 100%);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
       line-height: 1.65;
       min-height: 100vh;
@@ -40,22 +42,23 @@
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     [hidden] { display: none !important; }
-    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 58px; }
-    .masthead { display: flex; align-items: center; gap: 27px; margin-bottom: 25px; }
+    .shell { width: min(1160px, calc(100% - 64px)); margin: 0 auto; padding: 42px 0 62px; }
+    .masthead { position: relative; display: flex; align-items: center; gap: 29px; margin-bottom: 25px; padding: 24px 29px 25px; overflow: hidden; border: 1px solid rgba(215,225,223,.9); border-top: 3px solid rgba(23,107,103,.82); border-radius: 23px; background: rgba(255,255,255,.62); box-shadow: var(--shadow-soft); }
+    .masthead::after { content: ""; position: absolute; right: 29px; bottom: 15px; width: 48px; height: 2px; background: rgba(201,139,50,.68); }
     .brand-logo { width: clamp(180px, 21vw, 228px); height: auto; flex: 0 0 auto; }
-    .masthead-copy { padding-left: 27px; border-left: 1px solid rgba(201,139,50,.46); }
-    .eyebrow { margin: 0 0 6px; color: var(--gold); font-size: .76rem; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
-    h1 { margin: 0; font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.18; letter-spacing: .035em; }
-    .lead { max-width: 720px; margin: 9px 0 0; color: var(--muted); font-size: .94rem; }
+    .masthead-copy { padding-left: 29px; border-left: 1px solid rgba(201,139,50,.46); }
+    .eyebrow { margin: 0 0 7px; color: var(--accent-dark); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
+    h1 { margin: 0; font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.18; letter-spacing: .04em; }
+    .lead { max-width: 720px; margin: 10px 0 0; color: var(--muted); font-size: .94rem; }
     .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 20px; align-items: start; }
-    .card { background: rgba(255,255,255,.94); border: 1px solid rgba(215,225,223,.96); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .form-card { padding: 24px; }
+    .card { background: rgba(255,255,255,.95); border: 1px solid rgba(203,218,215,.96); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .form-card { padding: 27px 28px 29px; }
     .result-card { position: sticky; top: 18px; overflow: hidden; }
-    .result-head { padding: 23px 24px 21px; color: #fff; background: linear-gradient(135deg, #0e514e, #207c72); }
-    .result-body { padding: 21px 24px 24px; }
-    .section { padding: 21px 0; border-top: 1px solid var(--line); }
+    .result-head { padding: 25px 26px 23px; color: #fff; background: linear-gradient(145deg, #0b4948 0%, #176b67 64%, #2b8377 100%); }
+    .result-body { padding: 23px 26px 26px; }
+    .section { padding: 23px 0; border-top: 1px solid var(--line); }
     .section:first-child { padding-top: 0; border-top: 0; }
-    .section-title { display: flex; align-items: baseline; gap: 8px; margin: 0 0 12px; font-size: 1rem; }
+    .section-title { display: flex; align-items: baseline; gap: 9px; margin: 0 0 14px; font-size: 1rem; }
     .step { display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 999px; color: #fff; background: var(--accent); box-shadow: 0 3px 10px rgba(23,107,103,.2); font-size: .78rem; }
     .hint { margin: 6px 0 0; color: var(--muted); font-size: .87rem; }
     .field-label { display: block; margin: 0 0 6px; font-size: .88rem; font-weight: 700; }
@@ -70,14 +73,14 @@
     .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
     .choice-grid.facilities { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .choice {
-      display: flex; gap: 9px; align-items: flex-start; padding: 12px 13px; border: 1px solid var(--line); border-radius: 12px; background: #fff; cursor: pointer; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+      display: flex; gap: 9px; align-items: flex-start; padding: 13px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; cursor: pointer; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
     }
     .choice:hover { border-color: rgba(23,107,103,.72); transform: translateY(-1px); }
-    .choice:has(input:checked) { border-color: var(--accent); color: var(--accent-dark); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent), 0 7px 17px rgba(23,107,103,.08); }
+    .choice:has(input:checked) { border-color: var(--accent); color: var(--accent-dark); background: linear-gradient(180deg, #eaf5f2, #e2f0ec); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 19px rgba(23,107,103,.09); }
     .choice input { margin-top: 5px; accent-color: var(--accent); }
     .choice strong { display: block; }
     .choice small { display: block; color: var(--muted); line-height: 1.45; }
-    .subpanel { margin-top: 14px; padding: 16px; border: 1px solid var(--line); border-radius: 15px; background: #f7faf9; }
+    .subpanel { margin-top: 14px; padding: 17px; border: 1px solid rgba(203,218,215,.9); border-radius: 16px; background: linear-gradient(180deg, #f7faf9, #f3f8f6); box-shadow: inset 0 1px 0 rgba(255,255,255,.8); }
     .subpanel h3 { margin: 0 0 10px; font-size: .96rem; }
     .split-row { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); }
     .split-row:first-child { border-top: 0; padding-top: 0; }
@@ -99,11 +102,18 @@
     .breakdown-item:first-child { border-top: 0; }
     .breakdown-title { display: flex; justify-content: space-between; gap: 10px; font-weight: 750; }
     .breakdown-note { margin-top: 3px; color: var(--muted); font-size: .83rem; white-space: pre-line; }
+    .original-charge { margin-top: 6px; color: #526665; font-size: .8rem; font-weight: 700; }
+    .discount-line { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; margin-left: 12px; padding: 7px 9px; border-left: 2px solid rgba(23,107,103,.38); border-radius: 0 7px 7px 0; color: var(--accent-dark); background: rgba(229,242,238,.58); font-size: .82rem; font-weight: 700; }
+    .discount-line strong { white-space: nowrap; }
+    .discount-exempt { display: inline-block; margin-top: 7px; padding: 2px 7px; border: 1px solid rgba(102,119,122,.25); border-radius: 999px; color: var(--muted); background: #f6f8f7; font-size: .73rem; font-weight: 700; }
+    .breakdown-addition { margin-top: 4px; border-top-style: solid; }
+    .breakdown-rounding { margin-top: 4px; color: #4d605f; }
+    .breakdown-rounding .breakdown-title { font-size: .88rem; }
     .totals { margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--ink); }
     .totals-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
     .totals-row.final { margin-top: 6px; padding-top: 10px; border-top: 2px solid var(--accent); color: var(--accent-dark); font-size: 1.18rem; font-weight: 800; }
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 18px; }
-    .btn { min-height: 44px; padding: 9px 13px; border: 1px solid var(--accent); border-radius: 11px; font-weight: 800; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
+    .btn { min-height: 44px; padding: 9px 13px; border: 1px solid var(--accent); border-radius: 12px; font-weight: 800; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
     .btn:not(:disabled):hover { transform: translateY(-1px); }
     .btn-primary { color: #fff; background: var(--accent); }
     .btn-primary:not(:disabled):hover { background: var(--accent-dark); }
@@ -128,7 +138,7 @@
     .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 17px; }
     .receipt-preview-panel { padding: 22px; background: #eef3f1; }
     .receipt-preview-label { margin: 0 0 9px; color: var(--muted); font-size: .7rem; font-weight: 800; letter-spacing: .12em; }
-    .receipt-preview { padding: 30px 32px 28px; border: 1px solid #9aa8a6; background: #fff; box-shadow: 0 10px 30px rgba(18,53,54,.10); font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
+    .receipt-preview { padding: 30px 32px 28px; border: 1px solid #9aa8a6; border-radius: 2px; background: #fff; box-shadow: 0 12px 32px rgba(18,53,54,.12); font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
     .receipt-preview-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
     .receipt-preview-logo { width: 130px; height: auto; }
     .receipt-preview-number { margin: 0; color: #536365; font: .72rem sans-serif; text-align: right; }
@@ -143,7 +153,7 @@
     .preview-details dd { margin: 0; }
     .preview-issuer { margin: 22px 0 0; padding-top: 11px; border-top: 1px solid #a3acad; text-align: right; font-size: .84rem; }
     .receipt-print { display: none; }
-    .receipt-half { position: relative; height: 124mm; padding: 9mm 13mm 8mm; border: 1px solid #61706f; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
+    .receipt-half { position: relative; height: 124mm; padding: 9mm 13mm 8mm; border: 1px solid #61706f; background: #fff; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
     #receiptCopy { height: 141mm; }
     .receipt-half + .receipt-half { margin-top: 7mm; }
     .cut-line { position: absolute; top: -5mm; left: 0; right: 0; border-top: 1px dashed #555; text-align: center; }
@@ -162,7 +172,7 @@
     .receipt-table th { width: 24%; font-family: sans-serif; font-weight: 600; }
     .issuer { margin-top: 3mm; padding-top: 2mm; border-top: 1px solid #9aa8a6; text-align: right; font-size: 10pt; }
     .receipt-copy-note { margin-left: .4em; font-family: sans-serif; font-size: 9pt; font-weight: 500; letter-spacing: 0; }
-    .screen-only { display: initial; }
+    .screen-only { display: block; }
     @media (max-width: 820px) {
       .layout { grid-template-columns: 1fr; }
       .result-card { position: static; }
@@ -218,9 +228,9 @@
     <header class="masthead">
       <img class="brand-logo" src="tottorich_logo(low).png" alt="日本基督教団 鳥取教会">
       <div class="masthead-copy">
-        <p class="eyebrow">Tottori Church · Internal Tool</p>
+        <p class="eyebrow">日本基督教団 鳥取教会</p>
         <h1>会堂利用献金計算</h1>
-        <p class="lead">1日分の利用内容を選ぶと、規定と現在の運用上の取扱いに基づいて算定します。</p>
+        <p class="lead">会堂利用に関する献金額を自動計算します。</p>
       </div>
     </header>
 
@@ -460,6 +470,7 @@
     };
     const FACILITY_LABELS = { chapel: "礼拝堂", room1: "第一集会室", family: "親子室", room2: "第二集会室" };
     const yen = value => `${Math.round(value).toLocaleString("ja-JP")}円`;
+    const ledgerYen = value => `${(Math.round((Number(value) + Number.EPSILON) * 1000) / 1000).toLocaleString("ja-JP", { maximumFractionDigits: 3 })}円`;
     const roundTenthDown = value => Math.floor((value + 1e-8) / 10) * 10;
     const formatTime = mins => `${String(Math.floor(mins / 60)).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
     const checkedValue = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
@@ -701,14 +712,46 @@
       el("resultEmpty").hidden=valid||result.errors.length; el("breakdown").hidden=!valid; el("printCalculation").disabled=!valid; el("createReceipt").disabled=!valid;
       const holder=el("breakdown"); holder.textContent="";
       if (!valid) return;
-      result.lines.forEach(line=>{ const item=document.createElement("div"); item.className="breakdown-item"; const title=document.createElement("div"); title.className="breakdown-title"; const name=document.createElement("span"); name.textContent=line.title; const amount=document.createElement("span"); amount.textContent=yen(line.amount); title.append(name,amount); const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=line.note+(result.isStudent&&line.discountEligible===false&&line.amount>0?"\n学生割引対象外":""); item.append(title,note); holder.append(item); });
+      const studentOrganizer=input.organizer==="student";
+      const discountByLine=new Map();
+      if (result.isStudent) {
+        const eligible=result.lines.map((line,index)=>({line,index})).filter(({line})=>line.amount>0&&line.discountEligible!==false);
+        let remaining=result.discount;
+        eligible.forEach(({line,index},position)=>{
+          const discount=position===eligible.length-1?remaining:line.amount*.5;
+          discountByLine.set(index,discount); remaining-=discount;
+        });
+      }
+      result.lines.forEach((line,index)=>{
+        const item=document.createElement("div"); item.className="breakdown-item";
+        const title=document.createElement("div"); title.className="breakdown-title";
+        const name=document.createElement("span"); name.textContent=line.title;
+        const lineDiscount=discountByLine.get(index)||0;
+        const amount=document.createElement("span"); amount.textContent=ledgerYen(line.amount-lineDiscount); title.append(name,amount); item.append(title);
+        if (line.note) { const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=line.note; item.append(note); }
+        if (studentOrganizer&&line.amount>0&&line.discountEligible===false) { const exempt=document.createElement("span"); exempt.className="discount-exempt"; exempt.textContent="学生割引対象外"; item.append(exempt); }
+        if (discountByLine.has(index)) { const original=document.createElement("div"); original.className="original-charge"; original.textContent=`通常料金 ${ledgerYen(line.amount)}`; const discount=document.createElement("div"); discount.className="discount-line"; const label=document.createElement("span"); label.textContent="↳ 学生割引（50%）"; const value=document.createElement("strong"); value.textContent=`−${ledgerYen(lineDiscount)}`; discount.append(label,value); item.append(original,discount); }
+        holder.append(item);
+      });
+      if (result.hvac>0) {
+        const item=document.createElement("div"); item.className="breakdown-item breakdown-addition";
+        const title=document.createElement("div"); title.className="breakdown-title";
+        const name=document.createElement("span"); name.textContent="冷暖房費";
+        const amount=document.createElement("span"); amount.textContent=ledgerYen(result.hvac); title.append(name,amount);
+        const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=`割引前の利用献金 ${ledgerYen(result.hvacBase)} × 50%`;
+        item.append(title,note); holder.append(item);
+      }
+      const rounding=result.rawTotal-result.total;
+      if (rounding>1e-8) {
+        const item=document.createElement("div"); item.className="breakdown-item breakdown-rounding";
+        const title=document.createElement("div"); title.className="breakdown-title";
+        const name=document.createElement("span"); name.textContent="端数処理（10円未満切り捨て）";
+        const amount=document.createElement("span"); amount.textContent=`−${ledgerYen(rounding)}`; title.append(name,amount);
+        const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=`${ledgerYen(result.rawTotal)} → ${yen(result.total)}`;
+        item.append(title,note); holder.append(item);
+      }
       const totals=document.createElement("div"); totals.className="totals";
-      const addRow=(label,value,cls="")=>{ const row=document.createElement("div"); row.className=`totals-row ${cls}`; const a=document.createElement("span"),b=document.createElement("strong"); a.textContent=label;b.textContent=yen(value);row.append(a,b);totals.append(row); };
-      addRow(result.isStudent?"学生割引前の利用献金":"利用献金（冷暖房算定前）",result.beforeDiscount);
-      if(result.isStudent) addRow("学生割引（対象額の50%）",-result.discount);
-      addRow("施設利用献金",result.facilityFee);
-      if(result.hvac>0) addRow(`冷暖房費（対象額 ${yen(result.hvacBase)} × 50%）`,result.hvac);
-      addRow("合計",result.total,"final"); holder.append(totals);
+      const row=document.createElement("div"); row.className="totals-row final"; const label=document.createElement("span"),value=document.createElement("strong"); label.textContent="合計"; value.textContent=yen(result.total); row.append(label,value); totals.append(row); holder.append(totals);
     }
     function recalculate() { updateUiVisibility(); const input=getInputFromDom(); const result=calculateGrandTotal(input); renderResult(input,result); if(!el("receiptModal").hidden) updateReceiptPreview(); }
     function resetReceiptFields() { el("receiptName").value=""; el("receiptNumber").value=""; el("receiptUseDate").value=""; el("receiptIssueDate").value=new Date().toLocaleDateString("sv-SE"); el("receiptDescription").value="会堂利用献金として"; el("receiptMethod").value="現金"; el("receiptStaff").value=""; }
