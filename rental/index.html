@@ -104,8 +104,8 @@
     .time-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
     .time-grid label, .select-label { color: var(--muted); font-size: .74rem; }
     .panel-section { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
-    .performance-fields { margin-top: 10px; }
-    .performance-fields[hidden] { display: none; }
+    .performance-fields, .extension-fields { margin-top: 10px; }
+    .performance-fields[hidden], .extension-fields[hidden] { display: none; }
     .inline-notice { margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--accent); border-radius: 7px; color: var(--accent-dark); background: var(--accent-pale); font-size: .76rem; }
     .error-summary { margin: 18px 0 0; padding: 12px 14px; border: 1px solid #e5b7ad; border-radius: 11px; color: #8b3126; background: #fff1ee; font-size: .8rem; font-weight: 700; }
     .error-summary[hidden] { display: none; }
@@ -115,6 +115,8 @@
     .facility-result .included-result { padding: 10px 12px; border-radius: 9px; color: var(--accent-dark); background: var(--accent-pale); font-size: .78rem; }
     .calculation-policy { display: grid; gap: 5px; margin: 0 0 13px; padding: 11px 12px; border: 1px solid rgba(23,107,103,.24); border-radius: 10px; color: var(--accent-dark); background: var(--accent-pale); font-size: .76rem; font-weight: 700; }
     .calculation-policy span::before { content: "✓"; margin-right: 7px; }
+    .condition-summary { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 13px; }
+    .condition-chip { padding: 4px 9px; border-radius: 999px; color: var(--accent-dark); background: var(--accent-pale); font-size: .7rem; font-weight: 800; }
     .rounding-note { color: var(--muted); font-size: .7rem; }
 
     .result-card { position: sticky; top: 18px; overflow: hidden; }
@@ -225,6 +227,7 @@
                 </div>
                 <div class="panel-section"><span class="field-label">利用時間</span><div class="time-grid"><label>利用開始<select data-field="start" data-facility="chapel"></select></label><label>利用終了<select data-field="end" data-facility="chapel"></select></label></div></div>
                 <div class="panel-section"><div class="toggle-row"><input id="chapel-performance" type="checkbox"><label for="chapel-performance">公演・本番を含む<small>公演が重なる午前・午後・夜間は、その利用時間帯全体を公演料金で計算します。</small></label></div><div id="performance-fields" class="performance-fields" hidden><div class="time-grid"><label>公演開始<select id="performance-start"></select></label><label>公演終了<select id="performance-end"></select></label></div></div></div>
+                <div class="panel-section"><div class="toggle-row"><input id="chapel-extension" type="checkbox"><label for="chapel-extension">繰上げ・延長を追加する<small>許可時間の前後を、9:00〜20:00の範囲で30分単位に指定します。</small></label></div><div id="extension-fields" class="extension-fields" hidden><div class="time-grid"><label>繰上げ時間<select id="advance-duration"></select></label><label>延長時間<select id="extend-duration"></select></label></div><p class="inline-notice">30分は1時間分、1時間30分は2時間分として、繰上げは直後、延長は直前の基本時間帯のA/B時間単価に30%を加算します。</p></div></div>
                 <div class="panel-section"><div class="toggle-row"><input id="climate-chapel" data-climate="chapel" type="checkbox"><label for="climate-chapel">冷暖房を使用する<small>礼拝堂の割引前利用献金の50%</small></label></div></div>
                 <p class="inline-notice">礼拝堂の利用献金には、第一集会室とラウンジの利用を含みます。</p>
               </div>
@@ -250,10 +253,10 @@
             <strong>TODO・確認事項</strong>
             <ul>
               <li>集会室・親子室の練習・準備50%引きは、規定上の適用可否が確定できないため適用していません。</li>
+              <li>集会室・親子室への繰上げ・延長30%増しは、規定上明確でないため適用していません。</li>
               <li>礼拝堂の一般部分利用は午前・午後・夜間のブロック料金を適用します。練習・準備のみ、A料金の時間単価の50%で計算します。</li>
-              <li>12:00〜13:00・17:00〜18:00は連続利用パッケージの実経過時間に含め、練習・準備として使う時間は練習時間にも含めます。独立した新料金は加算しません。</li>
-              <li>繰上げ・延長の30%増しは専用入力を設けず、現在は計算対象外です。</li>
-              <li>10円未満の端数は、すべてを合算した最終金額から切り捨てます（コード設定で変更可能）。</li>
+              <li>12:00〜13:00・17:00〜18:00は単純な未解決事項ではなく、連続パッケージの混合利用における実経過時間として扱います。公演扱いの基本時間帯に属さない時間は練習・準備として算定します。</li>
+              <li>10円未満の端数は現行計算では最終合計から切り捨てます。規定は切り捨てる計算段階を明記していないため、必要に応じて確認してください。</li>
               <li>礼拝堂と第一集会室を異なる時間に利用し、第一集会室だけの追加時間がある場合の扱いは教会担当者に確認してください。</li>
             </ul>
           </div>
@@ -285,7 +288,8 @@
         FINAL_ROUNDING_UNIT: 10,
         STUDENT_DISCOUNT_RATE: .5,
         HVAC_RATE: .5,
-        CHAPEL_PRACTICE_RATE: .5
+        CHAPEL_PRACTICE_RATE: .5,
+        TIME_ADJUSTMENT_MULTIPLIER: 1.3
       });
       const PERIODS = {
         morning: { label: '午前', range: '9:00〜12:00', start: 540, end: 720, hours: 3 },
@@ -340,6 +344,17 @@
       const floorByUnit = (value, unit = CONFIG.FINAL_ROUNDING_UNIT) => Math.floor((value + EPSILON) / unit) * unit;
       const isValidRange = (start, end) => Number.isFinite(start) && Number.isFinite(end) && start >= 540 && end <= 1200 && end > start;
       const elapsedHours = (start, end) => (end - start) / 60;
+      const chargedAdjustmentHours = (minutes) => minutes > 0 ? Math.ceil((minutes / 60) - EPSILON) : 0;
+      const adjustmentBasisKey = (kind, boundary) => {
+        if (kind === 'advance') {
+          if (boundary < 720) return 'morning';
+          if (boundary < 1080) return 'afternoon';
+          return 'night';
+        }
+        if (boundary <= 780) return 'morning';
+        if (boundary <= 1080) return 'afternoon';
+        return 'night';
+      };
       const complementRanges = (start, end, excludedRanges) => {
         const ranges = [];
         let cursor = start;
@@ -391,6 +406,13 @@
             if (!performanceCovered || (!packageKey && performanceCovered !== facility.performanceEnd - facility.performanceStart)) errors.push('礼拝堂：公演時間は午前・午後・夜間の料金時間帯内に指定してください。');
           }
         }
+        if (facility.useExtension) {
+          const advanceMinutes = Number(facility.advanceMinutes || 0);
+          const extendMinutes = Number(facility.extendMinutes || 0);
+          if (advanceMinutes === 0 && extendMinutes === 0) errors.push('礼拝堂：繰上げ時間または延長時間を指定してください。');
+          if (advanceMinutes < 0 || facility.start - advanceMinutes < 540) errors.push('礼拝堂：繰上げ後の開始は9:00より前にできません。');
+          if (extendMinutes < 0 || facility.end + extendMinutes > 1200) errors.push('礼拝堂：延長後の終了は20:00より後にできません。');
+        }
         if (errors.length) return { key: 'chapel', label: definition.label, errors };
 
         const aRates = definition.rates.A[common.dayType];
@@ -413,7 +435,7 @@
             label: `${PACKAGES[packageKey].label}（${usageType === 'practice' ? '練習・準備' : '公演'}）`,
             time: `${timeText(facility.start)}〜${timeText(facility.end)}`,
             detail: usageType === 'practice'
-              ? `Aパッケージ料金 ${aRates[packageKey].toLocaleString('ja-JP')}円 × 50% = ${amount.toLocaleString('ja-JP')}円（学生割引対象外）`
+              ? `Aパッケージ料金 ${aRates[packageKey].toLocaleString('ja-JP')}円 × 50% = ${amount.toLocaleString('ja-JP')}円${common.student ? '（学生割引対象外）' : ''}`
               : `${common.feeClass}パッケージ料金 ${amount.toLocaleString('ja-JP')}円${common.student ? ` → 学生50% ${(amount * CONFIG.STUDENT_DISCOUNT_RATE).toLocaleString('ja-JP')}円` : ''}`,
             amount
           });
@@ -435,7 +457,7 @@
               sortTime: practiceRanges[0].start,
               label: '練習・準備',
               time: practiceRanges.map((range) => `${timeText(range.start)}〜${timeText(range.end)}`).join('・'),
-              detail: `${packageRate.toLocaleString('ja-JP')}円÷${packageHours}時間×50%×${practiceHours}時間 = ${amount.toLocaleString('ja-JP')}円（学生割引対象外）`,
+              detail: `${packageRate.toLocaleString('ja-JP')}円÷${packageHours}時間×50%×${practiceHours}時間 = ${amount.toLocaleString('ja-JP')}円${common.student ? '（学生割引対象外）' : ''}`,
               amount
             });
           }
@@ -468,8 +490,28 @@
               label: `${segment.label}（${segment.usageType === 'practice' ? '練習・準備' : '公演'}）`,
               time: `${timeText(segment.usedStart)}〜${timeText(segment.usedEnd)}`,
               detail: segment.usageType === 'practice'
-                ? `A基本料金 ${fullRate.toLocaleString('ja-JP')}円 ÷ ${segment.hours}時間 × ${usedHours.toFixed(1)}時間 × 練習50%・学生割引対象外`
+                ? `A基本料金 ${fullRate.toLocaleString('ja-JP')}円 ÷ ${segment.hours}時間 × ${usedHours.toFixed(1)}時間 × 練習50%${common.student ? '・学生割引対象外' : ''}`
                 : `${common.feeClass}基本料金 ${fullRate.toLocaleString('ja-JP')}円（時間帯ブロック料金）・学生割引対象`,
+              amount
+            });
+          });
+        }
+        if (facility.useExtension) {
+          [
+            { kind: 'advance', minutes: Number(facility.advanceMinutes || 0), boundary: facility.start, label: '繰上げ', adjacent: '直後' },
+            { kind: 'extend', minutes: Number(facility.extendMinutes || 0), boundary: facility.end, label: '延長', adjacent: '直前' }
+          ].filter((adjustment) => adjustment.minutes > 0).forEach((adjustment) => {
+            const basisKey = adjustmentBasisKey(adjustment.kind, adjustment.boundary);
+            const period = PERIODS[basisKey];
+            const basicRate = selectedRates[basisKey];
+            const chargedHours = chargedAdjustmentHours(adjustment.minutes);
+            const amount = basicRate / period.hours * CONFIG.TIME_ADJUSTMENT_MULTIPLIER * chargedHours;
+            beforeDiscount += amount;
+            studentDiscountBase += amount;
+            items.push({
+              label: `${adjustment.label}利用`,
+              time: `${adjustment.minutes / 60}時間 → ${chargedHours}時間分`,
+              detail: `${adjustment.adjacent}の${period.label}${common.feeClass} ${basicRate.toLocaleString('ja-JP')}円 ÷ ${period.hours}時間 × 130%${common.student ? '（学生割引対象）' : ''}`,
               amount
             });
           });
@@ -524,6 +566,12 @@
         return { results, errors: [], usageBeforeDiscount, usageAfterDiscount, hvac, totalBeforeFinalRounding, total: floorByUnit(totalBeforeFinalRounding) };
       };
 
+      const resultCopy = (common, result) => ({
+        usageQualifier: common.student ? '学生割引後' : '一般料金',
+        hvacBasis: common.student ? '学生割引前の対象利用献金' : '対象利用献金',
+        practiceQualifier: common.student && result.key === 'chapel' ? '練習・準備は学生割引対象外' : ''
+      });
+
       const REGRESSION_TESTS = Object.freeze([
         {
           name: '礼拝堂 9〜17・休日A・学生・公演14〜16・冷暖房',
@@ -542,12 +590,37 @@
           expected: { beforeDiscount: 4500, studentDiscount: 0, afterDiscount: 4500, hvac: 0, totalBeforeFinalRounding: 4500, total: 4500 }
         },
         {
-          name: '礼拝堂 9〜20・休日B・全時間公演',
+          name: '礼拝堂 9〜20・休日B・一般・全時間公演・冷暖房',
           input: {
             common: { dayType: 'holiday', feeClass: 'B', student: false },
-            facilities: [{ type: 'chapel', start: 540, end: 1200, climate: false, hasPerformance: true, performanceStart: 540, performanceEnd: 1200 }]
+            facilities: [{ type: 'chapel', start: 540, end: 1200, climate: true, hasPerformance: true, performanceStart: 540, performanceEnd: 1200 }]
           },
-          expected: { beforeDiscount: 16400, studentDiscount: 0, afterDiscount: 16400, hvac: 0, totalBeforeFinalRounding: 16400, total: 16400 }
+          expected: { beforeDiscount: 16400, studentDiscount: 0, afterDiscount: 16400, hvac: 8200, totalBeforeFinalRounding: 24600, total: 24600 },
+          copyShouldExcludeStudent: true
+        },
+        {
+          name: '礼拝堂 13〜17・30分繰上げは1時間分×130%',
+          input: {
+            common: { dayType: 'weekday', feeClass: 'A', student: false },
+            facilities: [{ type: 'chapel', start: 780, end: 1020, climate: false, hasPerformance: true, performanceStart: 780, performanceEnd: 1020, useExtension: true, advanceMinutes: 30, extendMinutes: 0 }]
+          },
+          expected: { beforeDiscount: 6625, studentDiscount: 0, afterDiscount: 6625, hvac: 0, totalBeforeFinalRounding: 6625, total: 6620 }
+        },
+        {
+          name: '礼拝堂 13〜17・1時間30分繰上げは2時間分×130%',
+          input: {
+            common: { dayType: 'weekday', feeClass: 'A', student: false },
+            facilities: [{ type: 'chapel', start: 780, end: 1020, climate: false, hasPerformance: true, performanceStart: 780, performanceEnd: 1020, useExtension: true, advanceMinutes: 90, extendMinutes: 0 }]
+          },
+          expected: { beforeDiscount: 8250, studentDiscount: 0, afterDiscount: 8250, hvac: 0, totalBeforeFinalRounding: 8250, total: 8250 }
+        },
+        {
+          name: '礼拝堂 9〜12・30分延長は1時間分×130%',
+          input: {
+            common: { dayType: 'weekday', feeClass: 'A', student: false },
+            facilities: [{ type: 'chapel', start: 540, end: 720, climate: false, hasPerformance: true, performanceStart: 540, performanceEnd: 720, useExtension: true, advanceMinutes: 0, extendMinutes: 30 }]
+          },
+          expected: { beforeDiscount: 2500 + (2500 / 3 * 1.3), studentDiscount: 0, afterDiscount: 2500 + (2500 / 3 * 1.3), hvac: 0, totalBeforeFinalRounding: 2500 + (2500 / 3 * 1.3), total: 3580 }
         },
         {
           name: '第一集会室 9〜20・学生・冷暖房',
@@ -581,6 +654,10 @@
           const failures = Object.entries(test.expected)
             .filter(([key, expected]) => Math.abs(actual[key] - expected) > EPSILON)
             .map(([key, expected]) => `${key}: expected ${expected}, actual ${actual[key]}`);
+          if (test.copyShouldExcludeStudent) {
+            const copyText = Object.values(resultCopy(test.input.common, facility)).join(' ');
+            if (copyText.includes('学生')) failures.push(`一般主催の結果文言に「学生」が含まれています: ${copyText}`);
+          }
           return { name: test.name, passed: failures.length === 0, failures };
         });
         return { passed: results.every((result) => result.passed), results };
@@ -609,11 +686,24 @@
           select.append(option);
         }
       };
+      const optionDurations = (select, maximumMinutes, fallback = 0) => {
+        const previous = Number(select.value || fallback);
+        select.innerHTML = '';
+        for (let minutes = 0; minutes <= maximumMinutes; minutes += CONFIG.TIME_STEP_MINUTES) {
+          const option = document.createElement('option');
+          option.value = String(minutes);
+          option.textContent = minutes === 0 ? 'なし' : `${minutes / 60}時間`;
+          select.append(option);
+        }
+        select.value = String(Math.min(previous, maximumMinutes));
+      };
 
       $$('select[data-field="start"]').forEach((select) => optionTimes(select, 540));
       $$('select[data-field="end"]').forEach((select) => optionTimes(select, 1020));
       optionTimes($('#performance-start'), 840);
       optionTimes($('#performance-end'), 960);
+      optionDurations($('#advance-duration'), 0);
+      optionDurations($('#extend-duration'), 180);
 
       const syncFacilityPanels = () => {
         const chapelToggle = $('#facility-chapel');
@@ -643,7 +733,14 @@
           const type = toggle.dataset.facilityToggle;
           const panel = $(`[data-facility-panel="${type}"]`);
           const base = { type, start: Number(panel?.querySelector('[data-field="start"]')?.value || 540), end: Number(panel?.querySelector('[data-field="end"]')?.value || 1020), climate: Boolean($(`[data-climate="${type}"]`)?.checked) };
-          if (type === 'chapel') Object.assign(base, { hasPerformance: $('#chapel-performance').checked, performanceStart: Number($('#performance-start').value), performanceEnd: Number($('#performance-end').value) });
+          if (type === 'chapel') Object.assign(base, {
+            hasPerformance: $('#chapel-performance').checked,
+            performanceStart: Number($('#performance-start').value),
+            performanceEnd: Number($('#performance-end').value),
+            useExtension: $('#chapel-extension').checked,
+            advanceMinutes: Number($('#advance-duration').value || 0),
+            extendMinutes: Number($('#extend-duration').value || 0)
+          });
           return base;
         })
       });
@@ -670,20 +767,41 @@
         errors.innerHTML = '';
         const facilityBlocks = calculation.results.map((result) => {
           if (result.included) return `<section class="facility-result"><h3>${result.label}</h3><div class="included-result">礼拝堂利用料に含まれているため、追加料金はありません。</div></section>`;
+          const facilityInput = input.facilities.find((facility) => facility.type === result.key);
+          const copy = resultCopy(input.common, result);
+          const conditionChips = [
+            result.key === 'chapel' ? (input.common.dayType === 'holiday' ? '土日祝' : '平日') : null,
+            result.key === 'chapel' ? `${input.common.feeClass}料金` : null,
+            input.common.student ? '学生主催' : '一般主催',
+            `${timeText(facilityInput.start)}〜${timeText(facilityInput.end)}`,
+            result.key === 'chapel' && facilityInput.hasPerformance ? `実公演 ${timeText(facilityInput.performanceStart)}〜${timeText(facilityInput.performanceEnd)}` : (result.key === 'chapel' ? '全て練習・準備' : null),
+            facilityInput.climate ? '冷暖房あり' : '冷暖房なし',
+            result.key === 'chapel' && facilityInput.advanceMinutes ? `繰上げ ${facilityInput.advanceMinutes / 60}時間` : null,
+            result.key === 'chapel' && facilityInput.extendMinutes ? `延長 ${facilityInput.extendMinutes / 60}時間` : null
+          ].filter(Boolean);
+          const conditionSummary = `<div class="condition-summary">${conditionChips.map((chip) => `<span class="condition-chip">${chip}</span>`).join('')}</div>`;
           let rows = result.items.map((item) => `<div class="breakdown-row"><div><div>${item.label}</div><div class="detail">${item.time}・${item.detail}</div></div><strong>${detailedMoney(item.amount)}</strong></div>`).join('');
-          if (result.key === 'chapel') rows = `<div class="calculation-policy"><span>練習・準備には学生割引を適用していません。</span><span>冷暖房費は学生割引前の利用献金（練習・準備50%適用後）を基準に50%で算定します。</span></div>` + rows;
+          if (result.key === 'chapel') {
+            const policies = [];
+            if (input.common.student) policies.push('練習・準備には学生割引を適用していません。');
+            if (result.hvac) policies.push(input.common.student
+              ? '冷暖房費は学生割引前の対象利用献金（練習・準備50%適用後）を基準に50%で算定します。'
+              : '冷暖房費は対象利用献金（練習・準備50%適用後）を基準に50%で算定します。');
+            if (facilityInput.useExtension) policies.push('繰上げは直後、延長は直前の基本時間帯のA/B時間単価に30%を加算しています。');
+            if (policies.length) rows = `<div class="calculation-policy">${policies.map((policy) => `<span>${policy}</span>`).join('')}</div>` + rows;
+          }
           if (input.common.student) {
             const discountDetail = result.key === 'chapel'
               ? `公演・一般利用の対象額 ${detailedMoney(result.studentDiscountBase)} × 50%（練習・準備は対象外）`
               : `主催者が学生：施設利用献金 ${detailedMoney(result.studentDiscountBase)} × 50%`;
             rows += `<div class="breakdown-row"><div><div>学生割引</div><div class="detail">${discountDetail}</div></div><strong>-${detailedMoney(result.studentDiscount)}</strong></div>`;
           }
-          rows += `<div class="breakdown-row subtotal"><div><div>${result.label}利用献金</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(result.afterDiscount)}</strong></div>`;
-          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">学生割引前 ${detailedMoney(result.beforeDiscount)} × 50% = ${detailedMoney(result.hvac)}${result.key === 'chapel' ? '（練習・準備50%適用後）' : ''}</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
+          rows += `<div class="breakdown-row subtotal"><div><div>${result.label}利用献金</div><div class="detail">${copy.usageQualifier}</div></div><strong>${detailedMoney(result.afterDiscount)}</strong></div>`;
+          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">${copy.hvacBasis} ${detailedMoney(result.beforeDiscount)} × 50% = ${detailedMoney(result.hvac)}${result.key === 'chapel' ? '（練習・準備50%適用後）' : ''}</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
           rows += `<div class="breakdown-row"><div><div>${result.label}小計</div></div><strong>${detailedMoney(result.totalBeforeFinalRounding)}</strong></div>`;
-          return `<section class="facility-result"><h3>${result.label}</h3>${rows}</section>`;
+          return `<section class="facility-result"><h3>${result.label}</h3>${conditionSummary}${rows}</section>`;
         }).join('');
-        const totals = `<div class="breakdown-row subtotal"><div><div>施設利用献金合計</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(calculation.usageAfterDiscount)}</strong></div><div class="breakdown-row"><div><div>冷暖房費合計</div></div><strong>${detailedMoney(calculation.hvac)}</strong></div><div class="breakdown-row grand"><div><div>最終支払額</div><div class="detail">最終：${detailedMoney(calculation.totalBeforeFinalRounding)} → 10円未満切捨て ${money(calculation.total)}</div></div><strong>${money(calculation.total)}</strong></div>`;
+        const totals = `<div class="breakdown-row subtotal"><div><div>施設利用献金合計</div><div class="detail">${input.common.student ? '学生割引後' : '一般料金'}</div></div><strong>${detailedMoney(calculation.usageAfterDiscount)}</strong></div><div class="breakdown-row"><div><div>冷暖房費合計</div></div><strong>${detailedMoney(calculation.hvac)}</strong></div><div class="breakdown-row grand"><div><div>最終支払額</div><div class="detail">最終：${detailedMoney(calculation.totalBeforeFinalRounding)} → 10円未満切捨て ${money(calculation.total)}</div></div><strong>${money(calculation.total)}</strong></div>`;
         breakdown.innerHTML = facilityBlocks + totals;
         $('#total').innerHTML = `${calculation.total.toLocaleString('ja-JP')}<span>円</span>`;
         const paidCount = calculation.results.filter((result) => !result.included).length;
@@ -693,6 +811,11 @@
       const calculateAndRender = () => {
         syncFacilityPanels();
         $('#performance-fields').hidden = !$('#chapel-performance').checked;
+        $('#extension-fields').hidden = !$('#chapel-extension').checked;
+        const chapelStart = Number($('[data-field="start"][data-facility="chapel"]').value);
+        const chapelEnd = Number($('[data-field="end"][data-facility="chapel"]').value);
+        optionDurations($('#advance-duration'), Math.max(0, chapelStart - 540));
+        optionDurations($('#extend-duration'), Math.max(0, 1200 - chapelEnd));
         const input = gatherInput();
         renderResult(calculateGrandTotal(input), input);
       };
@@ -706,10 +829,13 @@
         $('#weekday').checked = true;
         $('#feeA').checked = true;
         $('#chapel-performance').checked = false;
+        $('#chapel-extension').checked = false;
         $$('select[data-field="start"]').forEach((select) => { select.value = '540'; });
         $$('select[data-field="end"]').forEach((select) => { select.value = '1020'; });
         $('#performance-start').value = '840';
         $('#performance-end').value = '960';
+        $('#advance-duration').value = '0';
+        $('#extend-duration').value = '0';
         $('#form-errors').hidden = true;
         calculateAndRender();
       });
