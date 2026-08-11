@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#0c4f4d">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="会堂献金計算">
   <title>鳥取教会 会堂利用献金計算</title>
   <style>
     :root {
@@ -470,7 +476,7 @@
     };
     const FACILITY_LABELS = { chapel: "礼拝堂", room1: "第一集会室", family: "親子室", room2: "第二集会室" };
     const yen = value => `${Math.round(value).toLocaleString("ja-JP")}円`;
-    const ledgerYen = value => `${(Math.round((Number(value) + Number.EPSILON) * 1000) / 1000).toLocaleString("ja-JP", { maximumFractionDigits: 3 })}円`;
+    const ledgerYen = value => `${(Math.round((Number(value) + Number.EPSILON) * 100) / 100).toLocaleString("ja-JP", { maximumFractionDigits: 2 })}円`;
     const roundTenthDown = value => Math.floor((value + 1e-8) / 10) * 10;
     const formatTime = mins => `${String(Math.floor(mins / 60)).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
     const checkedValue = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
@@ -639,8 +645,9 @@
       }
     }
     function buildStaticUi() {
+      const placeholder=document.createElement("option"); placeholder.value=""; placeholder.textContent="選択してください"; placeholder.selected=true; el("chapelPackage").append(placeholder);
       Object.entries(PACKAGES).forEach(([key,pkg]) => { const o = document.createElement("option"); o.value = key; o.textContent = pkg.label; el("chapelPackage").append(o); });
-      el("chapelPackage").value = "morningAfternoon";
+      el("chapelPackage").value = "";
       addOptions(el("practiceStart"), 540, 1170, 540); addOptions(el("practiceEnd"), 570, 1200, 1020);
       setDurationOptions(el("extensionBefore"), 0); setDurationOptions(el("extensionAfter"), 180);
       Object.entries(BLOCKS).forEach(([key, block]) => {
@@ -662,6 +669,7 @@
 
     function updateNormalBlocks() {
       const key=el("chapelPackage").value, pkg=PACKAGES[key], holder=el("normalBlocks"); holder.textContent="";
+      if (!pkg) return;
       pkg.blocks.forEach(blockKey => { const label=document.createElement("label"); label.className="choice"; const input=document.createElement("input"); input.type="checkbox"; input.value=blockKey; input.checked=true; input.className="normal-block"; const span=document.createElement("span"); const strong=document.createElement("strong"); strong.textContent=`${BLOCKS[blockKey].label} 通常利用`; span.append(strong); label.append(input,span); holder.append(label); });
       el("practiceStart").value=String(pkg.start); el("practiceEnd").value=String(pkg.end);
       setDurationOptions(el("extensionBefore"), pkg.start-540, 0); setDurationOptions(el("extensionAfter"), 1200-pkg.end, 0);
@@ -684,7 +692,7 @@
       if (!input.facilities.includes("chapel")) return false;
       if (input.chapel.usageMode === "split") return input.chapel.split.night.state !== "unused";
       if (input.chapel.purpose === "practice") return input.chapel.practiceEnd > 1020;
-      return PACKAGES[input.chapel.packageKey].end + input.chapel.extensions.after > 1020;
+      return PACKAGES[input.chapel.packageKey] ? PACKAGES[input.chapel.packageKey].end + input.chapel.extensions.after > 1020 : false;
     }
     function updateUiVisibility() {
       const input=getInputFromDom(), chapel=input.facilities.includes("chapel");
@@ -707,8 +715,9 @@
     }
     function renderResult(input, result) {
       currentResult=result;
-      el("errorBox").hidden=!result.errors.length; el("errorBox").textContent=result.errors.join(" ");
-      const valid=result.total!==null; el("grandTotal").textContent=valid?yen(result.total):"—"; el("resultSummary").textContent=valid?`${facilitySummary(input)}／最終合計で10円未満切り捨て`:"入力内容を確認してください。";
+      const neutral=Boolean(result.neutral);
+      el("errorBox").hidden=neutral||!result.errors.length; el("errorBox").textContent=result.errors.join(" ");
+      const valid=result.total!==null; el("grandTotal").textContent=valid?yen(result.total):"—"; el("resultSummary").textContent=neutral?"利用内容を選択してください。":valid?`${facilitySummary(input)}／最終合計で10円未満切り捨て`:"入力内容を確認してください。";
       el("resultEmpty").hidden=valid||result.errors.length; el("breakdown").hidden=!valid; el("printCalculation").disabled=!valid; el("createReceipt").disabled=!valid;
       const holder=el("breakdown"); holder.textContent="";
       if (!valid) return;
@@ -753,9 +762,9 @@
       const totals=document.createElement("div"); totals.className="totals";
       const row=document.createElement("div"); row.className="totals-row final"; const label=document.createElement("span"),value=document.createElement("strong"); label.textContent="合計"; value.textContent=yen(result.total); row.append(label,value); totals.append(row); holder.append(totals);
     }
-    function recalculate() { updateUiVisibility(); const input=getInputFromDom(); const result=calculateGrandTotal(input); renderResult(input,result); if(!el("receiptModal").hidden) updateReceiptPreview(); }
+    function recalculate() { updateUiVisibility(); const input=getInputFromDom(); const neutral=input.facilities.includes("chapel")&&input.chapel.usageMode==="continuous"&&!input.chapel.packageKey; const result=neutral?{ errors:[], total:null, neutral:true }:calculateGrandTotal(input); renderResult(input,result); if(!el("receiptModal").hidden) updateReceiptPreview(); }
     function resetReceiptFields() { el("receiptName").value=""; el("receiptNumber").value=""; el("receiptUseDate").value=""; el("receiptIssueDate").value=new Date().toLocaleDateString("sv-SE"); el("receiptDescription").value="会堂利用献金として"; el("receiptMethod").value="現金"; el("receiptStaff").value=""; }
-    function resetAll() { el("calculatorForm").reset(); document.querySelector('input[name="facility"][value="chapel"]').checked=true; el("chapelPackage").value="morningAfternoon"; updateNormalBlocks(); document.querySelectorAll(".split-state").forEach(x=>x.value="unused"); document.querySelectorAll(".room-start").forEach(x=>x.value="540"); document.querySelectorAll(".room-end").forEach(x=>x.value="720"); resetReceiptFields(); recalculate(); }
+    function resetAll() { el("calculatorForm").reset(); document.querySelector('input[name="facility"][value="chapel"]').checked=true; el("chapelPackage").value=""; updateNormalBlocks(); document.querySelectorAll(".split-state").forEach(x=>x.value="unused"); document.querySelectorAll(".room-start").forEach(x=>x.value="540"); document.querySelectorAll(".room-end").forEach(x=>x.value="720"); resetReceiptFields(); recalculate(); }
     function setPrintMode(mode) { document.body.classList.remove("print-calculation","print-receipt"); document.body.classList.add(mode); }
     function clearPrintMode() { document.body.classList.remove("print-calculation","print-receipt"); }
     function formatDateJapanese(value) { if(!value) return ""; const [y,m,d]=value.split("-"); return `${y}年${Number(m)}月${Number(d)}日`; }
@@ -843,6 +852,13 @@
     recalculate();
     const regression=runRegressionTests(); console.info(`[会堂利用献金計算] regression ${regression.passed}/${regression.total}`,regression.failed);
   })();
+  </script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js", { scope: "./" }).catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
