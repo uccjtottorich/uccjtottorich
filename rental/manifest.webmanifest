@@ -1,7 +1,7 @@
 {
   "name": "鳥取教会 会堂利用献金計算",
   "short_name": "会堂献金計算",
-  "start_url": "/rental/",
+  "start_url": "/rental/calculator.html",
   "scope": "/rental/",
   "display": "standalone",
   "background_color": "#edf3f1",

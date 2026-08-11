@@ -1,7 +1,6 @@
-const CACHE_NAME = "tottori-rental-v2";
+const CACHE_NAME = "tottori-rental-v3";
 const APP_SHELL = [
-  "./",
-  "./index.html",
+  "./calculator.html",
   "./manifest.webmanifest",
   "./tottorich_logo(low).png",
   "./icons/icon-192.png",
@@ -40,11 +39,13 @@ self.addEventListener("fetch", event => {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          const copy = response.clone();
-          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy)));
+          if (requestUrl.pathname.endsWith("/calculator.html")) {
+            const copy = response.clone();
+            event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put("./calculator.html", copy)));
+          }
           return response;
         })
-        .catch(() => caches.match("./index.html"))
+        .catch(() => requestUrl.pathname.endsWith("/calculator.html") ? caches.match("./calculator.html") : Response.error())
     );
     return;
   }
