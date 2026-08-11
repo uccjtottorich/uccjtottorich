@@ -1,848 +1,270 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#0c4f4d">
-  <title>鳥取教会 会堂利用献金計算</title>
-  <style>
-    :root {
-      --ink: #1b3035;
-      --muted: #66777a;
-      --paper: #ffffff;
-      --page: #edf3f1;
-      --line: #d7e1df;
-      --accent: #176b67;
-      --accent-dark: #0c4f4d;
-      --accent-soft: #e5f2ee;
-      --gold: #c98b32;
-      --gold-soft: #f8e9cf;
-      --warn: #8a5a18;
-      --warn-bg: #fff7e8;
-      --danger: #a23b35;
-      --danger-bg: #fff0ef;
-      --radius: 20px;
-      --shadow: 0 18px 46px rgba(15, 50, 52, .10);
-      --shadow-soft: 0 8px 24px rgba(15, 50, 52, .06);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="日本基督教団 鳥取教会の公式案内ページです。礼拝、集会、初めての方への案内、アクセス情報を掲載しています。">
+  <meta property="og:site_name" content="日本基督教団 鳥取教会">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uccjtottorich.org/">
+  <title>日本基督教団 鳥取教会</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+  <link rel="canonical" href="https://uccjtottorich.org/">
+  <link rel="alternate" hreflang="ja" href="https://uccjtottorich.org/">
+  <link rel="alternate" hreflang="ko" href="https://uccjtottorich.org/ko/">
+  <link rel="alternate" hreflang="en" href="https://uccjtottorich.org/en/">
+  <link rel="alternate" hreflang="x-default" href="https://uccjtottorich.org/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Noto+Serif+JP:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://uccjtottorich.org/#website",
+          "name": "日本基督教団 鳥取教会",
+          "url": "https://uccjtottorich.org/",
+          "publisher": {
+            "@id": "https://uccjtottorich.org/#organization"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://uccjtottorich.org/#organization",
+          "name": "日本基督教団 鳥取教会",
+          "url": "https://uccjtottorich.org/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://uccjtottorich.org/assets/images/favicon.png",
+            "width": 512,
+            "height": 512
+          },
+          "image": "https://uccjtottorich.org/assets/images/church-exterior.jpeg",
+          "description": "鳥取県鳥取市西町にある、日本基督教団所属のプロテスタント教会です。",
+          "foundingDate": "1890",
+          "telephone": "+81-857-23-1388",
+          "email": "uccjtottorich@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "postalCode": "680-0022",
+            "addressRegion": "鳥取県",
+            "addressLocality": "鳥取市",
+            "streetAddress": "西町1-425-1",
+            "addressCountry": "JP"
+          },
+          "sameAs": [
+            "https://www.instagram.com/uccjtottorich/",
+            "https://uccj-higashi-chugoku.org/tottori/"
+          ]
+        }
+      ]
     }
-    * { box-sizing: border-box; }
-    html { color-scheme: light; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 100% 0, rgba(201,139,50,.12), transparent 34rem),
-        radial-gradient(circle at 0 18%, rgba(23,107,103,.055), transparent 28rem),
-        linear-gradient(180deg, #eaf2ef 0, #f8faf9 31rem, #edf3f1 100%);
-      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
-      line-height: 1.65;
-      min-height: 100vh;
-    }
-    button, input, select, textarea { font: inherit; }
-    button { cursor: pointer; }
-    [hidden] { display: none !important; }
-    .shell { width: min(1160px, calc(100% - 64px)); margin: 0 auto; padding: 42px 0 62px; }
-    .masthead { position: relative; display: flex; align-items: center; gap: 29px; margin-bottom: 25px; padding: 24px 29px 25px; overflow: hidden; border: 1px solid rgba(215,225,223,.9); border-top: 3px solid rgba(23,107,103,.82); border-radius: 23px; background: rgba(255,255,255,.62); box-shadow: var(--shadow-soft); }
-    .masthead::after { content: ""; position: absolute; right: 29px; bottom: 15px; width: 48px; height: 2px; background: rgba(201,139,50,.68); }
-    .brand-logo { width: clamp(180px, 21vw, 228px); height: auto; flex: 0 0 auto; }
-    .masthead-copy { padding-left: 29px; border-left: 1px solid rgba(201,139,50,.46); }
-    .eyebrow { margin: 0 0 7px; color: var(--accent-dark); font-size: .78rem; font-weight: 800; letter-spacing: .12em; }
-    h1 { margin: 0; font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.18; letter-spacing: .04em; }
-    .lead { max-width: 720px; margin: 10px 0 0; color: var(--muted); font-size: .94rem; }
-    .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: 20px; align-items: start; }
-    .card { background: rgba(255,255,255,.95); border: 1px solid rgba(203,218,215,.96); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .form-card { padding: 27px 28px 29px; }
-    .result-card { position: sticky; top: 18px; overflow: hidden; }
-    .result-head { padding: 25px 26px 23px; color: #fff; background: linear-gradient(145deg, #0b4948 0%, #176b67 64%, #2b8377 100%); }
-    .result-body { padding: 23px 26px 26px; }
-    .section { padding: 23px 0; border-top: 1px solid var(--line); }
-    .section:first-child { padding-top: 0; border-top: 0; }
-    .section-title { display: flex; align-items: baseline; gap: 9px; margin: 0 0 14px; font-size: 1rem; }
-    .step { display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 999px; color: #fff; background: var(--accent); box-shadow: 0 3px 10px rgba(23,107,103,.2); font-size: .78rem; }
-    .hint { margin: 6px 0 0; color: var(--muted); font-size: .87rem; }
-    .field-label { display: block; margin: 0 0 6px; font-size: .88rem; font-weight: 700; }
-    .grid-2, .grid-3 { display: grid; gap: 12px; }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    select, input[type="text"], input[type="date"], textarea {
-      width: 100%; min-height: 44px; padding: 9px 11px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 10px;
-    }
-    textarea { min-height: 76px; resize: vertical; }
-    select:focus, input:focus, textarea:focus, button:focus-visible, summary:focus-visible { outline: 3px solid rgba(23,107,103,.18); outline-offset: 2px; border-color: var(--accent); }
-    .choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-    .choice-grid.facilities { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .choice {
-      display: flex; gap: 9px; align-items: flex-start; padding: 13px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; cursor: pointer; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
-    }
-    .choice:hover { border-color: rgba(23,107,103,.72); transform: translateY(-1px); }
-    .choice:has(input:checked) { border-color: var(--accent); color: var(--accent-dark); background: linear-gradient(180deg, #eaf5f2, #e2f0ec); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 19px rgba(23,107,103,.09); }
-    .choice input { margin-top: 5px; accent-color: var(--accent); }
-    .choice strong { display: block; }
-    .choice small { display: block; color: var(--muted); line-height: 1.45; }
-    .subpanel { margin-top: 14px; padding: 17px; border: 1px solid rgba(203,218,215,.9); border-radius: 16px; background: linear-gradient(180deg, #f7faf9, #f3f8f6); box-shadow: inset 0 1px 0 rgba(255,255,255,.8); }
-    .subpanel h3 { margin: 0 0 10px; font-size: .96rem; }
-    .split-row { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 12px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); }
-    .split-row:first-child { border-top: 0; padding-top: 0; }
-    .split-label strong, .split-label span { display: block; }
-    .split-label span { color: var(--muted); font-size: .8rem; }
-    .inline-check { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
-    .inline-check input { accent-color: var(--accent); }
-    .notice { margin-top: 12px; padding: 10px 12px; border: 1px solid #e6c88f; border-left: 3px solid var(--gold); border-radius: 9px; color: #70460d; background: var(--warn-bg); font-size: .88rem; }
-    .error-box { margin: 0 0 14px; padding: 11px 13px; border: 1px solid #e4aaa6; border-radius: 9px; color: var(--danger); background: var(--danger-bg); font-weight: 650; }
-    .empty-result { margin: 6px 0; color: var(--muted); }
-    .result-brand { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 15px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.22); }
-    .result-brand img { width: 142px; height: auto; filter: drop-shadow(0 2px 5px rgba(0,0,0,.12)); }
-    .result-brand span { color: #c9e7df; font-size: .68rem; font-weight: 800; letter-spacing: .12em; text-align: right; }
-    .total-label { margin: 0; color: #c9e7df; font-size: .78rem; font-weight: 800; letter-spacing: .13em; }
-    .total { margin: 4px 0 8px; color: #fff; font-family: Georgia, "Yu Mincho", serif; font-size: clamp(2.5rem, 6vw, 3.8rem); font-weight: 800; line-height: 1.1; }
-    .summary { margin: 0; color: #d5eeea; font-size: .82rem; }
-    .breakdown { margin-top: 16px; }
-    .breakdown-item { padding: 12px 0; border-top: 1px dashed var(--line); }
-    .breakdown-item:first-child { border-top: 0; }
-    .breakdown-title { display: flex; justify-content: space-between; gap: 10px; font-weight: 750; }
-    .breakdown-note { margin-top: 3px; color: var(--muted); font-size: .83rem; white-space: pre-line; }
-    .original-charge { margin-top: 6px; color: #526665; font-size: .8rem; font-weight: 700; }
-    .discount-line { display: flex; justify-content: space-between; gap: 10px; margin-top: 8px; margin-left: 12px; padding: 7px 9px; border-left: 2px solid rgba(23,107,103,.38); border-radius: 0 7px 7px 0; color: var(--accent-dark); background: rgba(229,242,238,.58); font-size: .82rem; font-weight: 700; }
-    .discount-line strong { white-space: nowrap; }
-    .discount-exempt { display: inline-block; margin-top: 7px; padding: 2px 7px; border: 1px solid rgba(102,119,122,.25); border-radius: 999px; color: var(--muted); background: #f6f8f7; font-size: .73rem; font-weight: 700; }
-    .breakdown-addition { margin-top: 4px; border-top-style: solid; }
-    .breakdown-rounding { margin-top: 4px; color: #4d605f; }
-    .breakdown-rounding .breakdown-title { font-size: .88rem; }
-    .totals { margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--ink); }
-    .totals-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
-    .totals-row.final { margin-top: 6px; padding-top: 10px; border-top: 2px solid var(--accent); color: var(--accent-dark); font-size: 1.18rem; font-weight: 800; }
-    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 18px; }
-    .btn { min-height: 44px; padding: 9px 13px; border: 1px solid var(--accent); border-radius: 12px; font-weight: 800; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
-    .btn:not(:disabled):hover { transform: translateY(-1px); }
-    .btn-primary { color: #fff; background: var(--accent); }
-    .btn-primary:not(:disabled):hover { background: var(--accent-dark); }
-    .btn-secondary { color: var(--accent-dark); background: #fff; }
-    #createReceipt { color: #4a3313; border-color: rgba(201,139,50,.6); background: var(--gold-soft); }
-    #createReceipt:not(:disabled):hover { background: #f2dab0; }
-    .btn-quiet { grid-column: 1 / -1; color: var(--muted); border-color: var(--line); background: transparent; }
-    .btn:disabled { cursor: not-allowed; opacity: .42; }
-    details.rules { margin-top: 22px; padding: 0 20px; }
-    details.rules summary { padding: 15px 0; color: var(--accent); font-weight: 750; cursor: pointer; }
-    .rules-content { padding: 0 0 17px; border-top: 1px solid var(--line); }
-    .rules-content h2 { margin: 15px 0 4px; font-size: .98rem; }
-    .rules-content ul { margin: 6px 0 0; padding-left: 1.2em; }
-    .rules-content li { margin: 4px 0; color: #46514c; font-size: .88rem; }
-    .modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 22px; background: rgba(9,34,36,.68); }
-    .modal-panel { width: min(1060px, 100%); max-height: calc(100vh - 44px); overflow: auto; background: #f8faf9; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 80px rgba(4,28,31,.34); }
-    .modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 18px 22px; border-bottom: 1px solid var(--line); background: #fff; }
-    .modal-head h2 { margin: 0; font-size: 1.2rem; }
-    .icon-btn { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; background: #fff; font-size: 1.25rem; }
-    .modal-workspace { display: grid; grid-template-columns: minmax(310px,.84fr) minmax(420px,1.16fr); }
-    .modal-body { padding: 21px 22px 23px; border-right: 1px solid var(--line); background: #fff; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 17px; }
-    .receipt-preview-panel { padding: 22px; background: #eef3f1; }
-    .receipt-preview-label { margin: 0 0 9px; color: var(--muted); font-size: .7rem; font-weight: 800; letter-spacing: .12em; }
-    .receipt-preview { padding: 30px 32px 28px; border: 1px solid #9aa8a6; border-radius: 2px; background: #fff; box-shadow: 0 12px 32px rgba(18,53,54,.12); font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
-    .receipt-preview-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
-    .receipt-preview-logo { width: 130px; height: auto; }
-    .receipt-preview-number { margin: 0; color: #536365; font: .72rem sans-serif; text-align: right; }
-    .receipt-preview h3 { margin: 9px 0 22px; font-size: 1.8rem; letter-spacing: .32em; text-align: center; text-indent: .32em; }
-    .preview-addressee { margin: 0 0 18px; padding: 0 4px 7px; border-bottom: 1px solid #536365; font-size: 1.05rem; }
-    .preview-amount { display: flex; align-items: baseline; justify-content: center; gap: 14px; margin-bottom: 16px; padding: 11px 8px 10px; border-top: 2px solid #273d41; border-bottom: 2px solid #273d41; }
-    .preview-amount span { font: 700 .82rem sans-serif; }
-    .preview-amount strong { font-size: 2rem; }
-    .preview-statement { margin: 0 0 17px; font-size: .84rem; text-align: center; }
-    .preview-details { display: grid; grid-template-columns: 5.2em 1fr; gap: 7px 12px; margin: 0; font-size: .78rem; }
-    .preview-details dt { font-family: sans-serif; font-weight: 700; }
-    .preview-details dd { margin: 0; }
-    .preview-issuer { margin: 22px 0 0; padding-top: 11px; border-top: 1px solid #a3acad; text-align: right; font-size: .84rem; }
-    .receipt-print { display: none; }
-    .receipt-half { position: relative; height: 124mm; padding: 9mm 13mm 8mm; border: 1px solid #61706f; background: #fff; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; }
-    #receiptCopy { height: 141mm; }
-    .receipt-half + .receipt-half { margin-top: 7mm; }
-    .cut-line { position: absolute; top: -5mm; left: 0; right: 0; border-top: 1px dashed #555; text-align: center; }
-    .cut-line span { position: relative; top: -14px; padding: 0 8px; background: #fff; font-size: 9pt; }
-    .receipt-topline { display: flex; align-items: flex-start; justify-content: space-between; gap: 8mm; min-height: 15mm; }
-    .receipt-logo { width: 36mm; height: auto; }
-    .receipt-kicker { margin: 0; font-family: sans-serif; font-size: 8.5pt; text-align: right; }
-    .receipt-half h1 { margin: 0 0 3mm; color: var(--accent-dark); font-size: 20pt; letter-spacing: .28em; text-align: center; }
-    .receipt-addressee { margin: 0 0 4mm; padding: 0 1mm 2mm; border-bottom: 1px solid #333; font-size: 14pt; }
-    .receipt-amount { display: flex; align-items: baseline; justify-content: center; gap: 5mm; margin: 2mm 0 4mm; padding: 2mm 0; border-top: 2px solid #222; border-bottom: 2px solid #222; }
-    .receipt-amount span:first-child { font-size: 10pt; }
-    .receipt-amount strong { font-size: 21pt; }
-    .receipt-text { margin: 3mm 0; text-align: center; font-size: 10pt; }
-    .receipt-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
-    .receipt-table th, .receipt-table td { padding: 1.2mm 1.8mm; border: 1px solid #666; text-align: left; vertical-align: top; }
-    .receipt-table th { width: 24%; font-family: sans-serif; font-weight: 600; }
-    .issuer { margin-top: 3mm; padding-top: 2mm; border-top: 1px solid #9aa8a6; text-align: right; font-size: 10pt; }
-    .receipt-copy-note { margin-left: .4em; font-family: sans-serif; font-size: 9pt; font-weight: 500; letter-spacing: 0; }
-    .screen-only { display: block; }
-    @media (max-width: 820px) {
-      .layout { grid-template-columns: 1fr; }
-      .result-card { position: static; }
-      .grid-3 { grid-template-columns: 1fr; }
-      .modal { align-items: start; padding: 12px; }
-      .modal-panel { max-height: calc(100vh - 24px); }
-      .modal-workspace { grid-template-columns: 1fr; }
-      .modal-body { border-right: 0; border-bottom: 1px solid var(--line); }
-    }
-    @media (max-width: 560px) {
-      .shell { width: min(100% - 18px, 1120px); padding-top: 18px; }
-      .masthead { align-items: flex-start; flex-direction: column; gap: 14px; }
-      .brand-logo { width: 185px; }
-      .masthead-copy { padding: 13px 0 0; border-top: 1px solid rgba(201,139,50,.46); border-left: 0; }
-      .form-card, .result-head, .result-body { padding-left: 15px; padding-right: 15px; }
-      .choice-grid, .choice-grid.facilities, .grid-2 { grid-template-columns: 1fr; }
-      .split-row { grid-template-columns: 1fr; gap: 7px; }
-      .actions { grid-template-columns: 1fr; }
-      .btn-quiet { grid-column: auto; }
-      .modal-actions { flex-direction: column-reverse; }
-      .modal-actions .btn { width: 100%; }
-      .receipt-preview-panel { padding: 16px; }
-      .receipt-preview { padding: 24px 18px; }
-      .receipt-preview-logo { width: 112px; }
-    }
-    @page { size: A4 portrait; margin: 9mm; }
-    @media print {
-      html, body { width: 210mm; min-height: 297mm; margin: 0; background: #fff; }
-      body * { visibility: hidden !important; }
-      body.print-receipt .screen-only,
-      body.print-receipt .modal { display: none !important; }
-      body.print-calculation .modal,
-      body.print-calculation #receiptPrint { display: none !important; }
-      body.print-calculation #resultCard,
-      body.print-calculation #resultCard * { visibility: visible !important; }
-      body.print-calculation #resultCard { position: absolute; inset: 0; width: 100%; border: 0; box-shadow: none; }
-      body.print-calculation .result-head { color: var(--ink); background: #fff; border-bottom: 2px solid var(--accent-dark); }
-      body.print-calculation .result-brand { border-bottom-color: var(--line); }
-      body.print-calculation .result-brand span,
-      body.print-calculation .total-label,
-      body.print-calculation .summary { color: var(--muted); }
-      body.print-calculation .total { color: var(--accent-dark); }
-      body.print-calculation .actions { display: none !important; }
-      body.print-receipt #receiptPrint,
-      body.print-receipt #receiptPrint * { visibility: visible !important; }
-      body.print-receipt #receiptPrint { display: block !important; position: static; width: 192mm; height: 279mm; overflow: hidden; }
-      body.print-receipt .receipt-half { break-inside: avoid; page-break-inside: avoid; }
-    }
-  </style>
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-  <main class="shell screen-only" id="app">
-    <header class="masthead">
-      <img class="brand-logo" src="tottorich_logo(low).png" alt="日本基督教団 鳥取教会">
-      <div class="masthead-copy">
-        <p class="eyebrow">日本基督教団 鳥取教会</p>
-        <h1>会堂利用献金計算</h1>
-        <p class="lead">会堂利用に関する献金額を自動計算します。</p>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand-link" href="index.html">
+          <img class="brand-logo" src="assets/images/church-logo.png" alt="鳥取教会 ロゴ">
+          <span>
+            <span class="brand-title">日本基督教団 鳥取教会</span>
+            <span class="brand-subtitle">Tottori Church of the United Church of Christ in Japan</span>
+          </span>
+        </a>
+        <nav class="desktop-nav" aria-label="メインメニュー"><a href="index.html" aria-current="page">ホーム</a><a href="first-time.html">初めての方へ</a><a href="worship.html">礼拝・集会</a><a href="sermon.html">主日説教</a><a href="history.html">教会の歴史</a><a href="pastor.html">牧師紹介</a><a href="access.html">アクセス</a></nav>
+        <div class="language-switcher" aria-label="言語選択">
+          <a class="language-link" href="ko/index.html" lang="ko">한국어</a>
+          <a class="language-link" href="en/index.html" lang="en">English</a>
+        </div>
+        <button class="menu-button" type="button" data-menu-button aria-controls="mobile-nav" aria-expanded="false" aria-label="メニューを開く">
+          <i data-lucide="menu"></i>
+        </button>
       </div>
+      <nav id="mobile-nav" class="mobile-nav" data-mobile-nav aria-label="モバイルメニュー"><div class="container"><a href="index.html" aria-current="page">ホーム</a><a href="first-time.html">初めての方へ</a><a href="worship.html">礼拝・集会</a><a href="sermon.html">主日説教</a><a href="history.html">教会の歴史</a><a href="pastor.html">牧師紹介</a><a href="access.html">アクセス</a><a href="ko/index.html" lang="ko">한국어</a><a href="en/index.html" lang="en">English</a></div></nav>
     </header>
 
-    <div class="layout">
-      <form class="card form-card" id="calculatorForm" novalidate>
-        <section class="section">
-          <h2 class="section-title"><span class="step">1</span>利用施設</h2>
-          <div class="choice-grid facilities">
-            <label class="choice"><input type="checkbox" name="facility" value="chapel" checked><span><strong>礼拝堂</strong><small>第一集会室・ラウンジを含む</small></span></label>
-            <label class="choice"><input type="checkbox" name="facility" value="room1"><span><strong>第一集会室</strong><small>礼拝堂利用時は追加算定なし</small></span></label>
-            <label class="choice"><input type="checkbox" name="facility" value="family"><span><strong>親子室</strong><small>第一集会室と同額</small></span></label>
-            <label class="choice"><input type="checkbox" name="facility" value="room2"><span><strong>第二集会室</strong><small>自由時間・30分単位</small></span></label>
-          </div>
-        </section>
-
-        <section class="section" id="chapelSection">
-          <h2 class="section-title"><span class="step">2</span>礼拝堂の利用内容</h2>
-          <div class="grid-2">
-            <label><span class="field-label">利用日区分</span><select id="dayType"><option value="weekday">平日</option><option value="holiday">土・日曜・祝日</option></select></label>
-            <label><span class="field-label">利用形態</span><select id="usageMode"><option value="continuous">連続して利用する</option><option value="split">時間帯を分けて利用する</option></select></label>
-          </div>
-
-          <div id="continuousPanel" class="subpanel">
-            <h3>連続利用</h3>
-            <div class="grid-2">
-              <label><span class="field-label">規定の利用区分</span><select id="chapelPackage"></select></label>
-              <label><span class="field-label">利用目的</span><select id="continuousPurpose"><option value="normal">通常利用を含む</option><option value="practice">練習・準備のみ</option></select></label>
-            </div>
-            <div id="admissionPanel" style="margin-top:12px">
-              <span class="field-label">入場料等</span>
-              <div class="choice-grid">
-                <label class="choice"><input type="radio" name="admission" value="A" checked><span><strong>なし（A）</strong><small>入場料等を徴収しない</small></span></label>
-                <label class="choice"><input type="radio" name="admission" value="B"><span><strong>あり（B）</strong><small>入場料等を徴収する</small></span></label>
-              </div>
-            </div>
-            <div id="normalBlocksPanel" style="margin-top:12px">
-              <span class="field-label">通常利用として算定する時間帯</span>
-              <div class="choice-grid" id="normalBlocks"></div>
-              <p class="hint">選ばなかった時間は練習・準備として算定します。連続区分の隙間時間も利用時間に含みます。</p>
-            </div>
-            <div id="practiceTimePanel" class="grid-2" style="margin-top:12px" hidden>
-              <label><span class="field-label">練習開始</span><select id="practiceStart"></select></label>
-              <label><span class="field-label">練習終了</span><select id="practiceEnd"></select></label>
-            </div>
-            <div id="extensionPanel" style="margin-top:12px">
-              <span class="field-label">繰上げ・延長</span>
-              <div class="grid-2">
-                <label><span class="field-label">繰上げ</span><select id="extensionBefore"></select></label>
-                <label><span class="field-label">延長</span><select id="extensionAfter"></select></label>
-              </div>
-              <p class="hint">30分は1時間分、1時間30分は2時間分として130%で算定します。</p>
-            </div>
-            <label class="inline-check"><input type="checkbox" id="chapelHvac">礼拝堂で冷暖房を使用する</label>
-          </div>
-
-          <div id="splitPanel" class="subpanel" hidden>
-            <h3>時間帯を分ける利用</h3>
-            <p class="hint">12:00〜13:00・17:00〜18:00は未使用0円です。通常利用は各ブロック全体の料金です。</p>
-            <div id="splitRows"></div>
-            <div id="splitAdmissionPanel" style="margin-top:12px" hidden>
-              <span class="field-label">入場料等</span>
-              <div class="choice-grid">
-                <label class="choice"><input type="radio" name="splitAdmission" value="A" checked><span><strong>なし（A）</strong></span></label>
-                <label class="choice"><input type="radio" name="splitAdmission" value="B"><span><strong>あり（B）</strong></span></label>
-              </div>
-            </div>
-            <label class="inline-check"><input type="checkbox" id="splitHvac">礼拝堂で冷暖房を使用する</label>
-          </div>
-        </section>
-
-        <section class="section" id="roomsSection" hidden>
-          <h2 class="section-title"><span class="step" id="roomsStep">3</span>集会室・親子室の利用時間</h2>
-          <div id="roomPanels"></div>
-        </section>
-
-        <div class="notice" id="nightWarning" role="status" hidden>17時以降の利用は、現在の運用について事前に教会へご相談ください。</div>
-
-        <section class="section" id="organizerSection">
-          <h2 class="section-title"><span class="step" id="organizerStep">3</span>主催者区分</h2>
-          <div class="choice-grid">
-            <label class="choice"><input type="radio" name="organizer" value="general" checked><span><strong>一般</strong></span></label>
-            <label class="choice"><input type="radio" name="organizer" value="student"><span><strong>学生</strong><small>主催者が学生の場合</small></span></label>
-          </div>
-        </section>
-      </form>
-
-      <aside class="card result-card" id="resultCard" aria-live="polite">
-        <div class="result-head">
-          <div class="result-brand">
-            <img src="tottorich_logo(low).png" alt="日本基督教団 鳥取教会">
-            <span>CALCULATION<br>RESULT</span>
-          </div>
-          <p class="total-label">算定結果</p>
-          <div class="total" id="grandTotal">—</div>
-          <p class="summary" id="resultSummary">利用内容を選択してください。</p>
+    <main>
+      <section class="home-banner" data-home-gallery aria-label="鳥取教会の風景">
+        <div class="home-banner-slide is-active">
+          <img src="assets/images/church-exterior.jpeg" alt="鳥取教会 会堂外観">
         </div>
-        <div class="result-body">
-          <div id="errorBox" class="error-box" hidden></div>
-          <div id="resultEmpty" class="empty-result">入力内容に応じて自動計算します。</div>
-          <div id="breakdown" class="breakdown" hidden></div>
-          <div class="actions">
-            <button type="button" class="btn btn-secondary" id="printCalculation" disabled>計算結果を印刷</button>
-            <button type="button" class="btn btn-primary" id="createReceipt" disabled>領収書を作成</button>
-            <button type="button" class="btn btn-quiet" id="resetButton">入力をリセット</button>
+        <div class="home-banner-slide home-banner-slide--archive">
+          <img src="assets/images/history-1890.jpg" alt="鳥取教会の始まりに関わる建物">
+        </div>
+        <div class="home-banner-slide home-banner-slide--archive">
+          <img src="assets/images/history-1891.jpg" alt="明治期の鳥取教会に関わる人々">
+        </div>
+        <div class="home-banner-slide home-banner-slide--archive">
+          <img src="assets/images/history-1915.jpg" alt="1915年頃の鳥取教会に集う人々">
+        </div>
+        <div class="home-banner-slide home-banner-slide--archive">
+          <img src="assets/images/history-1949.jpg" alt="戦後の復興期に鳥取教会に集う人々">
+        </div>
+        <div class="home-banner-slide home-banner-slide--archive">
+          <img src="assets/images/history-1990.jpg" alt="創立100周年を迎えた鳥取教会の人々">
+        </div>
+        <div class="home-banner-slide">
+          <img src="assets/images/church-sanctuary-interior.jpeg" alt="鳥取教会 礼拝堂内部">
+        </div>
+        <div class="home-banner-slide">
+          <img src="assets/images/home-church-blue-sky.jpg" alt="青空の下の日本基督教団鳥取教会">
+        </div>
+        <div class="home-banner-slide">
+          <img src="assets/images/church-entrance-night.jpeg" alt="夜の鳥取教会 正面入口">
+        </div>
+        <div class="home-banner-slide">
+          <img src="assets/images/church-steeple-sky.png" alt="青空と雲を背景にした鳥取教会の尖塔と十字架">
+        </div>
+        <div class="home-banner-slide">
+          <img src="assets/images/church-steeple-hill.png" alt="鳥取の山を背景にした鳥取教会の尖塔">
+        </div>
+        <div class="home-banner-caption">
+          <span>1890年創立 — 鳥取の地で歩むプロテスタント教会</span>
+        </div>
+      </section>
+
+      <section class="home-scripture" aria-label="聖書の言葉" data-scripture-rotation>
+        <div class="container home-scripture-inner">
+          <blockquote class="is-active">
+            <p>「互いに愛し合いなさい。わたしがあなたがたを愛したように、あなたがたも互いに愛し合いなさい。」</p>
+            <cite>ヨハネによる福音書 13章34–35節より（新共同訳）</cite>
+          </blockquote>
+          <blockquote hidden>
+            <p>「死の陰の谷を行くときも、わたしは災いを恐れない。あなたがわたしと共にいてくださる。」</p>
+            <cite>詩編 23編4節より（新共同訳）</cite>
+          </blockquote>
+          <blockquote hidden>
+            <p>「恐れることはない、わたしはあなたと共にいる神。たじろぐな、わたしはあなたの神。」</p>
+            <cite>イザヤ書 41章10節より（新共同訳）</cite>
+          </blockquote>
+          <blockquote hidden>
+            <p>「疲れた者、重荷を負う者は、だれでもわたしのもとに来なさい。休ませてあげよう。」</p>
+            <cite>マタイによる福音書 11章28節（新共同訳）</cite>
+          </blockquote>
+          <blockquote hidden>
+            <p>「わたしは、平和をあなたがたに残し、わたしの平和を与える。」</p>
+            <cite>ヨハネによる福音書 14章27節より（新共同訳）</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="section home-welcome">
+        <div class="container grid-2">
+          <div>
+            <span class="eyebrow">Welcome</span>
+            <h1 class="section-title">鳥取教会へようこそ</h1>
+            <div class="lead-text">
+              <p>
+                日本基督教団 鳥取教会は、1890（明治23）年に独立（創立）した、鳥取県内でも極めて歴史のある伝統的なプロテスタント教会で、旧組合教会系の教会です。
+                キリストの福音（よき知らせ）を語り伝え、地域の人々と喜びや悲しみを分かち合いながら、一世紀以上の歴史を歩んでまいりました。
+              </p>
+              <p>
+                これまでに教育、福祉、芸術など、各方面で活躍する人材を多く輩出しています。私たちはその豊かな遺産と尊い教えを受け継ぎ、
+                どなたでも「普段着のまま」ありのままで参加できる、ぬくもりのある信仰コミュニティを目指しています。
+              </p>
+            </div>
+            <div class="button-row">
+              <a class="button" href="first-time.html"><i data-lucide="heart-handshake"></i>初めての方へ</a>
+            </div>
+          </div>
+          <div class="image-frame">
+            <img src="assets/images/church-sanctuary-interior.jpeg" alt="鳥取教会 礼拝堂内部">
           </div>
         </div>
-      </aside>
-    </div>
+      </section>
 
-    <details class="card rules">
-      <summary>算定ルール・確認事項を見る</summary>
-      <div class="rules-content">
-        <h2>算定上の取扱い</h2>
-        <ul>
-          <li>礼拝堂は「連続利用」と「時間帯を分ける利用」を区別して算定します。</li>
-          <li>連続利用は規定の6利用区分を使用し、12:00〜13:00・17:00〜18:00も利用時間に含みます。</li>
-          <li>時間帯を分ける利用は午前・午後・夜間を「未使用／練習・準備／通常利用」に分け、隙間時間は未使用0円とします。</li>
-          <li>専用パッケージのない非連続利用は、独立した基本時間帯料金を合算します。</li>
-          <li>練習・準備はA料金を基礎に50%。礼拝堂の練習・準備部分には学生割引を重ねて適用しません。</li>
-          <li>繰上げ・延長は130%を先に確定し、その後学生割引を適用します。</li>
-          <li>集会室・親子室の部分利用は30分単位で時間料金を按分します。</li>
-          <li>冷暖房費は、学生割引前（練習・準備50%適用後）の対象利用献金の50%として算定します。</li>
-        </ul>
-        <h2>確認事項</h2>
-        <ul>
-          <li>集会室・親子室の練習・準備50%は適用していません。</li>
-          <li>集会室・親子室の繰上げ・延長30%増しは適用していません。</li>
-          <li>10円未満は、現行では最終合計で切り捨てます（規定は適用段階を明記していません）。</li>
-          <li>本計算機は1日単位です。連続使用最大2日・そのうち1日は短い時間帯という規定は、複数日申請時に担当者が確認します。</li>
-        </ul>
-      </div>
-    </details>
-  </main>
+      <section class="section surface">
+        <div class="container">
+          <div class="grid-3">
+            <article class="card home-link-card">
+              <span class="card-icon"><i data-lucide="book-open"></i></span>
+              <h3>教会の歴史</h3>
+              <p>1890年の創立から現在まで、鳥取の街と共に歩んできた教会の物語を紹介します。</p>
+              <a class="button secondary" href="history.html">読む</a>
+            </article>
+            <article class="card home-link-card">
+              <span class="card-icon"><i data-lucide="church"></i></span>
+              <h3>礼拝・集会</h3>
+              <p>主日礼拝、教会学校、聖書研究・祈祷会など、定期的な集いをまとめています。</p>
+              <a class="button secondary" href="worship.html">見る</a>
+            </article>
+            <article class="card home-link-card">
+              <span class="card-icon"><i data-lucide="map-pin"></i></span>
+              <h3>アクセス</h3>
+              <p>所在地、駐車場、公共交通機関での行き方、Google マップを掲載しています。</p>
+              <a class="button secondary" href="access.html">確認する</a>
+            </article>
+          </div>
+        </div>
+      </section>
 
-  <div class="modal" id="receiptModal" role="dialog" aria-modal="true" aria-labelledby="receiptModalTitle" hidden>
-    <div class="modal-panel">
-      <div class="modal-head"><h2 id="receiptModalTitle">領収書を作成</h2><button type="button" class="icon-btn" id="closeReceipt" aria-label="閉じる">×</button></div>
-      <div class="modal-workspace">
-        <form class="modal-body" id="receiptForm">
-          <div class="grid-2">
-            <label><span class="field-label">宛名（必須）</span><input type="text" id="receiptName" required autocomplete="organization"></label>
-            <label><span class="field-label">領収書番号（任意）</span><input type="text" id="receiptNumber" autocomplete="off"></label>
-            <label><span class="field-label">利用日（必須）</span><input type="date" id="receiptUseDate" required></label>
-            <label><span class="field-label">発行日</span><input type="date" id="receiptIssueDate" required></label>
-            <label style="grid-column:1/-1"><span class="field-label">但し書き</span><input type="text" id="receiptDescription" value="会堂利用献金として" required></label>
-            <label><span class="field-label">受領方法（控え用）</span><select id="receiptMethod"><option>現金</option><option>振込</option><option>その他</option></select></label>
-            <label><span class="field-label">担当者（控え用・任意）</span><input type="text" id="receiptStaff"></label>
+      <section class="related-organizations" aria-labelledby="related-organizations-title">
+        <div class="container related-organizations-inner">
+          <div class="related-organizations-heading">
+            <span class="eyebrow">Community Partners</span>
+            <h2 id="related-organizations-title">共に歩む教団・団体</h2>
+            <p>鳥取教会と信仰や働きのつながりを持つ教団・団体です。</p>
           </div>
-          <p class="hint">金額は現在の計算結果から自動反映され、変更できません。計算内容を変更した場合は現在額で再作成されます。</p>
-          <div class="modal-actions"><button type="button" class="btn btn-secondary" id="cancelReceipt">キャンセル</button><button type="submit" class="btn btn-primary">領収書を印刷</button></div>
-        </form>
-        <section class="receipt-preview-panel" aria-label="領収書プレビュー">
-          <p class="receipt-preview-label">RECEIPT PREVIEW</p>
-          <div class="receipt-preview">
-            <div class="receipt-preview-top"><img class="receipt-preview-logo" src="tottorich_logo(low).png" alt=""><p class="receipt-preview-number" id="previewReceiptNumber"></p></div>
-            <h3>領収書</h3>
-            <p class="preview-addressee" id="previewReceiptName">宛名 様</p>
-            <div class="preview-amount"><span>金額</span><strong id="previewReceiptTotal">—</strong></div>
-            <p class="preview-statement">上記、正に領収いたしました。</p>
-            <dl class="preview-details">
-              <dt>但し書き</dt><dd id="previewReceiptDescription">会堂利用献金として</dd>
-              <dt>利用日</dt><dd id="previewReceiptUseDate">—</dd>
-              <dt>利用施設</dt><dd id="previewReceiptFacilities">—</dd>
-              <dt>発行日</dt><dd id="previewReceiptIssueDate">—</dd>
-            </dl>
-            <p class="preview-issuer">発行者　日本基督教団 鳥取教会</p>
+          <div class="related-organizations-list">
+            <a class="related-organization-link" href="https://www.aishin.ed.jp/" target="_blank" rel="noopener noreferrer" aria-label="愛真幼稚園 公式サイトを開く">
+              <img class="related-organization-logo related-organization-logo--aishin" src="assets/images/aishin-kindergarten-logo.png" alt="愛真幼稚園">
+            </a>
+            <a class="related-organization-link" href="https://www.tottorikodomogakuen.or.jp/" target="_blank" rel="noopener noreferrer" aria-label="社会福祉法人 鳥取こども学園 公式サイトを開く">
+              <img class="related-organization-logo related-organization-logo--kodomo" src="assets/images/tottori-kodomo-gakuen-logo.png" alt="社会福祉法人 鳥取こども学園">
+            </a>
+            <a class="related-organization-link" href="https://uccj.org/" target="_blank" rel="noopener noreferrer" aria-label="日本基督教団 公式サイトを開く">
+              <img class="related-organization-logo related-organization-logo--uccj" src="assets/images/uccj-logo.png" alt="日本基督教団">
+            </a>
+            <a class="related-organization-link" href="https://uccj-higashi-chugoku.org/" target="_blank" rel="noopener noreferrer" aria-label="日本基督教団 東中国教区 公式サイトを開く">
+              <img class="related-organization-logo related-organization-logo--district" src="assets/images/uccj-east-chugoku-logo.png" alt="日本基督教団 東中国教区">
+            </a>
           </div>
-        </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <span class="footer-title">日本基督教団 鳥取教会</span>
+            <p class="footer-copy">1890年に独立（創立）し、鳥取の街の中心で祈りをささげ続けてきたプロテスタント教会です。</p>
+          </div>
+          <div>
+            <span class="footer-title">メニュー</span>
+            <ul class="footer-list">
+              <li><a href="first-time.html">初めての方へ</a></li>
+              <li><a href="worship.html">礼拝・集会</a></li>
+              <li><a href="sermon.html">主日説教</a></li>
+              <li><a href="history.html">教会の歴史</a></li>
+              <li><a href="pastor.html">牧師紹介</a></li>
+              <li><a href="access.html">アクセス</a></li>
+              <li><a href="heian-reido.html">平安霊堂</a></li>
+            </ul>
+          </div>
+          <div>
+            <span class="footer-title">連絡先</span>
+            <ul class="footer-list">
+              <li>〒680-0022 鳥取県鳥取市西町1-425-1</li>
+              <li>0857-23-1388</li>
+              <li><a href="mailto:uccjtottorich@gmail.com">uccjtottorich@gmail.com</a></li>
+              <li><a class="footer-social-icon" href="https://www.instagram.com/uccjtottorich/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5.2"></rect><circle cx="12" cy="12" r="4.1"></circle><circle cx="17.3" cy="6.7" r="1.1"></circle></svg></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span data-current-year></span> 日本基督教団 鳥取教会</span>
+          <span>統一教会、エホバの証人、モルモン教等とは一切関係ございません。</span>
+        </div>
       </div>
-    </div>
+    </footer>
   </div>
-
-  <section class="receipt-print" id="receiptPrint" aria-hidden="true">
-    <article class="receipt-half" id="receiptOriginal">
-      <div class="receipt-topline"><img class="receipt-logo" src="tottorich_logo(low).png" alt="日本基督教団 鳥取教会"><p class="receipt-kicker receipt-number"></p></div>
-      <h1>領収書</h1>
-      <p class="receipt-addressee"></p>
-      <div class="receipt-amount"><span>金額</span><strong class="receipt-total"></strong></div>
-      <p class="receipt-text">上記、正に領収いたしました。</p>
-      <table class="receipt-table"><tbody>
-        <tr><th>但し書き</th><td class="receipt-description"></td></tr>
-        <tr><th>利用日</th><td class="receipt-use-date"></td></tr>
-        <tr><th>利用施設</th><td class="receipt-facilities"></td></tr>
-        <tr><th>発行日</th><td class="receipt-issue-date"></td></tr>
-      </tbody></table>
-      <p class="issuer">発行者　日本基督教団 鳥取教会</p>
-    </article>
-    <article class="receipt-half" id="receiptCopy">
-      <div class="cut-line"><span>✂　切り取り線</span></div>
-      <div class="receipt-topline"><img class="receipt-logo" src="tottorich_logo(low).png" alt="日本基督教団 鳥取教会"><p class="receipt-kicker receipt-number"></p></div>
-      <h1>領収書<span class="receipt-copy-note">（控）鳥取教会保管用</span></h1>
-      <p class="receipt-addressee"></p>
-      <div class="receipt-amount"><span>金額</span><strong class="receipt-total"></strong></div>
-      <p class="receipt-text">上記、正に領収いたしました。</p>
-      <table class="receipt-table"><tbody>
-        <tr><th>但し書き</th><td class="receipt-description"></td></tr>
-        <tr><th>利用日</th><td class="receipt-use-date"></td></tr>
-        <tr><th>利用施設</th><td class="receipt-facilities"></td></tr>
-        <tr><th>発行日</th><td class="receipt-issue-date"></td></tr>
-        <tr><th>受領方法</th><td class="receipt-method"></td></tr>
-        <tr><th>担当者</th><td class="receipt-staff"></td></tr>
-      </tbody></table>
-      <p class="issuer">発行者　日本基督教団 鳥取教会</p>
-    </article>
-  </section>
-
-  <script>
-  (() => {
-    "use strict";
-    const BLOCKS = {
-      morning: { label: "午前", start: 540, end: 720, hours: 3 },
-      afternoon: { label: "午後", start: 780, end: 1020, hours: 4 },
-      night: { label: "夜間", start: 1080, end: 1200, hours: 2 }
-    };
-    const PACKAGES = {
-      morning: { label: "午前 9:00〜12:00", start: 540, end: 720, blocks: ["morning"] },
-      afternoon: { label: "午後 13:00〜17:00", start: 780, end: 1020, blocks: ["afternoon"] },
-      night: { label: "夜間 18:00〜20:00", start: 1080, end: 1200, blocks: ["night"] },
-      morningAfternoon: { label: "午前午後 9:00〜17:00", start: 540, end: 1020, blocks: ["morning", "afternoon"] },
-      afternoonNight: { label: "午後夜間 13:00〜20:00", start: 780, end: 1200, blocks: ["afternoon", "night"] },
-      full: { label: "全日 9:00〜20:00", start: 540, end: 1200, blocks: ["morning", "afternoon", "night"] }
-    };
-    const CHAPEL_RATES = {
-      weekday: {
-        A: { morning: 2500, afternoon: 5000, night: 3400, morningAfternoon: 7500, afternoonNight: 8400, full: 11000 },
-        B: { morning: 3300, afternoon: 6600, night: 4500, morningAfternoon: 9900, afternoonNight: 11100, full: 14400 }
-      },
-      holiday: {
-        A: { morning: 3000, afternoon: 6000, night: 4100, morningAfternoon: 9000, afternoonNight: 10100, full: 13100 },
-        B: { morning: 3800, afternoon: 7600, night: 5000, morningAfternoon: 11400, afternoonNight: 12600, full: 16400 }
-      }
-    };
-    const ROOM_RATES = {
-      room1: { label: "第一集会室", packages: { morning: 2000, afternoon: 2600, night: 1700, morningAfternoon: 4600, afternoonNight: 4300, full: 6300 }, dayHourly: 700, nightHourly: 900 },
-      family: { label: "親子室", packages: { morning: 2000, afternoon: 2600, night: 1700, morningAfternoon: 4600, afternoonNight: 4300, full: 6300 }, dayHourly: 700, nightHourly: 900 },
-      room2: { label: "第二集会室", packages: { morning: 4000, afternoon: 5200, night: 3400, morningAfternoon: 9200, afternoonNight: 8600, full: 12600 }, dayHourly: 1400, nightHourly: 1800 }
-    };
-    const FACILITY_LABELS = { chapel: "礼拝堂", room1: "第一集会室", family: "親子室", room2: "第二集会室" };
-    const yen = value => `${Math.round(value).toLocaleString("ja-JP")}円`;
-    const ledgerYen = value => `${(Math.round((Number(value) + Number.EPSILON) * 100) / 100).toLocaleString("ja-JP", { maximumFractionDigits: 2 })}円`;
-    const roundTenthDown = value => Math.floor((value + 1e-8) / 10) * 10;
-    const formatTime = mins => `${String(Math.floor(mins / 60)).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
-    const checkedValue = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
-    const rangeHours = (start, end) => (end - start) / 60;
-    const exactPackageKey = (start, end) => Object.keys(PACKAGES).find(key => PACKAGES[key].start === start && PACKAGES[key].end === end) || null;
-
-    function calculatePracticeRange(dayType, start, end) {
-      if (!(start >= 540 && end <= 1200 && end > start)) return { error: "練習時間は9:00〜20:00の範囲で指定してください。" };
-      const exact = exactPackageKey(start, end);
-      if (exact) {
-        const amount = CHAPEL_RATES[dayType].A[exact] * .5;
-        return { amount, note: `${PACKAGES[exact].label} A料金 ${yen(CHAPEL_RATES[dayType].A[exact])} × 50%` };
-      }
-      const blockKey = Object.keys(BLOCKS).find(key => start >= BLOCKS[key].start && end <= BLOCKS[key].end);
-      if (!blockKey) return { error: "12:00〜13:00または17:00〜18:00をまたぐ規定外の部分利用は自動算定できません。" };
-      const block = BLOCKS[blockKey];
-      const rate = CHAPEL_RATES[dayType].A[blockKey];
-      const amount = rate / block.hours * rangeHours(start, end) * .5;
-      return { amount, note: `${block.label}A料金 ${yen(rate)} ÷ ${block.hours}時間 × ${rangeHours(start,end)}時間 × 50%` };
-    }
-
-    function extensionAmount(dayType, admission, packageKey, beforeMinutes, afterMinutes) {
-      const pkg = PACKAGES[packageKey];
-      const errors = [];
-      if (pkg.start - beforeMinutes < 540) errors.push("繰上げにより9:00より前の利用となるため算定できません。");
-      if (pkg.end + afterMinutes > 1200) errors.push("延長により20:00より後の利用となるため算定できません。");
-      if (errors.length) return { errors, amount: 0, lines: [] };
-      const lines = [];
-      let amount = 0;
-      const rates = CHAPEL_RATES[dayType][admission];
-      if (beforeMinutes > 0) {
-        const first = pkg.blocks[0], billed = Math.ceil(beforeMinutes / 60), hourly = rates[first] / BLOCKS[first].hours, fee = hourly * 1.3 * billed;
-        amount += fee; lines.push({ title: `繰上げ ${beforeMinutes}分（${billed}時間分）`, amount: fee, note: `${BLOCKS[first].label}${admission}時間単価 ${yen(hourly)} × 130% × ${billed}時間` });
-      }
-      if (afterMinutes > 0) {
-        const last = pkg.blocks[pkg.blocks.length - 1], billed = Math.ceil(afterMinutes / 60), hourly = rates[last] / BLOCKS[last].hours, fee = hourly * 1.3 * billed;
-        amount += fee; lines.push({ title: `延長 ${afterMinutes}分（${billed}時間分）`, amount: fee, note: `${BLOCKS[last].label}${admission}時間単価 ${yen(hourly)} × 130% × ${billed}時間` });
-      }
-      return { errors, amount, lines };
-    }
-
-    function calculateContinuous(chapel) {
-      const errors = [], lines = [];
-      let beforeDiscount = 0, studentDiscountBase = 0;
-      const pkg = PACKAGES[chapel.packageKey];
-      if (!pkg) return { errors: ["礼拝堂の利用区分を選択してください。"], lines, beforeDiscount, studentDiscountBase, nightSelected: false };
-      if (chapel.purpose === "practice") {
-        const result = calculatePracticeRange(chapel.dayType, chapel.practiceStart, chapel.practiceEnd);
-        if (result.error) errors.push(result.error);
-        else { beforeDiscount += result.amount; lines.push({ title: `礼拝堂 練習・準備 ${formatTime(chapel.practiceStart)}〜${formatTime(chapel.practiceEnd)}`, amount: result.amount, note: result.note, discountEligible: false }); }
-        return { errors, lines, beforeDiscount, studentDiscountBase, nightSelected: chapel.practiceEnd > 1020 };
-      }
-      const normalBlocks = [...new Set((chapel.normalBlocks || []).filter(key => pkg.blocks.includes(key)))];
-      if (!normalBlocks.length) errors.push("通常利用として算定する時間帯を1つ以上選択してください。");
-      if (errors.length) return { errors, lines, beforeDiscount, studentDiscountBase, nightSelected: pkg.end > 1020 };
-      const selectedAll = normalBlocks.length === pkg.blocks.length;
-      if (selectedAll) {
-        const amount = CHAPEL_RATES[chapel.dayType][chapel.admission][chapel.packageKey];
-        beforeDiscount += amount; studentDiscountBase += amount;
-        lines.push({ title: `礼拝堂 ${pkg.label} 通常利用`, amount, note: `${chapel.dayType === "weekday" ? "平日" : "土日祝"}・${chapel.admission}料金（規定パッケージ）`, discountEligible: true });
-      } else {
-        const packageHours = rangeHours(pkg.start, pkg.end);
-        const normalHours = normalBlocks.reduce((sum, key) => sum + BLOCKS[key].hours, 0);
-        const practiceHours = packageHours - normalHours;
-        if (practiceHours > 0) {
-          const aPackage = CHAPEL_RATES[chapel.dayType].A[chapel.packageKey];
-          const practice = aPackage / packageHours * practiceHours * .5;
-          beforeDiscount += practice;
-          lines.push({ title: `礼拝堂 練習・準備 ${practiceHours}時間`, amount: practice, note: `${pkg.label} A料金 ${yen(aPackage)} ÷ ${packageHours}時間 × ${practiceHours}時間 × 50%\n連続区分の隙間時間を含む`, discountEligible: false });
-        }
-        normalBlocks.forEach(key => {
-          const amount = CHAPEL_RATES[chapel.dayType][chapel.admission][key];
-          beforeDiscount += amount; studentDiscountBase += amount;
-          lines.push({ title: `礼拝堂 ${BLOCKS[key].label} 通常利用`, amount, note: `${chapel.dayType === "weekday" ? "平日" : "土日祝"}・${chapel.admission}ブロック料金`, discountEligible: true });
-        });
-      }
-      const ext = extensionAmount(chapel.dayType, chapel.admission, chapel.packageKey, chapel.extensions?.before || 0, chapel.extensions?.after || 0);
-      errors.push(...ext.errors); beforeDiscount += ext.amount; studentDiscountBase += ext.amount; lines.push(...ext.lines);
-      return { errors, lines, beforeDiscount, studentDiscountBase, nightSelected: pkg.end + (chapel.extensions?.after || 0) > 1020 };
-    }
-
-    function calculateSplit(chapel) {
-      const errors = [], lines = [];
-      let beforeDiscount = 0, studentDiscountBase = 0, used = 0;
-      Object.keys(BLOCKS).forEach(key => {
-        const block = BLOCKS[key], choice = chapel.split?.[key] || { state: "unused" };
-        if (choice.state === "unused") return;
-        used += 1;
-        if (choice.state === "normal") {
-          const amount = CHAPEL_RATES[chapel.dayType][chapel.admission][key];
-          beforeDiscount += amount; studentDiscountBase += amount;
-          lines.push({ title: `礼拝堂 ${block.label} 通常利用`, amount, note: `${chapel.dayType === "weekday" ? "平日" : "土日祝"}・${chapel.admission}ブロック料金（部分時間の按分なし）`, discountEligible: true });
-        } else if (choice.state === "practice") {
-          const start = choice.start ?? block.start, end = choice.end ?? block.end;
-          if (start < block.start || end > block.end || end <= start) { errors.push(`${block.label}の練習時間を時間帯内で正しく指定してください。`); return; }
-          const base = CHAPEL_RATES[chapel.dayType].A[key], hours = rangeHours(start, end), amount = base / block.hours * hours * .5;
-          beforeDiscount += amount;
-          lines.push({ title: `礼拝堂 ${block.label} 練習・準備 ${formatTime(start)}〜${formatTime(end)}`, amount, note: `A料金 ${yen(base)} ÷ ${block.hours}時間 × ${hours}時間 × 50%`, discountEligible: false });
-        } else errors.push(`${block.label}の利用状態が不正です。`);
-      });
-      if (!used) errors.push("午前・午後・夜間がすべて未使用です。少なくとも1つを選択してください。");
-      return { errors, lines, beforeDiscount, studentDiscountBase, nightSelected: (chapel.split?.night?.state || "unused") !== "unused" };
-    }
-
-    function calculateRoom(roomKey, usage) {
-      const rate = ROOM_RATES[roomKey], errors = [], lines = [];
-      if (!usage || usage.start < 540 || usage.end > 1200 || usage.end <= usage.start) return { errors: [`${rate.label}の利用時間を9:00〜20:00の範囲で正しく指定してください。`], lines, beforeDiscount: 0, studentDiscountBase: 0, hvacBase: 0, nightSelected: false };
-      const exact = exactPackageKey(usage.start, usage.end);
-      let amount, note;
-      if (exact) { amount = rate.packages[exact]; note = `${PACKAGES[exact].label} 規定パッケージ`; }
-      else {
-        const dayMinutes = Math.max(0, Math.min(usage.end, 1080) - usage.start);
-        const nightMinutes = Math.max(0, usage.end - Math.max(usage.start, 1080));
-        amount = dayMinutes / 60 * rate.dayHourly + nightMinutes / 60 * rate.nightHourly;
-        note = `9:00〜18:00 ${yen(rate.dayHourly)}/時間 × ${dayMinutes / 60}時間` + (nightMinutes ? ` ＋ 18:00〜20:00 ${yen(rate.nightHourly)}/時間 × ${nightMinutes / 60}時間` : "");
-      }
-      lines.push({ title: `${rate.label} ${formatTime(usage.start)}〜${formatTime(usage.end)}`, amount, note, discountEligible: true });
-      return { errors, lines, beforeDiscount: amount, studentDiscountBase: amount, hvacBase: usage.hvac ? amount : 0, nightSelected: usage.end > 1020 };
-    }
-
-    function calculateGrandTotal(input) {
-      const errors = [], lines = [];
-      let beforeDiscount = 0, studentDiscountBase = 0, hvacBase = 0, nightSelected = false;
-      const facilities = [...new Set(input.facilities || [])];
-      if (!facilities.length) errors.push("利用施設を1つ以上選択してください。");
-      if (facilities.includes("chapel")) {
-        const chapel = input.chapel || {};
-        const result = chapel.usageMode === "split" ? calculateSplit(chapel) : calculateContinuous(chapel);
-        errors.push(...result.errors); lines.push(...result.lines); beforeDiscount += result.beforeDiscount; studentDiscountBase += result.studentDiscountBase; nightSelected ||= result.nightSelected;
-        if (chapel.hvac) hvacBase += result.beforeDiscount;
-        if (facilities.includes("room1")) lines.push({ title: "第一集会室", amount: 0, note: "礼拝堂利用献金に含まれます。" });
-      }
-      facilities.filter(key => key !== "chapel" && !(key === "room1" && facilities.includes("chapel"))).forEach(key => {
-        const result = calculateRoom(key, input.rooms?.[key]);
-        errors.push(...result.errors); lines.push(...result.lines); beforeDiscount += result.beforeDiscount; studentDiscountBase += result.studentDiscountBase; hvacBase += result.hvacBase; nightSelected ||= result.nightSelected;
-      });
-      const isStudent = input.organizer === "student" && studentDiscountBase > 0;
-      const discount = isStudent ? studentDiscountBase * .5 : 0;
-      const facilityFee = beforeDiscount - discount;
-      const hvac = hvacBase * .5;
-      const rawTotal = facilityFee + hvac;
-      const total = errors.length ? null : roundTenthDown(rawTotal);
-      return { errors, lines, beforeDiscount, studentDiscountBase, discount, facilityFee, hvacBase, hvac, rawTotal, total, nightSelected, isStudent, facilities };
-    }
-
-    function defaultInput() {
-      return {
-        facilities: ["chapel"], organizer: "general",
-        chapel: { dayType: "weekday", usageMode: "continuous", admission: "A", packageKey: "morningAfternoon", purpose: "normal", normalBlocks: ["morning","afternoon"], practiceStart: 540, practiceEnd: 1020, extensions: { before: 0, after: 0 }, hvac: false, split: { morning: { state: "unused", start: 540, end: 720 }, afternoon: { state: "unused", start: 780, end: 1020 }, night: { state: "unused", start: 1080, end: 1200 } } },
-        rooms: { room1: { start: 540, end: 720, hvac: false }, family: { start: 540, end: 720, hvac: false }, room2: { start: 540, end: 720, hvac: false } }
-      };
-    }
-
-    let currentResult = null;
-    const el = id => document.getElementById(id);
-    function addOptions(select, start, end, selected) {
-      select.textContent = "";
-      for (let value = start; value <= end; value += 30) {
-        const option = document.createElement("option"); option.value = value; option.textContent = formatTime(value); option.selected = value === selected; select.append(option);
-      }
-    }
-    function setDurationOptions(select, max, selected = 0) {
-      select.textContent = "";
-      for (let value = 0; value <= max; value += 30) {
-        const option = document.createElement("option"); option.value = value; option.textContent = value === 0 ? "なし" : `${Math.floor(value/60) ? `${Math.floor(value/60)}時間` : ""}${value%60 ? "30分" : ""}`; option.selected = value === selected; select.append(option);
-      }
-    }
-    function buildStaticUi() {
-      Object.entries(PACKAGES).forEach(([key,pkg]) => { const o = document.createElement("option"); o.value = key; o.textContent = pkg.label; el("chapelPackage").append(o); });
-      el("chapelPackage").value = "morningAfternoon";
-      addOptions(el("practiceStart"), 540, 1170, 540); addOptions(el("practiceEnd"), 570, 1200, 1020);
-      setDurationOptions(el("extensionBefore"), 0); setDurationOptions(el("extensionAfter"), 180);
-      Object.entries(BLOCKS).forEach(([key, block]) => {
-        const row = document.createElement("div"); row.className = "split-row"; row.dataset.block = key;
-        const label = document.createElement("div"); label.className = "split-label"; const strong = document.createElement("strong"); strong.textContent = block.label; const span = document.createElement("span"); span.textContent = `${formatTime(block.start)}〜${formatTime(block.end)}`; label.append(strong,span);
-        const controls = document.createElement("div"); controls.className = "grid-2";
-        const stateLabel = document.createElement("label"); const stateTitle = document.createElement("span"); stateTitle.className = "field-label"; stateTitle.textContent = "利用状態"; const state = document.createElement("select"); state.className = "split-state"; state.dataset.block = key; [["unused","未使用"],["practice","練習・準備"],["normal","通常利用"]].forEach(([v,t]) => { const o = document.createElement("option"); o.value=v; o.textContent=t; state.append(o); }); stateLabel.append(stateTitle,state);
-        const times = document.createElement("div"); times.className = "grid-2 split-times"; times.hidden = true;
-        const sl = document.createElement("label"), elabel = document.createElement("label"), sTitle = document.createElement("span"), eTitle = document.createElement("span"), s = document.createElement("select"), e = document.createElement("select"); sTitle.className=eTitle.className="field-label"; sTitle.textContent="開始"; eTitle.textContent="終了"; s.className="split-start"; e.className="split-end"; addOptions(s,block.start,block.end-30,block.start); addOptions(e,block.start+30,block.end,block.end); sl.append(sTitle,s); elabel.append(eTitle,e); times.append(sl,elabel);
-        controls.append(stateLabel,times); row.append(label,controls); el("splitRows").append(row);
-      });
-      Object.entries(ROOM_RATES).forEach(([key, rate]) => {
-        const panel = document.createElement("div"); panel.className="subpanel room-panel"; panel.dataset.room=key; panel.hidden=true;
-        const h3=document.createElement("h3"); h3.textContent=rate.label; const grid=document.createElement("div"); grid.className="grid-2";
-        const sl=document.createElement("label"), elabel=document.createElement("label"), st=document.createElement("span"), et=document.createElement("span"), s=document.createElement("select"), e=document.createElement("select"); st.className=et.className="field-label"; st.textContent="利用開始"; et.textContent="利用終了"; s.className="room-start"; e.className="room-end"; addOptions(s,540,1170,540); addOptions(e,570,1200,720); sl.append(st,s); elabel.append(et,e); grid.append(sl,elabel);
-        const hvac=document.createElement("label"); hvac.className="inline-check"; const cb=document.createElement("input"); cb.type="checkbox"; cb.className="room-hvac"; hvac.append(cb,document.createTextNode(`${rate.label}で冷暖房を使用する`)); panel.append(h3,grid,hvac); el("roomPanels").append(panel);
-      });
-    }
-
-    function updateNormalBlocks() {
-      const key=el("chapelPackage").value, pkg=PACKAGES[key], holder=el("normalBlocks"); holder.textContent="";
-      pkg.blocks.forEach(blockKey => { const label=document.createElement("label"); label.className="choice"; const input=document.createElement("input"); input.type="checkbox"; input.value=blockKey; input.checked=true; input.className="normal-block"; const span=document.createElement("span"); const strong=document.createElement("strong"); strong.textContent=`${BLOCKS[blockKey].label} 通常利用`; span.append(strong); label.append(input,span); holder.append(label); });
-      el("practiceStart").value=String(pkg.start); el("practiceEnd").value=String(pkg.end);
-      setDurationOptions(el("extensionBefore"), pkg.start-540, 0); setDurationOptions(el("extensionAfter"), 1200-pkg.end, 0);
-    }
-    function getInputFromDom() {
-      const facilities=[...document.querySelectorAll('input[name="facility"]:checked')].map(x=>x.value);
-      const usageMode=el("usageMode").value, purpose=el("continuousPurpose").value;
-      const split={}; document.querySelectorAll(".split-row").forEach(row => { const key=row.dataset.block; split[key]={ state:row.querySelector(".split-state").value, start:Number(row.querySelector(".split-start").value), end:Number(row.querySelector(".split-end").value) }; });
-      const rooms={}; document.querySelectorAll(".room-panel").forEach(panel => { rooms[panel.dataset.room]={ start:Number(panel.querySelector(".room-start").value), end:Number(panel.querySelector(".room-end").value), hvac:panel.querySelector(".room-hvac").checked }; });
-      return { facilities, organizer:checkedValue("organizer") || "general", chapel:{ dayType:el("dayType").value, usageMode, packageKey:el("chapelPackage").value, purpose, admission:usageMode==="split" ? (checkedValue("splitAdmission")||"A") : (checkedValue("admission")||"A"), normalBlocks:[...document.querySelectorAll(".normal-block:checked")].map(x=>x.value), practiceStart:Number(el("practiceStart").value), practiceEnd:Number(el("practiceEnd").value), extensions:{ before:Number(el("extensionBefore").value), after:Number(el("extensionAfter").value) }, hvac:usageMode==="split" ? el("splitHvac").checked : el("chapelHvac").checked, split }, rooms };
-    }
-    function hasDiscountEligibleSelection(input) {
-      if (input.facilities.some(key => key !== "chapel" && !(key === "room1" && input.facilities.includes("chapel")))) return true;
-      if (!input.facilities.includes("chapel")) return false;
-      if (input.chapel.usageMode === "split") return Object.values(input.chapel.split).some(x => x.state === "normal");
-      return input.chapel.purpose === "normal";
-    }
-    function isNightSelected(input) {
-      if (input.facilities.some(key => key !== "chapel" && input.rooms[key]?.end > 1020)) return true;
-      if (!input.facilities.includes("chapel")) return false;
-      if (input.chapel.usageMode === "split") return input.chapel.split.night.state !== "unused";
-      if (input.chapel.purpose === "practice") return input.chapel.practiceEnd > 1020;
-      return PACKAGES[input.chapel.packageKey].end + input.chapel.extensions.after > 1020;
-    }
-    function updateUiVisibility() {
-      const input=getInputFromDom(), chapel=input.facilities.includes("chapel");
-      el("chapelSection").hidden=!chapel; el("continuousPanel").hidden=input.chapel.usageMode!=="continuous"; el("splitPanel").hidden=input.chapel.usageMode!=="split";
-      const practice=input.chapel.purpose==="practice"; el("admissionPanel").hidden=practice; el("normalBlocksPanel").hidden=practice; el("practiceTimePanel").hidden=!practice; el("extensionPanel").hidden=practice;
-      const anySplitNormal=Object.values(input.chapel.split).some(x=>x.state==="normal"); el("splitAdmissionPanel").hidden=!anySplitNormal;
-      document.querySelectorAll(".split-row").forEach(row=>row.querySelector(".split-times").hidden=row.querySelector(".split-state").value!=="practice");
-      const rooms=input.facilities.filter(key=>key!=="chapel");
-      const chargeableRooms=rooms.filter(key=>!(key==="room1"&&chapel));
-      el("roomsSection").hidden=!chargeableRooms.length;
-      document.querySelectorAll(".room-panel").forEach(panel=>{ const included=panel.dataset.room==="room1"&&chapel; panel.hidden=!rooms.includes(panel.dataset.room)||included; });
-      el("organizerSection").hidden=!hasDiscountEligibleSelection(input);
-      if (el("organizerSection").hidden) document.querySelector('input[name="organizer"][value="general"]').checked=true;
-      el("roomsStep").textContent=chapel?"3":"2";
-      el("organizerStep").textContent=String(2+(chapel?1:0)+(chargeableRooms.length?1:0));
-      el("nightWarning").hidden=!isNightSelected(input);
-    }
-    function facilitySummary(input) {
-      return input.facilities.map(key => key==="chapel" ? "礼拝堂（第一集会室・ラウンジを含む）" : (key==="room1"&&input.facilities.includes("chapel") ? null : FACILITY_LABELS[key])).filter(Boolean).join("、");
-    }
-    function renderResult(input, result) {
-      currentResult=result;
-      el("errorBox").hidden=!result.errors.length; el("errorBox").textContent=result.errors.join(" ");
-      const valid=result.total!==null; el("grandTotal").textContent=valid?yen(result.total):"—"; el("resultSummary").textContent=valid?`${facilitySummary(input)}／最終合計で10円未満切り捨て`:"入力内容を確認してください。";
-      el("resultEmpty").hidden=valid||result.errors.length; el("breakdown").hidden=!valid; el("printCalculation").disabled=!valid; el("createReceipt").disabled=!valid;
-      const holder=el("breakdown"); holder.textContent="";
-      if (!valid) return;
-      const studentOrganizer=input.organizer==="student";
-      const discountByLine=new Map();
-      if (result.isStudent) {
-        const eligible=result.lines.map((line,index)=>({line,index})).filter(({line})=>line.amount>0&&line.discountEligible!==false);
-        let remaining=result.discount;
-        eligible.forEach(({line,index},position)=>{
-          const discount=position===eligible.length-1?remaining:line.amount*.5;
-          discountByLine.set(index,discount); remaining-=discount;
-        });
-      }
-      result.lines.forEach((line,index)=>{
-        const item=document.createElement("div"); item.className="breakdown-item";
-        const title=document.createElement("div"); title.className="breakdown-title";
-        const name=document.createElement("span"); name.textContent=line.title;
-        const lineDiscount=discountByLine.get(index)||0;
-        const amount=document.createElement("span"); amount.textContent=ledgerYen(line.amount-lineDiscount); title.append(name,amount); item.append(title);
-        if (line.note) { const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=line.note; item.append(note); }
-        if (studentOrganizer&&line.amount>0&&line.discountEligible===false) { const exempt=document.createElement("span"); exempt.className="discount-exempt"; exempt.textContent="学生割引対象外"; item.append(exempt); }
-        if (discountByLine.has(index)) { const original=document.createElement("div"); original.className="original-charge"; original.textContent=`通常料金 ${ledgerYen(line.amount)}`; const discount=document.createElement("div"); discount.className="discount-line"; const label=document.createElement("span"); label.textContent="↳ 学生割引（50%）"; const value=document.createElement("strong"); value.textContent=`−${ledgerYen(lineDiscount)}`; discount.append(label,value); item.append(original,discount); }
-        holder.append(item);
-      });
-      if (result.hvac>0) {
-        const item=document.createElement("div"); item.className="breakdown-item breakdown-addition";
-        const title=document.createElement("div"); title.className="breakdown-title";
-        const name=document.createElement("span"); name.textContent="冷暖房費";
-        const amount=document.createElement("span"); amount.textContent=ledgerYen(result.hvac); title.append(name,amount);
-        const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=`割引前の利用献金 ${ledgerYen(result.hvacBase)} × 50%`;
-        item.append(title,note); holder.append(item);
-      }
-      const rounding=result.rawTotal-result.total;
-      if (rounding>1e-8) {
-        const item=document.createElement("div"); item.className="breakdown-item breakdown-rounding";
-        const title=document.createElement("div"); title.className="breakdown-title";
-        const name=document.createElement("span"); name.textContent="端数処理（10円未満切り捨て）";
-        const amount=document.createElement("span"); amount.textContent=`−${ledgerYen(rounding)}`; title.append(name,amount);
-        const note=document.createElement("div"); note.className="breakdown-note"; note.textContent=`${ledgerYen(result.rawTotal)} → ${yen(result.total)}`;
-        item.append(title,note); holder.append(item);
-      }
-      const totals=document.createElement("div"); totals.className="totals";
-      const row=document.createElement("div"); row.className="totals-row final"; const label=document.createElement("span"),value=document.createElement("strong"); label.textContent="合計"; value.textContent=yen(result.total); row.append(label,value); totals.append(row); holder.append(totals);
-    }
-    function recalculate() { updateUiVisibility(); const input=getInputFromDom(); const result=calculateGrandTotal(input); renderResult(input,result); if(!el("receiptModal").hidden) updateReceiptPreview(); }
-    function resetReceiptFields() { el("receiptName").value=""; el("receiptNumber").value=""; el("receiptUseDate").value=""; el("receiptIssueDate").value=new Date().toLocaleDateString("sv-SE"); el("receiptDescription").value="会堂利用献金として"; el("receiptMethod").value="現金"; el("receiptStaff").value=""; }
-    function resetAll() { el("calculatorForm").reset(); document.querySelector('input[name="facility"][value="chapel"]').checked=true; el("chapelPackage").value="morningAfternoon"; updateNormalBlocks(); document.querySelectorAll(".split-state").forEach(x=>x.value="unused"); document.querySelectorAll(".room-start").forEach(x=>x.value="540"); document.querySelectorAll(".room-end").forEach(x=>x.value="720"); resetReceiptFields(); recalculate(); }
-    function setPrintMode(mode) { document.body.classList.remove("print-calculation","print-receipt"); document.body.classList.add(mode); }
-    function clearPrintMode() { document.body.classList.remove("print-calculation","print-receipt"); }
-    function formatDateJapanese(value) { if(!value) return ""; const [y,m,d]=value.split("-"); return `${y}年${Number(m)}月${Number(d)}日`; }
-    function setAllText(rootSelector, childSelector, text) { document.querySelectorAll(`${rootSelector} ${childSelector}`).forEach(node=>node.textContent=text); }
-    function updateReceiptPreview() {
-      const input=getInputFromDom(), result=calculateGrandTotal(input), name=el("receiptName").value.trim(), number=el("receiptNumber").value.trim();
-      el("previewReceiptNumber").textContent=number?`No. ${number}`:"";
-      el("previewReceiptName").textContent=`${name||"宛名"} 様`;
-      el("previewReceiptTotal").textContent=result.total===null?"—":yen(result.total);
-      el("previewReceiptDescription").textContent=el("receiptDescription").value.trim()||"—";
-      el("previewReceiptUseDate").textContent=formatDateJapanese(el("receiptUseDate").value)||"—";
-      el("previewReceiptFacilities").textContent=facilitySummary(input)||"—";
-      el("previewReceiptIssueDate").textContent=formatDateJapanese(el("receiptIssueDate").value)||"—";
-    }
-    function buildReceipt() {
-      const input=getInputFromDom(), result=calculateGrandTotal(input); if(result.total===null) return false;
-      const name=el("receiptName").value.trim(), useDate=el("receiptUseDate").value, issueDate=el("receiptIssueDate").value, description=el("receiptDescription").value.trim();
-      if(!name||!useDate||!issueDate||!description) return false;
-      const number=el("receiptNumber").value.trim();
-      setAllText("#receiptPrint",".receipt-number",number?`No. ${number}`:""); setAllText("#receiptPrint",".receipt-addressee",`${name} 様`); setAllText("#receiptPrint",".receipt-total",yen(result.total)); setAllText("#receiptPrint",".receipt-description",description); setAllText("#receiptPrint",".receipt-use-date",formatDateJapanese(useDate)); setAllText("#receiptPrint",".receipt-issue-date",formatDateJapanese(issueDate)); setAllText("#receiptPrint",".receipt-facilities",facilitySummary(input));
-      el("receiptCopy").querySelector(".receipt-method").textContent=el("receiptMethod").value; el("receiptCopy").querySelector(".receipt-staff").textContent=el("receiptStaff").value.trim()||"—"; return true;
-    }
-    function openReceipt() { if(!currentResult||currentResult.total===null)return; el("receiptIssueDate").value ||= new Date().toLocaleDateString("sv-SE"); updateReceiptPreview(); el("receiptModal").hidden=false; el("receiptName").focus(); }
-    function closeReceipt() { el("receiptModal").hidden=true; }
-
-    function runRegressionTests() {
-      const tests=[]; const add=(name,fn,expected)=>tests.push({name,fn,expected}); const base=()=>defaultInput();
-      const totalOf=i=>calculateGrandTotal(i).total, rawOf=i=>calculateGrandTotal(i).rawTotal, errOf=i=>calculateGrandTotal(i).errors.length>0;
-      add("平日A全日・全通常",()=>{let i=base();i.chapel.packageKey="full";i.chapel.normalBlocks=["morning","afternoon","night"];return totalOf(i)},11000);
-      add("土日祝A午前",()=>{let i=base();i.chapel.dayType="holiday";i.chapel.packageKey="morning";i.chapel.normalBlocks=["morning"];return totalOf(i)},3000);
-      add("平日B夜間",()=>{let i=base();i.chapel.packageKey="night";i.chapel.admission="B";i.chapel.normalBlocks=["night"];return totalOf(i)},4500);
-      add("練習のみ10:00-11:30",()=>{let i=base();i.chapel.purpose="practice";i.chapel.practiceStart=600;i.chapel.practiceEnd=690;return totalOf(i)},620);
-      add("練習のみ10:00-11:30 raw",()=>{let i=base();i.chapel.purpose="practice";i.chapel.practiceStart=600;i.chapel.practiceEnd=690;return rawOf(i)},625);
-      add("練習のみ9-17",()=>{let i=base();i.chapel.purpose="practice";i.chapel.practiceStart=540;i.chapel.practiceEnd=1020;return totalOf(i)},3750);
-      add("練習のみ11:30-13:30エラー",()=>{let i=base();i.chapel.purpose="practice";i.chapel.practiceStart=690;i.chapel.practiceEnd=810;return errOf(i)},true);
-      add("既存9,370円ケース",()=>{let i=base();i.organizer="student";i.chapel.dayType="holiday";i.chapel.packageKey="morningAfternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.hvac=true;return totalOf(i)},9370);
-      add("9,370円ケース raw",()=>{let i=base();i.organizer="student";i.chapel.dayType="holiday";i.chapel.packageKey="morningAfternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.hvac=true;return rawOf(i)},9375);
-      add("午後夜間・夜間通常で17-18練習",()=>{let i=base();i.chapel.packageKey="afternoonNight";i.chapel.normalBlocks=["night"];return totalOf(i)},6400);
-      add("全日・午後通常で隙間を練習",()=>{let i=base();i.chapel.packageKey="full";i.chapel.normalBlocks=["afternoon"];return totalOf(i)},8500);
-      add("繰上げ30分",()=>{let i=base();i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.extensions.before=30;return rawOf(i)},6625);
-      add("繰上げ60分",()=>{let i=base();i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.extensions.before=60;return rawOf(i)},6625);
-      add("繰上げ90分",()=>{let i=base();i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.extensions.before=90;return rawOf(i)},8250);
-      add("繰上げ確定後学生割引",()=>{let i=base();i.organizer="student";i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.extensions.before=90;return rawOf(i)},4125);
-      add("9時より前はエラー",()=>{let i=base();i.chapel.packageKey="morning";i.chapel.normalBlocks=["morning"];i.chapel.extensions.before=30;return errOf(i)},true);
-      add("冷暖房・一般",()=>{let i=base();i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.hvac=true;return totalOf(i)},7500);
-      add("冷暖房・学生",()=>{let i=base();i.organizer="student";i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.hvac=true;return totalOf(i)},5000);
-      add("冷暖房・延長含む",()=>{let i=base();i.chapel.packageKey="afternoon";i.chapel.normalBlocks=["afternoon"];i.chapel.extensions.before=30;i.chapel.hvac=true;return rawOf(i)},9937.5);
-      add("非連続4,650円",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning.state="practice";i.chapel.split.afternoon.state="unused";i.chapel.split.night.state="normal";return totalOf(i)},4650);
-      add("非連続2,950円",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning.state="practice";i.chapel.split.night.state="practice";return totalOf(i)},2950);
-      add("非連続午前+夜間は全日化しない",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning.state="normal";i.chapel.split.night.state="normal";return totalOf(i)},5900);
-      add("非連続all未使用エラー",()=>{let i=base();i.chapel.usageMode="split";return errOf(i)},true);
-      add("非連続通常なしも許可",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning.state="practice";return errOf(i)},false);
-      add("未使用は練習に入らない",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning.state="practice";return rawOf(i)},1250);
-      add("非連続Bは通常部分のみ",()=>{let i=base();i.chapel.usageMode="split";i.chapel.admission="B";i.chapel.split.morning.state="practice";i.chapel.split.night.state="normal";return totalOf(i)},5750);
-      add("非連続部分練習",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning={state:"practice",start:600,end:690};return rawOf(i)},625);
-      add("非連続部分練習範囲外エラー",()=>{let i=base();i.chapel.usageMode="split";i.chapel.split.morning={state:"practice",start:600,end:780};return errOf(i)},true);
-      add("第一集会室午前パッケージ",()=>{let i=base();i.facilities=["room1"];return totalOf(i)},2000);
-      add("第一集会室30分按分",()=>{let i=base();i.facilities=["room1"];i.rooms.room1={start:570,end:660,hvac:false};return totalOf(i)},1050);
-      add("第一集会室18時境界",()=>{let i=base();i.facilities=["room1"];i.rooms.room1={start:1050,end:1110,hvac:false};return totalOf(i)},800);
-      add("第二集会室全日",()=>{let i=base();i.facilities=["room2"];i.rooms.room2={start:540,end:1200,hvac:false};return totalOf(i)},12600);
-      add("第二集会室学生",()=>{let i=base();i.facilities=["room2"];i.organizer="student";i.rooms.room2={start:570,end:660,hvac:false};return totalOf(i)},1050);
-      add("第一集会室冷暖房一般",()=>{let i=base();i.facilities=["room1"];i.rooms.room1.hvac=true;return totalOf(i)},3000);
-      add("第一集会室冷暖房学生",()=>{let i=base();i.facilities=["room1"];i.organizer="student";i.rooms.room1.hvac=true;return totalOf(i)},2000);
-      add("礼拝堂+第一集会室は追加なし",()=>{let i=base();i.facilities=["chapel","room1"];return totalOf(i)},7500);
-      add("礼拝堂練習+第二集会室は室のみ学生割引",()=>{let i=base();i.facilities=["chapel","room2"];i.organizer="student";i.chapel.purpose="practice";i.chapel.practiceStart=600;i.chapel.practiceEnd=690;i.rooms.room2={start:540,end:600,hvac:false};return rawOf(i)},1325);
-      add("一般は学生割引0",()=>{let i=base();return calculateGrandTotal(i).discount},0);
-      add("夜間選択でも計算可能",()=>{let i=base();i.chapel.packageKey="night";i.chapel.normalBlocks=["night"];let r=calculateGrandTotal(i);return r.total!==null&&r.nightSelected},true);
-      add("土日祝B全日",()=>{let i=base();i.chapel.dayType="holiday";i.chapel.admission="B";i.chapel.packageKey="full";i.chapel.normalBlocks=["morning","afternoon","night"];return totalOf(i)},16400);
-      const results=tests.map(t=>{let actual;try{actual=t.fn()}catch(error){actual=`ERROR: ${error.message}`;}const pass=Object.is(actual,t.expected);return {...t,actual,pass};});
-      return { passed:results.filter(x=>x.pass).length, total:results.length, failed:results.filter(x=>!x.pass).map(x=>({name:x.name,expected:x.expected,actual:x.actual})), results };
-    }
-
-    buildStaticUi(); updateNormalBlocks(); resetReceiptFields();
-    el("calculatorForm").addEventListener("change", event=>{ if(event.target.id==="chapelPackage") updateNormalBlocks(); recalculate(); });
-    el("calculatorForm").addEventListener("input", recalculate);
-    el("resetButton").addEventListener("click", resetAll);
-    el("printCalculation").addEventListener("click",()=>{setPrintMode("print-calculation");window.print();});
-    el("createReceipt").addEventListener("click",openReceipt); el("closeReceipt").addEventListener("click",closeReceipt); el("cancelReceipt").addEventListener("click",closeReceipt);
-    el("receiptModal").addEventListener("click",e=>{if(e.target===el("receiptModal"))closeReceipt();});
-    el("receiptForm").addEventListener("input",updateReceiptPreview); el("receiptForm").addEventListener("change",updateReceiptPreview);
-    el("receiptForm").addEventListener("submit",e=>{e.preventDefault();if(!e.currentTarget.reportValidity()||!buildReceipt())return;setPrintMode("print-receipt");window.print();});
-    window.addEventListener("afterprint",clearPrintMode); window.addEventListener("beforeprint",()=>{if(document.body.classList.contains("print-receipt"))buildReceipt();});
-    window.addEventListener("keydown",e=>{if(e.key==="Escape"&&!el("receiptModal").hidden)closeReceipt();});
-    window.ChurchCalculator={ calculateGrandTotal, calculatePracticeRange, runRegressionTests, defaultInput, rates:{CHAPEL_RATES,ROOM_RATES}, version:"final-2026-08-11" };
-    recalculate();
-    const regression=runRegressionTests(); console.info(`[会堂利用献金計算] regression ${regression.passed}/${regression.total}`,regression.failed);
-  })();
-  </script>
+  <script src="assets/js/site.js"></script>
 </body>
 </html>
