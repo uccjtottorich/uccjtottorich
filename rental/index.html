@@ -113,6 +113,8 @@
     .facility-result:first-child { padding-top: 0; border-top: 0; }
     .facility-result h3 { margin: 0 0 9px; color: var(--accent-dark); font-size: .98rem; }
     .facility-result .included-result { padding: 10px 12px; border-radius: 9px; color: var(--accent-dark); background: var(--accent-pale); font-size: .78rem; }
+    .calculation-policy { display: grid; gap: 5px; margin: 0 0 13px; padding: 11px 12px; border: 1px solid rgba(23,107,103,.24); border-radius: 10px; color: var(--accent-dark); background: var(--accent-pale); font-size: .76rem; font-weight: 700; }
+    .calculation-policy span::before { content: "✓"; margin-right: 7px; }
     .rounding-note { color: var(--muted); font-size: .7rem; }
 
     .result-card { position: sticky; top: 18px; overflow: hidden; }
@@ -206,7 +208,7 @@
               <legend>2. 主催者区分（全施設共通）</legend>
               <div class="choice-grid">
                 <div class="choice"><input id="organizerGeneral" name="organizer" type="radio" value="general" checked><label for="organizerGeneral"><strong>学生ではない</strong><small>通常料金</small></label></div>
-                <div class="choice"><input id="organizerStudent" name="organizer" type="radio" value="student"><label for="organizerStudent"><strong>学生</strong><small>施設利用献金が半額</small></label></div>
+                <div class="choice"><input id="organizerStudent" name="organizer" type="radio" value="student"><label for="organizerStudent"><strong>学生</strong><small>礼拝堂の練習・準備を除き半額</small></label></div>
               </div>
             </fieldset>
           </div>
@@ -248,7 +250,8 @@
             <strong>TODO・確認事項</strong>
             <ul>
               <li>集会室・親子室の練習・準備50%引きは、規定上の適用可否が確定できないため適用していません。</li>
-              <li>通常の部分利用は30分単位の実利用時間で計算し、繰上げ・延長時の「30分以上1時間未満を1時間」とは分けています。</li>
+              <li>礼拝堂の一般部分利用は午前・午後・夜間のブロック料金を適用します。練習・準備のみ、A料金の時間単価の50%で計算します。</li>
+              <li>12:00〜13:00・17:00〜18:00は連続利用パッケージ内の接続時間であり、独立した料金は加算しません。</li>
               <li>繰上げ・延長の30%増しは専用入力を設けず、現在は計算対象外です。</li>
               <li>10円未満の端数は、すべてを合算した最終金額から切り捨てます（コード設定で変更可能）。</li>
               <li>礼拝堂と第一集会室を異なる時間に利用し、第一集会室だけの追加時間がある場合の扱いは教会担当者に確認してください。</li>
@@ -343,10 +346,11 @@
         return { key, ...period, usedStart, usedEnd, minutesUsed: Math.max(0, usedEnd - usedStart) };
       }).filter((segment) => segment.minutesUsed > 0);
       const finalizeFacility = (baseResult, common, climate) => {
-        const discount = common.student ? baseResult.beforeDiscount * CONFIG.STUDENT_DISCOUNT_RATE : 0;
+        const studentDiscountBase = baseResult.studentDiscountBase ?? baseResult.beforeDiscount;
+        const discount = common.student ? studentDiscountBase * CONFIG.STUDENT_DISCOUNT_RATE : 0;
         const afterDiscount = baseResult.beforeDiscount - discount;
         const hvac = climate ? baseResult.beforeDiscount * CONFIG.HVAC_RATE : 0;
-        return { ...baseResult, studentDiscount: discount, afterDiscount, hvac, totalBeforeFinalRounding: afterDiscount + hvac };
+        return { ...baseResult, studentDiscountBase, studentDiscount: discount, afterDiscount, hvac, totalBeforeFinalRounding: afterDiscount + hvac };
       };
 
       const calculateChapelFee = (facility, common) => {
@@ -383,32 +387,41 @@
         const oneUsageType = new Set(classified.map((segment) => segment.usageType)).size === 1;
         const items = [];
         let beforeDiscount = 0;
+        let studentDiscountBase = 0;
 
         if (packageKey && oneUsageType) {
           const usageType = classified[0].usageType;
           const amount = usageType === 'practice' ? aRates[packageKey] * CONFIG.CHAPEL_PRACTICE_RATE : selectedRates[packageKey];
           beforeDiscount = amount;
+          if (usageType === 'performance') studentDiscountBase = amount;
           items.push({
             label: `${PACKAGES[packageKey].label}（${usageType === 'practice' ? '練習・準備' : '公演'}）`,
             time: `${timeText(facility.start)}〜${timeText(facility.end)}`,
-            detail: usageType === 'practice' ? `Aパッケージ料金 × 練習50%` : `${common.feeClass}パッケージ料金`,
+            detail: usageType === 'practice' ? `Aパッケージ料金 × 練習50%・学生割引対象外` : `${common.feeClass}パッケージ料金・学生割引対象`,
             amount
           });
         } else {
           classified.forEach((segment) => {
-            const fraction = segment.minutesUsed / 60 / segment.hours;
             const fullRate = segment.usageType === 'practice' ? aRates[segment.key] : selectedRates[segment.key];
-            const amount = fullRate * fraction * (segment.usageType === 'practice' ? CONFIG.CHAPEL_PRACTICE_RATE : 1);
+            // 教会での運用：一般利用は一部利用でも時間帯のブロック料金。
+            // 練習・準備だけは、規定どおりA料金の時間単価の50%を実利用時間に適用する。
+            const usedHours = segment.minutesUsed / 60;
+            const amount = segment.usageType === 'practice'
+              ? (fullRate / segment.hours) * usedHours * CONFIG.CHAPEL_PRACTICE_RATE
+              : fullRate;
             beforeDiscount += amount;
+            if (segment.usageType === 'performance') studentDiscountBase += amount;
             items.push({
               label: `${segment.label}（${segment.usageType === 'practice' ? '練習・準備' : '公演'}）`,
               time: `${timeText(segment.usedStart)}〜${timeText(segment.usedEnd)}`,
-              detail: `${segment.usageType === 'practice' ? 'A' : common.feeClass}基本料金 ${fullRate.toLocaleString('ja-JP')}円 ÷ ${segment.hours}時間 × ${(segment.minutesUsed / 60).toFixed(1)}時間${segment.usageType === 'practice' ? ' × 練習50%' : ''}`,
+              detail: segment.usageType === 'practice'
+                ? `A基本料金 ${fullRate.toLocaleString('ja-JP')}円 ÷ ${segment.hours}時間 × ${usedHours.toFixed(1)}時間 × 練習50%・学生割引対象外`
+                : `${common.feeClass}基本料金 ${fullRate.toLocaleString('ja-JP')}円（時間帯ブロック料金）・学生割引対象`,
               amount
             });
           });
         }
-        return finalizeFacility({ key: 'chapel', label: definition.label, items, beforeDiscount, errors: [] }, common, facility.climate);
+        return finalizeFacility({ key: 'chapel', label: definition.label, items, beforeDiscount, studentDiscountBase, errors: [] }, common, facility.climate);
       };
 
       const calculateMeetingRoomFee = (facility, common) => {
@@ -541,9 +554,15 @@
         const facilityBlocks = calculation.results.map((result) => {
           if (result.included) return `<section class="facility-result"><h3>${result.label}</h3><div class="included-result">礼拝堂利用料に含まれているため、追加料金はありません。</div></section>`;
           let rows = result.items.map((item) => `<div class="breakdown-row"><div><div>${item.label}</div><div class="detail">${item.time}・${item.detail}</div></div><strong>${detailedMoney(item.amount)}</strong></div>`).join('');
-          if (input.common.student) rows += `<div class="breakdown-row"><div><div>学生割引</div><div class="detail">主催者が学生：施設利用献金の50%</div></div><strong>-${detailedMoney(result.studentDiscount)}</strong></div>`;
+          if (result.key === 'chapel') rows = `<div class="calculation-policy"><span>練習・準備には学生割引を適用していません。</span><span>冷暖房費は学生割引前の利用献金（練習・準備50%適用後）を基準に50%で算定します。</span></div>` + rows;
+          if (input.common.student) {
+            const discountDetail = result.key === 'chapel'
+              ? `公演・一般利用の対象額 ${detailedMoney(result.studentDiscountBase)} × 50%（練習・準備は対象外）`
+              : `主催者が学生：施設利用献金 ${detailedMoney(result.studentDiscountBase)} × 50%`;
+            rows += `<div class="breakdown-row"><div><div>学生割引</div><div class="detail">${discountDetail}</div></div><strong>-${detailedMoney(result.studentDiscount)}</strong></div>`;
+          }
           rows += `<div class="breakdown-row subtotal"><div><div>${result.label}利用献金</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(result.afterDiscount)}</strong></div>`;
-          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">割引前対象額 ${detailedMoney(result.beforeDiscount)} × 50%</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
+          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">学生割引前対象額 ${detailedMoney(result.beforeDiscount)} × 50%${result.key === 'chapel' ? '（練習・準備50%適用後）' : ''}</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
           rows += `<div class="breakdown-row"><div><div>${result.label}小計</div></div><strong>${detailedMoney(result.totalBeforeFinalRounding)}</strong></div>`;
           return `<section class="facility-result"><h3>${result.label}</h3>${rows}</section>`;
         }).join('');
