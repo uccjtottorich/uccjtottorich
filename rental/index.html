@@ -251,7 +251,7 @@
             <ul>
               <li>集会室・親子室の練習・準備50%引きは、規定上の適用可否が確定できないため適用していません。</li>
               <li>礼拝堂の一般部分利用は午前・午後・夜間のブロック料金を適用します。練習・準備のみ、A料金の時間単価の50%で計算します。</li>
-              <li>12:00〜13:00・17:00〜18:00は連続利用パッケージ内の接続時間であり、独立した料金は加算しません。</li>
+              <li>12:00〜13:00・17:00〜18:00は連続利用パッケージの実経過時間に含め、練習・準備として使う時間は練習時間にも含めます。独立した新料金は加算しません。</li>
               <li>繰上げ・延長の30%増しは専用入力を設けず、現在は計算対象外です。</li>
               <li>10円未満の端数は、すべてを合算した最終金額から切り捨てます（コード設定で変更可能）。</li>
               <li>礼拝堂と第一集会室を異なる時間に利用し、第一集会室だけの追加時間がある場合の扱いは教会担当者に確認してください。</li>
@@ -339,6 +339,21 @@
       const overlapMinutes = (start, end, rangeStart, rangeEnd) => Math.max(0, Math.min(end, rangeEnd) - Math.max(start, rangeStart));
       const floorByUnit = (value, unit = CONFIG.FINAL_ROUNDING_UNIT) => Math.floor((value + EPSILON) / unit) * unit;
       const isValidRange = (start, end) => Number.isFinite(start) && Number.isFinite(end) && start >= 540 && end <= 1200 && end > start;
+      const elapsedHours = (start, end) => (end - start) / 60;
+      const complementRanges = (start, end, excludedRanges) => {
+        const ranges = [];
+        let cursor = start;
+        [...excludedRanges]
+          .map((range) => ({ start: Math.max(start, range.start), end: Math.min(end, range.end) }))
+          .filter((range) => range.end > range.start)
+          .sort((a, b) => a.start - b.start)
+          .forEach((range) => {
+            if (range.start > cursor) ranges.push({ start: cursor, end: range.start });
+            cursor = Math.max(cursor, range.end);
+          });
+        if (cursor < end) ranges.push({ start: cursor, end });
+        return ranges;
+      };
       const periodSegments = (start, end) => ORDER.map((key) => {
         const period = PERIODS[key];
         const usedStart = Math.max(start, period.start);
@@ -397,9 +412,47 @@
           items.push({
             label: `${PACKAGES[packageKey].label}（${usageType === 'practice' ? '練習・準備' : '公演'}）`,
             time: `${timeText(facility.start)}〜${timeText(facility.end)}`,
-            detail: usageType === 'practice' ? `Aパッケージ料金 × 練習50%・学生割引対象外` : `${common.feeClass}パッケージ料金・学生割引対象`,
+            detail: usageType === 'practice'
+              ? `Aパッケージ料金 ${aRates[packageKey].toLocaleString('ja-JP')}円 × 50% = ${amount.toLocaleString('ja-JP')}円（学生割引対象外）`
+              : `${common.feeClass}パッケージ料金 ${amount.toLocaleString('ja-JP')}円${common.student ? ` → 学生50% ${(amount * CONFIG.STUDENT_DISCOUNT_RATE).toLocaleString('ja-JP')}円` : ''}`,
             amount
           });
+        } else if (packageKey) {
+          // 連続利用パッケージの混合利用：公演を含む料金ブロックは全体を公演扱いとし、
+          // 残りの実経過時間（12〜13時・17〜18時を含む）を練習・準備として算定する。
+          const pkg = PACKAGES[packageKey];
+          const packageRate = aRates[packageKey];
+          const packageHours = elapsedHours(pkg.start, pkg.end);
+          const performanceSegments = classified.filter((segment) => segment.usageType === 'performance');
+          const practiceRanges = complementRanges(pkg.start, pkg.end, performanceSegments);
+          const practiceHours = practiceRanges.reduce((sum, range) => sum + elapsedHours(range.start, range.end), 0);
+          const packageItems = [];
+
+          if (practiceHours > 0) {
+            const amount = packageRate / packageHours * CONFIG.CHAPEL_PRACTICE_RATE * practiceHours;
+            beforeDiscount += amount;
+            packageItems.push({
+              sortTime: practiceRanges[0].start,
+              label: '練習・準備',
+              time: practiceRanges.map((range) => `${timeText(range.start)}〜${timeText(range.end)}`).join('・'),
+              detail: `${packageRate.toLocaleString('ja-JP')}円÷${packageHours}時間×50%×${practiceHours}時間 = ${amount.toLocaleString('ja-JP')}円（学生割引対象外）`,
+              amount
+            });
+          }
+
+          performanceSegments.forEach((segment) => {
+            const amount = selectedRates[segment.key];
+            beforeDiscount += amount;
+            studentDiscountBase += amount;
+            packageItems.push({
+              sortTime: segment.start,
+              label: `公演 ${segment.label}`,
+              time: `${timeText(segment.start)}〜${timeText(segment.end)}`,
+              detail: `${common.feeClass} ${segment.label} ${amount.toLocaleString('ja-JP')}円${common.student ? ` → 学生50% ${(amount * CONFIG.STUDENT_DISCOUNT_RATE).toLocaleString('ja-JP')}円` : ''}`,
+              amount
+            });
+          });
+          packageItems.sort((a, b) => a.sortTime - b.sortTime).forEach(({ sortTime, ...item }) => items.push(item));
         } else {
           classified.forEach((segment) => {
             const fullRate = segment.usageType === 'practice' ? aRates[segment.key] : selectedRates[segment.key];
@@ -471,7 +524,71 @@
         return { results, errors: [], usageBeforeDiscount, usageAfterDiscount, hvac, totalBeforeFinalRounding, total: floorByUnit(totalBeforeFinalRounding) };
       };
 
-      globalThis.ChurchCalculator = Object.freeze({ CONFIG, FACILITIES, PERIODS, PACKAGES, calculateChapelFee, calculateMeetingRoomFee, calculateGrandTotal, floorByUnit, timeText });
+      const REGRESSION_TESTS = Object.freeze([
+        {
+          name: '礼拝堂 9〜17・休日A・学生・公演14〜16・冷暖房',
+          input: {
+            common: { dayType: 'holiday', feeClass: 'A', student: true },
+            facilities: [{ type: 'chapel', start: 540, end: 1020, climate: true, hasPerformance: true, performanceStart: 840, performanceEnd: 960 }]
+          },
+          expected: { beforeDiscount: 8250, studentDiscount: 3000, afterDiscount: 5250, hvac: 4125, totalBeforeFinalRounding: 9375, total: 9370 }
+        },
+        {
+          name: '礼拝堂 9〜17・休日A・全時間練習',
+          input: {
+            common: { dayType: 'holiday', feeClass: 'A', student: true },
+            facilities: [{ type: 'chapel', start: 540, end: 1020, climate: false, hasPerformance: false, performanceStart: 0, performanceEnd: 0 }]
+          },
+          expected: { beforeDiscount: 4500, studentDiscount: 0, afterDiscount: 4500, hvac: 0, totalBeforeFinalRounding: 4500, total: 4500 }
+        },
+        {
+          name: '礼拝堂 9〜20・休日B・全時間公演',
+          input: {
+            common: { dayType: 'holiday', feeClass: 'B', student: false },
+            facilities: [{ type: 'chapel', start: 540, end: 1200, climate: false, hasPerformance: true, performanceStart: 540, performanceEnd: 1200 }]
+          },
+          expected: { beforeDiscount: 16400, studentDiscount: 0, afterDiscount: 16400, hvac: 0, totalBeforeFinalRounding: 16400, total: 16400 }
+        },
+        {
+          name: '第一集会室 9〜20・学生・冷暖房',
+          input: {
+            common: { dayType: 'weekday', feeClass: 'A', student: true },
+            facilities: [{ type: 'meetingRoom1', start: 540, end: 1200, climate: true }]
+          },
+          expected: { beforeDiscount: 6300, studentDiscount: 3150, afterDiscount: 3150, hvac: 3150, totalBeforeFinalRounding: 6300, total: 6300 }
+        },
+        {
+          name: '第二集会室 9:30〜11・時間料金',
+          input: {
+            common: { dayType: 'weekday', feeClass: 'A', student: false },
+            facilities: [{ type: 'meetingRoom2', start: 570, end: 660, climate: false }]
+          },
+          expected: { beforeDiscount: 2100, studentDiscount: 0, afterDiscount: 2100, hvac: 0, totalBeforeFinalRounding: 2100, total: 2100 }
+        }
+      ]);
+      const runRegressionTests = () => {
+        const results = REGRESSION_TESTS.map((test) => {
+          const calculation = calculateGrandTotal(test.input);
+          const facility = calculation.results[0];
+          const actual = {
+            beforeDiscount: facility.beforeDiscount,
+            studentDiscount: facility.studentDiscount,
+            afterDiscount: facility.afterDiscount,
+            hvac: facility.hvac,
+            totalBeforeFinalRounding: calculation.totalBeforeFinalRounding,
+            total: calculation.total
+          };
+          const failures = Object.entries(test.expected)
+            .filter(([key, expected]) => Math.abs(actual[key] - expected) > EPSILON)
+            .map(([key, expected]) => `${key}: expected ${expected}, actual ${actual[key]}`);
+          return { name: test.name, passed: failures.length === 0, failures };
+        });
+        return { passed: results.every((result) => result.passed), results };
+      };
+
+      const regressionResult = runRegressionTests();
+      if (!regressionResult.passed && typeof console !== 'undefined') console.error('会堂利用献金計算の回帰テストに失敗しました。', regressionResult.results);
+      globalThis.ChurchCalculator = Object.freeze({ CONFIG, FACILITIES, PERIODS, PACKAGES, REGRESSION_TESTS, calculateChapelFee, calculateMeetingRoomFee, calculateGrandTotal, runRegressionTests, floorByUnit, timeText });
       if (typeof document === 'undefined') return;
 
       const $ = (selector) => document.querySelector(selector);
@@ -562,11 +679,11 @@
             rows += `<div class="breakdown-row"><div><div>学生割引</div><div class="detail">${discountDetail}</div></div><strong>-${detailedMoney(result.studentDiscount)}</strong></div>`;
           }
           rows += `<div class="breakdown-row subtotal"><div><div>${result.label}利用献金</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(result.afterDiscount)}</strong></div>`;
-          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">学生割引前対象額 ${detailedMoney(result.beforeDiscount)} × 50%${result.key === 'chapel' ? '（練習・準備50%適用後）' : ''}</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
+          if (result.hvac) rows += `<div class="breakdown-row"><div><div>冷暖房費</div><div class="detail">学生割引前 ${detailedMoney(result.beforeDiscount)} × 50% = ${detailedMoney(result.hvac)}${result.key === 'chapel' ? '（練習・準備50%適用後）' : ''}</div></div><strong>${detailedMoney(result.hvac)}</strong></div>`;
           rows += `<div class="breakdown-row"><div><div>${result.label}小計</div></div><strong>${detailedMoney(result.totalBeforeFinalRounding)}</strong></div>`;
           return `<section class="facility-result"><h3>${result.label}</h3>${rows}</section>`;
         }).join('');
-        const totals = `<div class="breakdown-row subtotal"><div><div>施設利用献金合計</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(calculation.usageAfterDiscount)}</strong></div><div class="breakdown-row"><div><div>冷暖房費合計</div></div><strong>${detailedMoney(calculation.hvac)}</strong></div><div class="breakdown-row grand"><div><div>最終支払額</div><div class="detail">合算後、10円未満切捨て</div></div><strong>${money(calculation.total)}</strong></div>`;
+        const totals = `<div class="breakdown-row subtotal"><div><div>施設利用献金合計</div><div class="detail">学生割引後</div></div><strong>${detailedMoney(calculation.usageAfterDiscount)}</strong></div><div class="breakdown-row"><div><div>冷暖房費合計</div></div><strong>${detailedMoney(calculation.hvac)}</strong></div><div class="breakdown-row grand"><div><div>最終支払額</div><div class="detail">最終：${detailedMoney(calculation.totalBeforeFinalRounding)} → 10円未満切捨て ${money(calculation.total)}</div></div><strong>${money(calculation.total)}</strong></div>`;
         breakdown.innerHTML = facilityBlocks + totals;
         $('#total').innerHTML = `${calculation.total.toLocaleString('ja-JP')}<span>円</span>`;
         const paidCount = calculation.results.filter((result) => !result.included).length;
