@@ -119,6 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       card.classList.add("cms-sermon-card");
+      // The generator deliberately outputs the summary only.  Keep the
+      // progressive-enhancement control owned by this script and remove a
+      // stale control before (re-)initialising a card.
+      card.querySelectorAll(".cms-sermon-summary-toggle").forEach((toggle) => {
+        toggle.remove();
+      });
       summary.classList.add("cms-sermon-summary", "is-collapsed");
       summary.id = `cms-sermon-summary-${index + 1}`;
 

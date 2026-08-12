@@ -250,7 +250,7 @@ jobs:
             </script>
           </head>
 
-          <body>
+          <body class="cms-sermon-test">
 
             <div class="site-shell">
 

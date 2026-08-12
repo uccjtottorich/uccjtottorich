@@ -1358,33 +1358,36 @@ html[lang="ko"] .home-scripture p {
 }
 
 /* CMS test output retains legacy card markup; keep its fallback fully readable. */
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main {
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-main {
   display: block;
   padding: 0;
 }
 
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main time {
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-main time {
   margin: 24px 24px 10px;
 }
 
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-preacher {
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-preacher {
   display: none;
 }
 
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-title {
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-title {
   display: block;
   margin: 0 24px;
 }
 
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main .sermon-scripture {
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-main .sermon-scripture {
   display: block;
   margin: 10px 24px 0;
 }
 
-html:has(meta[name="robots"][content~="noindex"]) .sermon-card-summary {
+.cms-sermon-test .sermon-card-summary,
+html:has(meta[name="robots"][content*="noindex"]) .sermon-card-summary {
   display: block;
   margin: 10px 24px 24px;
   overflow: visible;
+  -webkit-line-clamp: unset;
+  max-height: none;
   white-space: pre-line;
 }
 
