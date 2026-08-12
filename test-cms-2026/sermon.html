@@ -60,7 +60,7 @@
   </script>
 </head>
 
-<body class="cms-sermon-test">
+<body>
 
   <div class="site-shell">
 
@@ -272,21 +272,60 @@
 
             
       <article class="sermon-card">
-        <time datetime="2026-08-16">2026年8月16日</time>
-        <h3>テスト</h3>
-        <p class="sermon-scripture">聖書箇所：ルカによる福音書1章1〜10節</p>
-        <p class="sermon-card-summary">テストです。</p>
+
+        <div class="sermon-card-main">
+
+          <time>
+            2026年8月16日
+          </time>
+
+          <span class="sermon-card-preacher">
+            説教者：テスト
+          </span>
+
+          <span class="sermon-card-title">
+            テスト
+          </span>
+
+          <span class="sermon-scripture">
+            聖書箇所：ルカによる福音書1章1〜10節
+          </span>
+
+          <span class="sermon-card-summary">
+            テストです。
+          </span>
+
+        </div>
       </article>
     
 
       <article class="sermon-card">
-        <time datetime="2026-08-02">2026年8月2日</time>
-        <h3>線を飛び越えて</h3>
-        <p class="sermon-scripture">聖書箇所：エフェソの信徒への手紙2：14〜22</p>
-        <p class="sermon-card-summary">　戦後81年の夏が来た。戦争が歴史的な出来事になるには十分な時間だ。だからこそ平和を思い巡らす大切さを想う。平和と戦争を対比させる考えは「争いがない」＝「平和」という認識が下地にある。平和学の父ガルトゥングが提唱した消極的平和と積極的平和から見えてくるのは、平和とは「状態」を指すものではなく作り続けていくもの、ということだ。「平和を実現する人々は幸いである」というイエスの言葉が浮かぶ。
+
+        <div class="sermon-card-main">
+
+          <time>
+            2026年8月2日
+          </time>
+
+          <span class="sermon-card-preacher">
+            説教者：仲程愛美牧師
+          </span>
+
+          <span class="sermon-card-title">
+            線を飛び越えて
+          </span>
+
+          <span class="sermon-scripture">
+            聖書箇所：エフェソの信徒への手紙2：14〜22
+          </span>
+
+          <span class="sermon-card-summary">
+            　戦後81年の夏が来た。戦争が歴史的な出来事になるには十分な時間だ。だからこそ平和を思い巡らす大切さを想う。平和と戦争を対比させる考えは「争いがない」＝「平和」という認識が下地にある。平和学の父ガルトゥングが提唱した消極的平和と積極的平和から見えてくるのは、平和とは「状態」を指すものではなく作り続けていくもの、ということだ。「平和を実現する人々は幸いである」というイエスの言葉が浮かぶ。
 
 　エフェソ教会で課題となっていたのは隔ての壁にぶつかっていた人々のことだった。ユダヤ人にとって異邦人は境界線を引くべきとの考えをパウロはキリストの存在をもって否定する。我々の平和は主イエスなしにはあり得ない。それは「二つのものを一つに」する方の力と助けが必要だということだ。平和の主を知る者だからこそ、線を飛び越え、和解と共生を体現していきたい。
-</p>
+          </span>
+
+        </div>
       </article>
     
 
@@ -474,36 +513,6 @@
   -->
 
   <script src="../assets/js/site.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".cms-sermon-test .sermon-card").forEach((card, index) => {
-        const summary = card.querySelector(".sermon-card-summary");
-        if (!summary) return;
-
-        summary.id = `cms-sermon-summary-${index + 1}`;
-        summary.classList.add("is-collapsed");
-
-        if (summary.scrollHeight <= summary.clientHeight + 1) {
-          summary.classList.remove("is-collapsed");
-          return;
-        }
-
-        const button = document.createElement("button");
-        button.className = "cms-sermon-summary-toggle";
-        button.type = "button";
-        button.setAttribute("aria-expanded", "false");
-        button.setAttribute("aria-controls", summary.id);
-        button.textContent = "続きを読む";
-        button.addEventListener("click", () => {
-          const expanded = button.getAttribute("aria-expanded") === "true";
-          button.setAttribute("aria-expanded", String(!expanded));
-          button.textContent = expanded ? "続きを読む" : "閉じる";
-          summary.classList.toggle("is-collapsed", expanded);
-        });
-        card.append(button);
-      });
-    });
-  </script>
 
 </body>
 </html>
