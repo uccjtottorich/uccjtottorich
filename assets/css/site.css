@@ -1417,6 +1417,15 @@ html:has(meta[name="robots"][content*="noindex"]) .sermon-card-summary {
   outline-offset: 4px;
 }
 
+/* Keep the test sermon page's latest message and archive visually connected. */
+.cms-sermon-test main > .section:has(.sermon-layout) {
+  padding-bottom: 52px;
+}
+
+.cms-sermon-test main > .section:has(.sermon-board) {
+  padding-top: 52px;
+}
+
 .access-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
