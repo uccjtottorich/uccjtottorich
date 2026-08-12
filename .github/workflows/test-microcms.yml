@@ -3,8 +3,7 @@ name: Test microCMS connection
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   test:
@@ -37,12 +36,5 @@ jobs:
           if not sermons:
               raise SystemExit("No published sermons found.")
 
-          sermon = sermons[0]
-
           print("----- microCMS connection OK -----")
-          print("title:", sermon.get("title"))
-          print("sermonDate:", sermon.get("sermonDate"))
-          print("scripture:", sermon.get("scripture"))
-          print("preacher:", sermon.get("preacher"))
-          print("summary:", sermon.get("summary"))
           PY
