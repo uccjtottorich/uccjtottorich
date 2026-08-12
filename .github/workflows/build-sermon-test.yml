@@ -92,7 +92,9 @@ jobs:
 
               if match:
                   book, chapter, start_verse, end_verse = match.groups()
-                  reference = f"{book.strip()}{chapter}章{start_verse}"
+                  book = book.strip()
+                  chapter_label = "編" if book == "詩編" else "章"
+                  reference = f"{book}{chapter}{chapter_label}{start_verse}"
 
                   if end_verse:
                       reference += f"〜{end_verse}"
