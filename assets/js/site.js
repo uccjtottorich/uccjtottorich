@@ -254,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (menuButton && mobileNav) {
+    const desktopBreakpoint = 1181;
     const closeMobileMenu = () => {
       menuButton.setAttribute("aria-expanded", "false");
       menuButton.setAttribute("aria-label", menuLabels.open);
@@ -284,6 +285,12 @@ document.addEventListener("DOMContentLoaded", () => {
         closeMobileMenu();
       }
     }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= desktopBreakpoint) {
+        closeMobileMenu();
+      }
+    });
   }
 
   if (filterPanel) {

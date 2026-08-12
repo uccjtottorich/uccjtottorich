@@ -308,6 +308,12 @@ a {
   transform: translateY(0);
 }
 
+@media (min-width: 1181px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
 main {
   flex: 1;
 }
