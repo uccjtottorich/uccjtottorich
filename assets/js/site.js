@@ -255,7 +255,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (menuButton && mobileNav) {
     const desktopBreakpoint = 1181;
+    let mobileMenuOpenedAt = 0;
     const closeMobileMenu = () => {
+      mobileMenuOpenedAt = 0;
       menuButton.setAttribute("aria-expanded", "false");
       menuButton.setAttribute("aria-label", menuLabels.open);
       mobileNav.classList.remove("open");
@@ -272,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       menuButton.setAttribute("aria-expanded", "true");
       menuButton.setAttribute("aria-label", menuLabels.close);
       mobileNav.classList.add("open");
+      mobileMenuOpenedAt = Date.now();
     });
 
     mobileNav.querySelectorAll("a").forEach((link) => {
@@ -280,11 +283,23 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    window.addEventListener("scroll", () => {
+    const closeMobileMenuOnScrollIntent = () => {
+      if (Date.now() - mobileMenuOpenedAt < 300) {
+        return;
+      }
+
       if (menuButton.getAttribute("aria-expanded") === "true") {
         closeMobileMenu();
       }
-    }, { passive: true });
+    };
+
+    window.addEventListener("touchmove", closeMobileMenuOnScrollIntent, { passive: true });
+    window.addEventListener("wheel", closeMobileMenuOnScrollIntent, { passive: true });
+    window.addEventListener("keydown", (event) => {
+      if ([" ", "ArrowDown", "ArrowUp", "End", "Home", "PageDown", "PageUp"].includes(event.key)) {
+        closeMobileMenuOnScrollIntent();
+      }
+    });
 
     window.addEventListener("resize", () => {
       if (window.innerWidth >= desktopBreakpoint) {

@@ -1792,6 +1792,16 @@ html[lang="ko"] .home-scripture p {
     display: none;
   }
 
+  .mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    background: rgba(252, 251, 249, 0.98);
+    backdrop-filter: blur(14px);
+  }
+
   .menu-button {
     display: grid;
   }
