@@ -26,6 +26,7 @@ jobs:
           import os
           import json
           import html
+          import re
           import urllib.request
           from datetime import datetime
           from zoneinfo import ZoneInfo
@@ -78,8 +79,25 @@ jobs:
           def scripture_text(value):
               value = str(value or "").strip()
 
-              if value.startswith("聖書箇所："):
-                  return esc(value)
+              value = re.sub(r"^聖書箇所\s*[:：]\s*", "", value)
+              value = value.translate(str.maketrans(
+                  "０１２３４５６７８９：",
+                  "0123456789:"
+              ))
+
+              match = re.fullmatch(
+                  r"(.+?)(\d+)\s*:\s*(\d+)(?:\s*[〜～]\s*(\d+))?",
+                  value
+              )
+
+              if match:
+                  book, chapter, start_verse, end_verse = match.groups()
+                  reference = f"{book.strip()}{chapter}章{start_verse}"
+
+                  if end_verse:
+                      reference += f"〜{end_verse}"
+
+                  return f"聖書箇所：{esc(reference)}節"
 
               return f"聖書箇所：{esc(value)}"
 
