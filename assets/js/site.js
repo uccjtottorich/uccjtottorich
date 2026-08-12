@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const homeGallery = document.querySelector("[data-home-gallery]");
   const scriptureRotation = document.querySelector("[data-scripture-rotation]");
   const sermonCurrent = document.querySelector("[data-sermon-current]");
-  const isCmsSermonTest = window.location.pathname.replace(/\/+$/, "") === "/test-cms-2026/sermon.html";
+  const isCmsSermonPage = document.body.classList.contains("cms-sermon-page");
   const sermonBoard = document.querySelector("[data-sermon-board]")
-    || (isCmsSermonTest ? document.querySelector(".sermon-board") : null);
+    || (isCmsSermonPage ? document.querySelector(".sermon-board") : null);
   const menuLabelSets = {
     ja: { open: "メニューを開く", close: "メニューを閉じる" },
     ko: { open: "메뉴 열기", close: "메뉴 닫기" },
@@ -104,12 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function enhanceCmsTestSermons() {
-    if (!isCmsSermonTest || !sermonBoard) {
+  function enhanceCmsSermons() {
+    if (!isCmsSermonPage || !sermonBoard) {
       return;
     }
-
-    document.body.classList.add("cms-sermon-test");
 
     sermonBoard.querySelectorAll(".sermon-card").forEach((card, index) => {
       const summary = card.querySelector(".sermon-card-summary");
@@ -151,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderSermons();
-  enhanceCmsTestSermons();
+  enhanceCmsSermons();
 
   if (scriptureRotation) {
     const verses = Array.from(scriptureRotation.querySelectorAll("blockquote"));
