@@ -1,12 +1,20 @@
-name: Build microCMS sermon test
+name: Build microCMS sermon pages
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types: [microcms_build]
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/build-sermon-test.yml
 
 permissions:
   contents: write
+
+concurrency:
+  group: microcms-sermon-build
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -14,9 +22,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Build test sermon page
+      - name: Build sermon pages
         env:
           MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
           MICROCMS_SERVICE_ID: ${{ vars.MICROCMS_SERVICE_ID }}
@@ -37,7 +45,7 @@ jobs:
 
           url = (
               f"https://{service_id}.microcms.io/"
-              "api/v1/sermons?orders=-sermonDate&limit=100"
+              "api/v1/sermons?orders=-sermonDate,-updatedAt&limit=100"
           )
 
           req = urllib.request.Request(
@@ -51,6 +59,30 @@ jobs:
               data = json.load(response)
 
           sermons = data.get("contents", [])
+
+          # A revised sermon can temporarily coexist with its previous CMS
+          # entry. Keep the most recently updated version for each service.
+          unique_sermons = []
+          seen_sermons = set()
+
+          for sermon in sermons:
+              sermon_key = tuple(
+                  str(sermon.get(field) or "").strip()
+                  for field in (
+                      "sermonDate",
+                      "title",
+                      "preacher",
+                      "scripture",
+                  )
+              )
+
+              if sermon_key in seen_sermons:
+                  continue
+
+              seen_sermons.add(sermon_key)
+              unique_sermons.append(sermon)
+
+          sermons = unique_sermons
 
           if not sermons:
               raise SystemExit("No published sermons found.")
@@ -183,9 +215,9 @@ jobs:
                       {preacher_text(sermon.get("preacher"))}
                     </span>
 
-                    <span class="sermon-card-title">
+                    <h3 class="sermon-card-title">
                       {esc(sermon.get("title"))}
-                    </span>
+                    </h3>
 
                     <span class="sermon-scripture">
                       {scripture_text(sermon.get("scripture"))}
@@ -208,7 +240,7 @@ jobs:
                 </p>
               """
 
-          page = f"""<!DOCTYPE html>
+          page_template = f"""<!DOCTYPE html>
           <html lang="ja">
           <head>
             <meta charset="UTF-8">
@@ -218,30 +250,29 @@ jobs:
               content="width=device-width, initial-scale=1.0"
             >
 
-            <meta
-              name="robots"
-              content="noindex, nofollow, noarchive"
-            >
+            @@ROBOTS_META@@
 
             <meta
               name="description"
-              content="microCMSを利用した鳥取教会主日説教ページのテストです。"
+              content="@@DESCRIPTION@@"
             >
 
             <title>
-              主日説教 CMSテスト | 日本基督教団 鳥取教会
+              @@TITLE@@
             </title>
+
+            @@CANONICAL@@
 
             <link
               rel="icon"
               type="image/png"
               sizes="512x512"
-              href="../assets/images/favicon.png"
+              href="@@ROOT@@assets/images/favicon.png"
             >
 
             <link
               rel="apple-touch-icon"
-              href="../assets/images/favicon.png"
+              href="@@ROOT@@assets/images/favicon.png"
             >
 
             <link
@@ -262,7 +293,7 @@ jobs:
 
             <link
               rel="stylesheet"
-              href="../assets/css/site.css"
+              href="@@ROOT@@assets/css/site.css"
             >
 
             <script
@@ -270,7 +301,7 @@ jobs:
             </script>
           </head>
 
-          <body class="cms-sermon-test">
+          <body class="@@BODY_CLASS@@">
 
             <div class="site-shell">
 
@@ -280,12 +311,12 @@ jobs:
 
                   <a
                     class="brand-link"
-                    href="../index.html"
+                    href="@@ROOT@@index.html"
                   >
 
                     <img
                       class="brand-logo"
-                      src="../assets/images/church-logo.png"
+                      src="@@ROOT@@assets/images/church-logo.png"
                       alt="鳥取教会 ロゴ"
                     >
 
@@ -309,34 +340,34 @@ jobs:
                     aria-label="メインメニュー"
                   >
 
-                    <a href="../index.html">
+                    <a href="@@ROOT@@index.html">
                       ホーム
                     </a>
 
-                    <a href="../first-time.html">
+                    <a href="@@ROOT@@first-time.html">
                       初めての方へ
                     </a>
 
-                    <a href="../worship.html">
+                    <a href="@@ROOT@@worship.html">
                       礼拝・集会
                     </a>
 
                     <a
-                      href="../sermon.html"
+                      href="@@ROOT@@sermon.html"
                       aria-current="page"
                     >
                       主日説教
                     </a>
 
-                    <a href="../history.html">
+                    <a href="@@ROOT@@history.html">
                       教会の歴史
                     </a>
 
-                    <a href="../pastor.html">
+                    <a href="@@ROOT@@pastor.html">
                       牧師紹介
                     </a>
 
-                    <a href="../access.html">
+                    <a href="@@ROOT@@access.html">
                       アクセス
                     </a>
 
@@ -364,34 +395,34 @@ jobs:
 
                   <div class="container">
 
-                    <a href="../index.html">
+                    <a href="@@ROOT@@index.html">
                       ホーム
                     </a>
 
-                    <a href="../first-time.html">
+                    <a href="@@ROOT@@first-time.html">
                       初めての方へ
                     </a>
 
-                    <a href="../worship.html">
+                    <a href="@@ROOT@@worship.html">
                       礼拝・集会
                     </a>
 
                     <a
-                      href="../sermon.html"
+                      href="@@ROOT@@sermon.html"
                       aria-current="page"
                     >
                       主日説教
                     </a>
 
-                    <a href="../history.html">
+                    <a href="@@ROOT@@history.html">
                       教会の歴史
                     </a>
 
-                    <a href="../pastor.html">
+                    <a href="@@ROOT@@pastor.html">
                       牧師紹介
                     </a>
 
-                    <a href="../access.html">
+                    <a href="@@ROOT@@access.html">
                       アクセス
                     </a>
 
@@ -497,43 +528,43 @@ jobs:
                       <ul class="footer-list">
 
                         <li>
-                          <a href="../first-time.html">
+                          <a href="@@ROOT@@first-time.html">
                             初めての方へ
                           </a>
                         </li>
 
                         <li>
-                          <a href="../worship.html">
+                          <a href="@@ROOT@@worship.html">
                             礼拝・集会
                           </a>
                         </li>
 
                         <li>
-                          <a href="../sermon.html">
+                          <a href="@@ROOT@@sermon.html">
                             主日説教
                           </a>
                         </li>
 
                         <li>
-                          <a href="../history.html">
+                          <a href="@@ROOT@@history.html">
                             教会の歴史
                           </a>
                         </li>
 
                         <li>
-                          <a href="../pastor.html">
+                          <a href="@@ROOT@@pastor.html">
                             牧師紹介
                           </a>
                         </li>
 
                         <li>
-                          <a href="../access.html">
+                          <a href="@@ROOT@@access.html">
                             アクセス
                           </a>
                         </li>
 
                         <li>
-                          <a href="../heian-reido.html">
+                          <a href="@@ROOT@@heian-reido.html">
                             平安霊堂
                           </a>
                         </li>
@@ -641,42 +672,93 @@ jobs:
               microCMS からビルド時に生成されます。
             -->
 
-            <script src="../assets/js/site.js"></script>
+            <script src="@@ROOT@@assets/js/site.js"></script>
 
           </body>
           </html>
           """
 
-          output = Path(
-              "test-cms-2026/sermon.html"
+          tokens = (
+              "@@ROBOTS_META@@",
+              "@@DESCRIPTION@@",
+              "@@TITLE@@",
+              "@@CANONICAL@@",
+              "@@ROOT@@",
+              "@@BODY_CLASS@@",
           )
 
-          output.parent.mkdir(
-              parents=True,
-              exist_ok=True
-          )
+          if any(
+              token in json.dumps(sermons, ensure_ascii=False)
+              for token in tokens
+          ):
+              raise SystemExit("Reserved template token found in CMS data.")
 
-          output.write_text(
-              page,
-              encoding="utf-8"
-          )
+          def render_page(replacements):
+              rendered = page_template
 
-          print(
-              f"Generated: {output}"
-          )
+              for token, value in replacements.items():
+                  rendered = rendered.replace(token, value)
+
+              unresolved = [
+                  token for token in tokens
+                  if token in rendered
+              ]
+
+              if unresolved:
+                  raise SystemExit("Unresolved page template token.")
+
+              return rendered
+
+          test_page = render_page({
+              "@@ROBOTS_META@@": (
+                  '<meta name="robots" '
+                  'content="noindex, nofollow, noarchive">'
+              ),
+              "@@DESCRIPTION@@": (
+                  "microCMSを利用した鳥取教会主日説教ページのテストです。"
+              ),
+              "@@TITLE@@": (
+                  "主日説教 CMSテスト | 日本基督教団 鳥取教会"
+              ),
+              "@@CANONICAL@@": "",
+              "@@ROOT@@": "../",
+              "@@BODY_CLASS@@": "cms-sermon-page cms-sermon-test",
+          })
+
+          production_page = render_page({
+              "@@ROBOTS_META@@": "",
+              "@@DESCRIPTION@@": (
+                  "日本基督教団 鳥取教会の主日礼拝で語られた説教の概要と、"
+                  "これまでの主日説教を掲載しています。"
+              ),
+              "@@TITLE@@": "主日説教 | 日本基督教団 鳥取教会",
+              "@@CANONICAL@@": (
+                  '<link rel="canonical" '
+                  'href="https://uccjtottorich.org/sermon.html">'
+              ),
+              "@@ROOT@@": "",
+              "@@BODY_CLASS@@": "cms-sermon-page",
+          })
+
+          outputs = {
+              Path("test-cms-2026/sermon.html"): test_page,
+              Path("sermon.html"): production_page,
+          }
+
+          for output, rendered_page in outputs.items():
+              output.parent.mkdir(parents=True, exist_ok=True)
+              output.write_text(rendered_page, encoding="utf-8")
+
+          print("Generated sermon pages: 2")
 
           print(
               f"Published sermons: {len(sermons)}"
           )
 
-          print(
-              f"Latest sermon: {latest.get('title')}"
-          )
-
           PY
 
 
-      - name: Commit test page
+      - name: Commit sermon pages
         run: |
           git config \
             user.name \
@@ -687,7 +769,8 @@ jobs:
             "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add \
-            test-cms-2026/sermon.html
+            test-cms-2026/sermon.html \
+            sermon.html
 
           if git diff --cached --quiet; then
 
@@ -696,7 +779,7 @@ jobs:
           else
 
             git commit \
-              -m "Update microCMS sermon test page"
+              -m "Update microCMS sermon pages"
 
             git push
 
