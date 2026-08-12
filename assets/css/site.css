@@ -1391,7 +1391,7 @@ html:has(meta[name="robots"][content*="noindex"]) .sermon-card-summary {
   white-space: pre-line;
 }
 
-.cms-sermon-test .sermon-card-summary.is-collapsed {
+.cms-sermon-test .sermon-card-summary.cms-sermon-summary.is-collapsed {
   display: -webkit-box;
   overflow: hidden;
   margin-bottom: 12px;
