@@ -1357,6 +1357,63 @@ html[lang="ko"] .home-scripture p {
   margin: 18px 0 0;
 }
 
+/* CMS test output retains legacy card markup; keep its fallback fully readable. */
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main {
+  display: block;
+  padding: 0;
+}
+
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main time {
+  margin: 24px 24px 10px;
+}
+
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-preacher {
+  display: none;
+}
+
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-title {
+  display: block;
+  margin: 0 24px;
+}
+
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-main .sermon-scripture {
+  display: block;
+  margin: 10px 24px 0;
+}
+
+html:has(meta[name="robots"][content~="noindex"]) .sermon-card-summary {
+  display: block;
+  margin: 10px 24px 24px;
+  overflow: visible;
+  white-space: pre-line;
+}
+
+.cms-sermon-test .sermon-card-summary.is-collapsed {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-bottom: 12px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.cms-sermon-test .cms-sermon-summary-toggle {
+  margin: 0 24px 24px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--card-accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 2px 0;
+}
+
+.cms-sermon-test .cms-sermon-summary-toggle:focus-visible {
+  outline: 2px solid rgba(111, 101, 93, 0.5);
+  outline-offset: 4px;
+}
+
 .access-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
