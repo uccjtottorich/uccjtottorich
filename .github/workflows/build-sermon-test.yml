@@ -66,14 +66,24 @@ jobs:
           seen_sermons = set()
 
           for sermon in sermons:
-              sermon_key = tuple(
-                  str(sermon.get(field) or "").strip()
-                  for field in (
-                      "sermonDate",
-                      "title",
-                      "preacher",
-                      "scripture",
-                  )
+              raw_sermon_date = str(
+                  sermon.get("sermonDate") or ""
+              ).strip()
+
+              try:
+                  identity_date = datetime.fromisoformat(
+                      raw_sermon_date.replace("Z", "+00:00")
+                  ).astimezone(
+                      ZoneInfo("Asia/Tokyo")
+                  ).date().isoformat()
+              except Exception:
+                  identity_date = raw_sermon_date
+
+              sermon_key = (
+                  identity_date,
+                  str(sermon.get("title") or "").strip(),
+                  str(sermon.get("preacher") or "").strip(),
+                  str(sermon.get("scripture") or "").strip(),
               )
 
               if sermon_key in seen_sermons:
