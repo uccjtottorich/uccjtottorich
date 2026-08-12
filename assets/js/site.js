@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const homeGallery = document.querySelector("[data-home-gallery]");
   const scriptureRotation = document.querySelector("[data-scripture-rotation]");
   const sermonCurrent = document.querySelector("[data-sermon-current]");
-  const sermonBoard = document.querySelector("[data-sermon-board]");
+  const isCmsSermonTest = window.location.pathname.replace(/\/+$/, "") === "/test-cms-2026/sermon.html";
+  const sermonBoard = document.querySelector("[data-sermon-board]")
+    || (isCmsSermonTest ? document.querySelector(".sermon-board") : null);
   const menuLabelSets = {
     ja: { open: "メニューを開く", close: "メニューを閉じる" },
     ko: { open: "메뉴 열기", close: "메뉴 닫기" },
@@ -102,7 +104,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function enhanceCmsTestSermons() {
+    if (!isCmsSermonTest || !sermonBoard) {
+      return;
+    }
+
+    document.body.classList.add("cms-sermon-test");
+
+    sermonBoard.querySelectorAll(".sermon-card").forEach((card, index) => {
+      const summary = card.querySelector(".sermon-card-summary");
+
+      if (!summary) {
+        return;
+      }
+
+      card.classList.add("cms-sermon-card");
+      summary.classList.add("cms-sermon-summary", "is-collapsed");
+      summary.id = `cms-sermon-summary-${index + 1}`;
+
+      if (summary.scrollHeight <= summary.clientHeight + 1) {
+        summary.classList.remove("is-collapsed");
+        return;
+      }
+
+      const button = document.createElement("button");
+      button.className = "cms-sermon-summary-toggle";
+      button.type = "button";
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-controls", summary.id);
+      button.textContent = "続きを読む";
+      button.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+
+        button.setAttribute("aria-expanded", String(!expanded));
+        button.textContent = expanded ? "続きを読む" : "閉じる";
+        summary.classList.toggle("is-collapsed", expanded);
+      });
+      card.append(button);
+    });
+  }
+
   renderSermons();
+  enhanceCmsTestSermons();
 
   if (scriptureRotation) {
     const verses = Array.from(scriptureRotation.querySelectorAll("blockquote"));
