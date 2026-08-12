@@ -254,20 +254,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (menuButton && mobileNav) {
+    const closeMobileMenu = () => {
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", menuLabels.open);
+      mobileNav.classList.remove("open");
+    };
+
     menuButton.addEventListener("click", () => {
       const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-      menuButton.setAttribute("aria-expanded", String(!isOpen));
-      menuButton.setAttribute("aria-label", isOpen ? menuLabels.open : menuLabels.close);
-      mobileNav.classList.toggle("open", !isOpen);
+
+      if (isOpen) {
+        closeMobileMenu();
+        return;
+      }
+
+      menuButton.setAttribute("aria-expanded", "true");
+      menuButton.setAttribute("aria-label", menuLabels.close);
+      mobileNav.classList.add("open");
     });
 
     mobileNav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", menuLabels.open);
-        mobileNav.classList.remove("open");
+        closeMobileMenu();
       });
     });
+
+    window.addEventListener("scroll", () => {
+      if (menuButton.getAttribute("aria-expanded") === "true") {
+        closeMobileMenu();
+      }
+    }, { passive: true });
   }
 
   if (filterPanel) {

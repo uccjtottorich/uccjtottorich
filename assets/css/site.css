@@ -145,8 +145,9 @@ a {
   display: block;
   margin-top: 3px;
   font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   color: var(--brand-muted);
+  white-space: nowrap;
 }
 
 .desktop-nav {
