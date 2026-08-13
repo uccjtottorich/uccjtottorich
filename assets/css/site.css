@@ -579,6 +579,11 @@ html[lang="ko"] .home-scripture p {
   line-height: 1.9;
 }
 
+.section-copy--fluid {
+  width: 100%;
+  max-width: none;
+}
+
 .lead-text {
   display: grid;
   gap: 18px;
@@ -1559,7 +1564,7 @@ html[lang="ko"] .home-scripture p {
   margin-top: 0;
 }
 
-.reido-link-card {
+.guide-link-card {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 20px;
@@ -1567,19 +1572,19 @@ html[lang="ko"] .home-scripture p {
   height: auto;
 }
 
-.reido-link-card .card-icon {
+.guide-link-card .card-icon {
   margin: 0;
 }
 
-.reido-link-card h3 {
+.guide-link-card h3 {
   margin-bottom: 6px;
 }
 
-.reido-link-card p {
+.guide-link-card p {
   margin: 0;
 }
 
-.reido-link-card > svg {
+.guide-link-card > svg {
   width: 22px;
   height: 22px;
   color: var(--card-accent);
@@ -2027,11 +2032,11 @@ html[lang="ko"] .home-scripture p {
     content: none;
   }
 
-  .reido-link-card {
+  .guide-link-card {
     grid-template-columns: auto minmax(0, 1fr);
   }
 
-  .reido-link-card > svg {
+  .guide-link-card > svg {
     display: none;
   }
 
