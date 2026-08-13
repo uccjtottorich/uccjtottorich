@@ -1,4 +1,4 @@
-const CACHE_NAME = "tottori-rental-v3";
+const CACHE_NAME = "tottori-rental-v5";
 const APP_SHELL = [
   "./calculator.html",
   "./manifest.webmanifest",
