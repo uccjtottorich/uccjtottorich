@@ -19,7 +19,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     .facility-review-notice { margin-top: 18px; color: var(--muted); font-size: .92rem; }
-    .facility-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+    .facility-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
     .facility-card { display: flex; height: auto; flex-direction: column; }
     .facility-card--with-image { padding: 0; overflow: hidden; }
     .facility-card-image { aspect-ratio: 16 / 10; overflow: hidden; background: var(--card-accent-soft); }
@@ -30,7 +30,6 @@
     .facility-card .card-icon { display: none; }
     .facility-card h3 { margin: 0 0 12px; font-family: "Noto Serif JP", Georgia, serif; font-size: clamp(1.3rem, 2vw, 1.65rem); letter-spacing: .04em; }
     .facility-card p { flex: 1; margin: 0; color: var(--brand-muted); line-height: 1.9; }
-    @media (max-width: 1279px) { .facility-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } }
     @media (max-width: 900px) { .facility-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 700px) { .facility-list { grid-template-columns: 1fr; } }
   </style>
@@ -53,6 +52,7 @@
         <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/meeting-room-2.jpeg" alt="鳥取教会 第二集会室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="layout-grid"></i></span><h3>第二集会室</h3><p>月に一度のうどんコーナーをはじめ、会議やCS（教会学校）の活動に用いられています。</p></div></article>
         <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/japanese-room.jpeg" alt="鳥取教会 親子室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="lamp-ceiling"></i></span><h3>親子室</h3><p>主日礼拝などの際に、親子がともに礼拝を守るための場所です。</p></div></article>
         <article class="card facility-card"><span class="card-icon"><i data-lucide="coffee"></i></span><h3>ラウンジ</h3><p>月に一度のコーヒータイムや会議などに用いられる、くつろぎの空間です。</p></article>
+        <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/heian-reido.jpeg" alt="鳥取教会の納骨堂 平安霊堂"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="landmark"></i></span><h3>納骨堂（平安霊堂）</h3><p>天に召された方々を覚え、ご遺族や関係する方々が静かに祈りをささげる場所です。</p></div></article>
       </div></div></section>
       <section class="section facility-contact-section" aria-label="施設利用に関するお問い合わせ"><div class="container"><p class="section-copy">地域に開かれた教会として、教会の活動に支障のない範囲で、施設のご利用を希望される方は、教会までお問い合わせください。</p></div></section>
     </main>
