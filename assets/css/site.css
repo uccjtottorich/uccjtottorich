@@ -584,89 +584,6 @@ html[lang="ko"] .home-scripture p {
   max-width: none;
 }
 
-.facility-page .section {
-  padding: clamp(42px, 5vw, 54px) 0;
-}
-
-.facility-page .section-header {
-  margin-bottom: 26px;
-}
-
-.facility-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
-  gap: 34px;
-  align-items: center;
-}
-
-.facility-intro-copy {
-  max-width: 680px;
-}
-
-.facility-hero-image img {
-  height: 330px;
-  object-fit: cover;
-}
-
-.facility-list,
-.facility-guidance-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-}
-
-.facility-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.facility-card p {
-  flex: 1;
-}
-
-.definition-list {
-  display: grid;
-  gap: 0;
-  margin: 18px 0 0;
-}
-
-.definition-list > div {
-  display: grid;
-  grid-template-columns: minmax(6em, 0.38fr) minmax(0, 1fr);
-  gap: 20px;
-  padding: 14px 0;
-  border-top: 1px solid var(--brand-line);
-}
-
-.definition-list > div:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.definition-list dt {
-  font-family: "Noto Serif JP", Georgia, serif;
-  font-weight: 700;
-}
-
-.definition-list dd {
-  margin: 0;
-  color: var(--brand-muted);
-  line-height: 1.85;
-}
-
-.facility-note {
-  margin-top: 28px;
-}
-
-.facility-contribution {
-  height: auto;
-  border-top: 3px solid var(--brand-primary);
-}
-
-.facility-contact-section {
-  padding-top: 64px;
-}
-
 .lead-text {
   display: grid;
   gap: 18px;
@@ -1944,13 +1861,10 @@ html[lang="ko"] .home-scripture p {
 
   .grid-2,
   .grid-3,
-  .facility-intro,
   .access-layout,
   .footer-grid,
   .profile-panel,
   .gathering-detail-inner,
-  .reido-intro,
-  .reido-legacy,
   .related-organizations-inner {
     grid-template-columns: 1fr;
   }
@@ -2146,24 +2060,15 @@ html[lang="ko"] .home-scripture p {
 }
 
 @media (max-width: 760px) {
+  .reido-intro,
+  .reido-legacy {
+    grid-template-columns: 1fr;
+  }
+
   .related-guides {
     grid-template-columns: 1fr;
   }
 
-  .facility-list,
-  .facility-guidance-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .facility-intro-copy .section-title {
-    font-size: 1.45rem;
-    letter-spacing: 0.04em;
-  }
-
-  .definition-list > div {
-    grid-template-columns: 1fr;
-    gap: 5px;
-  }
 }
 
 @media (max-width: 360px) {
