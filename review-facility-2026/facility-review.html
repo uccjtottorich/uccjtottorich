@@ -19,12 +19,18 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     .facility-review-notice { margin-top: 18px; color: var(--muted); font-size: .92rem; }
-    .facility-card--with-image { padding: 0; overflow: hidden; }
-    .facility-card-image { aspect-ratio: 16 / 10; overflow: hidden; background: var(--card-accent-soft); }
-    .facility-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .facility-list { grid-template-columns: 1fr; gap: 28px; }
+    .facility-card { height: auto; }
+    .facility-card--with-image { display: grid; grid-template-columns: minmax(220px, .38fr) minmax(0, 1fr); gap: 28px; align-items: stretch; padding: 26px; overflow: visible; }
+    .facility-card-image { min-height: 230px; overflow: hidden; border-radius: 8px; background: var(--card-accent-soft); }
+    .facility-card-image img { display: block; width: 100%; height: 100%; min-height: 230px; object-fit: cover; object-position: center; transition: transform 1.1s ease, filter .8s ease; }
+    .facility-card--with-image:hover .facility-card-image img { transform: scale(1.035); filter: brightness(.98); }
     .facility-card--chapel .facility-card-image img { object-position: center 46%; }
-    .facility-card-body { display: flex; flex: 1; flex-direction: column; padding: 26px; }
-    .facility-card p { flex: 1; }
+    .facility-card-body { display: block; padding: 0; }
+    .facility-card-body .card-icon { display: none; }
+    .facility-card h3 { margin: 0 0 12px; font-family: "Noto Serif JP", Georgia, serif; font-size: clamp(1.5rem, 2.3vw, 2.05rem); letter-spacing: .04em; }
+    .facility-card p { margin: 0; color: var(--brand-muted); line-height: 1.9; }
+    @media (max-width: 1080px) { .facility-card--with-image { grid-template-columns: 1fr; gap: 20px; } }
   </style>
 </head>
 <body class="facility-page">
@@ -55,7 +61,7 @@
             <article class="card facility-card facility-card--with-image facility-card--chapel"><div class="facility-card-image"><img src="../assets/images/facility/sanctuary.jpeg" alt="鳥取教会 礼拝堂"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="church"></i></span><h3>礼拝堂</h3><p>毎週日曜日に主日礼拝を行う、教会の中心となる場所です。</p></div></article>
             <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/meeting-room-1.jpeg" alt="鳥取教会 第一集会室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="users"></i></span><h3>第一集会室</h3><p>定例役員会や諸委員会の会議、さまざまな集会に用いられています。</p></div></article>
             <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/meeting-room-2.jpeg" alt="鳥取教会 第二集会室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="layout-grid"></i></span><h3>第二集会室</h3><p>月に一度のうどんコーナーをはじめ、会議やCS（教会学校）の活動に用いられています。</p></div></article>
-            <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/japanese-room.jpeg" alt="鳥取教会 親皇室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="lamp-ceiling"></i></span><h3>親皇室</h3><p>主日礼拝などの際に、親子がともに礼拝を守るための場所です。</p></div></article>
+            <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/facility/japanese-room.jpeg" alt="鳥取教会 親子室"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="lamp-ceiling"></i></span><h3>親子室</h3><p>主日礼拝などの際に、親子がともに礼拝を守るための場所です。</p></div></article>
             <article class="card facility-card"><span class="card-icon"><i data-lucide="coffee"></i></span><h3>ラウンジ</h3><p>月に一度のコーヒータイムや会議などに用いられる、くつろぎの空間です。</p></article>
           </div>
         </div>
