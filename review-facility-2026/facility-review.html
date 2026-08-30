@@ -30,8 +30,12 @@
     .facility-card .card-icon { display: none; }
     .facility-card h3 { margin: 0 0 12px; font-family: "Noto Serif JP", Georgia, serif; font-size: clamp(1.3rem, 2vw, 1.65rem); letter-spacing: .04em; }
     .facility-card p { flex: 1; margin: 0; color: var(--brand-muted); line-height: 1.9; }
+    .facility-contact-section { padding-top: clamp(18px, 3vw, 36px); }
+    .facility-contact-note { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; width: 100%; padding: 20px 24px; border: 1px solid var(--card-border); border-left: 4px solid var(--brand-primary); border-radius: 8px; background: var(--brand-surface); }
+    .facility-contact-note-icon { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 50%; background: var(--card-accent-soft); color: var(--brand-primary); }
+    .facility-contact-note p { max-width: none; margin: 0; color: var(--brand-muted); line-height: 1.9; }
     @media (max-width: 900px) { .facility-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 700px) { .facility-list { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .facility-list { grid-template-columns: 1fr; } .facility-contact-note { align-items: start; padding: 18px 20px; } }
   </style>
 </head>
 <body class="facility-page">
@@ -54,7 +58,7 @@
         <article class="card facility-card"><span class="card-icon"><i data-lucide="coffee"></i></span><h3>ラウンジ</h3><p>月に一度のコーヒータイムや会議などに用いられる、くつろぎの空間です。</p></article>
         <article class="card facility-card facility-card--with-image"><div class="facility-card-image"><img src="../assets/images/heian-reido.jpeg" alt="鳥取教会の納骨堂 平安霊堂"></div><div class="facility-card-body"><span class="card-icon"><i data-lucide="landmark"></i></span><h3>納骨堂（平安霊堂）</h3><p>天に召された方々を覚え、ご遺族や関係する方々が静かに祈りをささげる場所です。</p></div></article>
       </div></div></section>
-      <section class="section facility-contact-section" aria-label="施設利用に関するお問い合わせ"><div class="container"><p class="section-copy">地域に開かれた教会として、教会の活動に支障のない範囲で、施設のご利用を希望される方は、教会までお問い合わせください。</p></div></section>
+      <section class="section facility-contact-section" aria-label="施設利用に関するお問い合わせ"><div class="container"><div class="facility-contact-note"><span class="facility-contact-note-icon" aria-hidden="true"><i data-lucide="messages-square"></i></span><p>鳥取教会は、地域に開かれた教会として、教会の活動に支障のない範囲で施設をご利用いただけます。ご利用を希望される方は、教会までお問い合わせください。</p></div></div></section>
     </main>
     <footer class="site-footer"><div class="container"><div class="footer-grid"><div><span class="footer-title">日本基督教団 鳥取教会</span><p class="footer-copy">1890年に独立（創立）し、鳥取の街の中心で祈りをささげ続けてきたプロテスタント教会です。</p></div><div><span class="footer-title">メニュー</span><ul class="footer-list"><li><a href="../first-time.html">初めての方へ</a></li><li><a href="../worship.html">礼拝・集会</a></li><li><a href="../sermon.html">主日説教</a></li><li><a href="../history.html">教会の歴史</a></li><li><a href="../pastor.html">牧師紹介</a></li><li><a href="../access.html">アクセス</a></li><li><a href="../heian-reido.html">平安霊堂</a></li></ul></div><div><span class="footer-title">連絡先</span><ul class="footer-list"><li>〒680-0022 鳥取県鳥取市西町1-425-1</li><li>0857-23-1388</li><li><a href="mailto:uccjtottorich@gmail.com">uccjtottorich@gmail.com</a></li><li><a class="footer-instagram-link" href="https://www.instagram.com/uccjtottorich/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><span class="footer-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2.8" y="2.8" width="18.4" height="18.4" rx="5.2"></rect><circle cx="12" cy="12" r="4.1"></circle><circle cx="17.3" cy="6.7" r="1.1"></circle></svg></span><span>Instagram</span></a></li></ul></div></div><div class="footer-bottom"><span>© <span data-current-year></span> 日本基督教団 鳥取教会</span><span>統一教会、エホバの証人、モルモン教等とは一切関係ございません。</span></div></div></footer>
   </div>
