@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const year = document.querySelector("[data-current-year]");
   const menuButton = document.querySelector("[data-menu-button]");
   const mobileNav = document.querySelector("[data-mobile-nav]");
+  const desktopDropdowns = document.querySelectorAll("[data-nav-dropdown]");
+  const mobileNavGroups = document.querySelectorAll("[data-mobile-nav-group]");
   const filterPanel = document.querySelector("[data-gathering-filter]");
   const revealTargets = document.querySelectorAll(".home-banner, .image-frame, .gathering-detail-image");
   const homeGallery = document.querySelector("[data-home-gallery]");
@@ -26,6 +28,38 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) {
     lucide.createIcons();
   }
+
+  desktopDropdowns.forEach((button) => {
+    const dropdown = button.closest(".nav-dropdown");
+
+    button.addEventListener("click", () => {
+      const willOpen = button.getAttribute("aria-expanded") !== "true";
+      desktopDropdowns.forEach((otherButton) => {
+        otherButton.setAttribute("aria-expanded", "false");
+        otherButton.closest(".nav-dropdown")?.classList.remove("is-open");
+      });
+      button.setAttribute("aria-expanded", String(willOpen));
+      dropdown?.classList.toggle("is-open", willOpen);
+    });
+  });
+
+  mobileNavGroups.forEach((button) => {
+    const group = button.closest(".mobile-nav-group");
+
+    button.addEventListener("click", () => {
+      const willOpen = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", String(willOpen));
+      group?.classList.toggle("is-open", willOpen);
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest(".nav-dropdown")) return;
+    desktopDropdowns.forEach((button) => {
+      button.setAttribute("aria-expanded", "false");
+      button.closest(".nav-dropdown")?.classList.remove("is-open");
+    });
+  });
 
   function escapeHtml(value) {
     return String(value || "")
