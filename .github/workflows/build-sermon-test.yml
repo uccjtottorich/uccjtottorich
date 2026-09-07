@@ -321,7 +321,7 @@ jobs:
 
                   <a
                     class="brand-link"
-                    href="@@ROOT@@index.html"
+                    href="/"
                   >
 
                     <img
@@ -350,7 +350,7 @@ jobs:
                     aria-label="メインメニュー"
                   >
 
-                    <a href="@@ROOT@@index.html">
+                    <a href="/">
                       ホーム
                     </a>
 
@@ -440,7 +440,7 @@ jobs:
 
                   <div class="container">
 
-                    <a href="@@ROOT@@index.html">
+                    <a href="/">
                       ホーム
                     </a>
 
