@@ -61,6 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
       lastFocusedElement?.focus?.();
     };
 
+    todayCheckbox?.addEventListener("change", () => {
+      if (todayCheckbox.checked) {
+        closeSpecialEvent();
+      }
+    });
+
     closeButtons.forEach((button) => {
       button.addEventListener("click", closeSpecialEvent);
     });
