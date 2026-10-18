@@ -11,10 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const homeGallery = document.querySelector("[data-home-gallery]");
   const scriptureRotation = document.querySelector("[data-scripture-rotation]");
   const specialEventModal = document.querySelector("[data-special-event-modal]");
-  const sermonCurrent = document.querySelector("[data-sermon-current]");
   const isCmsSermonPage = document.body.classList.contains("cms-sermon-page");
-  const sermonBoard = document.querySelector("[data-sermon-board]")
-    || (isCmsSermonPage ? document.querySelector(".sermon-board") : null);
+  const sermonBoard = isCmsSermonPage ? document.querySelector(".sermon-board") : null;
   const menuLabelSets = {
     ja: { open: "メニューを開く", close: "メニューを閉じる" },
     ko: { open: "메뉴 열기", close: "메뉴 닫기" },
@@ -136,83 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function escapeHtml(value) {
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  function renderSermons() {
-    if (!window.TOTTORI_SERMONS) {
-      return;
-    }
-
-    const sermons = [...(window.TOTTORI_SERMONS.ja || [])]
-      .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-    if (!sermons.length) {
-      return;
-    }
-
-    const current = sermons[0];
-    if (sermonCurrent) {
-      const date = sermonCurrent.querySelector("[data-sermon-date]");
-      const preacher = sermonCurrent.querySelector("[data-sermon-preacher]");
-      const title = sermonCurrent.querySelector("[data-sermon-title]");
-      const scripture = sermonCurrent.querySelector("[data-sermon-scripture]");
-      const body = sermonCurrent.querySelector("[data-sermon-body]");
-
-      if (date) date.textContent = `${current.displayDate} ${current.service || ""}`.trim();
-      if (preacher) preacher.textContent = `説教者：${current.preacher || ""}`;
-      if (title) title.textContent = current.title || "";
-      if (scripture) scripture.textContent = current.scripture || "";
-      if (body) {
-        body.innerHTML = (current.body || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
-      }
-    }
-
-    if (sermonBoard) {
-      const labels = {
-        open: "全文を読む",
-        close: "閉じる"
-      };
-
-      sermonBoard.innerHTML = sermons.slice(1, 4).map((sermon, index) => `
-        <article class="sermon-card">
-          <button class="sermon-card-toggle" type="button" aria-expanded="false" aria-controls="sermon-detail-${index}">
-            <span class="sermon-card-main">
-              <time datetime="${escapeHtml(sermon.date)}">${escapeHtml(sermon.displayDate)}</time>
-              <span class="sermon-card-preacher">説教者：${escapeHtml(sermon.preacher || "")}</span>
-              <span class="sermon-card-title">${escapeHtml(sermon.title)}</span>
-              <span class="sermon-scripture">${escapeHtml(sermon.scripture)}</span>
-              <span class="sermon-card-summary">${escapeHtml(sermon.summary || (sermon.body || [])[0] || "")}</span>
-            </span>
-            <span class="sermon-card-action">${labels.open}</span>
-          </button>
-          <div class="sermon-card-detail" id="sermon-detail-${index}" hidden>
-            ${(sermon.body || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
-          </div>
-        </article>
-      `).join("");
-
-      sermonBoard.querySelectorAll(".sermon-card-toggle").forEach((button) => {
-        button.addEventListener("click", () => {
-          const detail = document.getElementById(button.getAttribute("aria-controls"));
-          const isOpen = button.getAttribute("aria-expanded") === "true";
-
-          button.setAttribute("aria-expanded", String(!isOpen));
-          button.querySelector(".sermon-card-action").textContent = isOpen ? labels.open : labels.close;
-
-          if (detail) {
-            detail.hidden = isOpen;
-          }
-        });
-      });
-    }
-  }
-
   function enhanceCmsSermons() {
     if (!isCmsSermonPage || !sermonBoard) {
       return;
@@ -257,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  renderSermons();
   enhanceCmsSermons();
 
   if (scriptureRotation) {
