@@ -7,4 +7,4 @@
 
 ## 프로젝트 개요
 - **사이트명**: 일본기독교단 돗토리교회 (日本基督教団 鳥取教会 / `uccjtottorich.org`) 공식 웹사이트
-- **기술 스택**: 정적 HTML5, CSS3 (`assets/css/site.css`), Vanilla JavaScript (`assets/js/site.js`, `assets/js/sermon-data.js`), GitHub Pages 호스팅 (microCMS 연동 워크플로우 포함)
+- **기술 스택**: 정적 HTML5, CSS3 (`assets/css/site.css`), Vanilla JavaScript (`assets/js/site.js`), GitHub Pages 호스팅 (microCMS 연동 워크플로우 포함)
