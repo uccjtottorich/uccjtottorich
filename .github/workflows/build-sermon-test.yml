@@ -474,10 +474,6 @@ jobs:
                       アクセス
                     </a>
 
-                    <a href="/ko/" lang="ko">한국어</a>
-
-                    <a href="/en/" lang="en">English</a>
-
                     <a
                       class="mobile-instagram-link"
                       href="https://www.instagram.com/uccjtottorich/"
@@ -514,6 +510,10 @@ jobs:
                       <span>Instagram</span>
 
                     </a>
+
+                    <a href="/ko/" lang="ko">한국어</a>
+
+                    <a href="/en/" lang="en">English</a>
 
                   </div>
 

@@ -43,6 +43,7 @@ html[lang="ko"] body {
 html[lang="ko"] .brand-title,
 html[lang="ko"] .page-title,
 html[lang="ko"] .section-title,
+html[lang="ko"] .related-organizations-heading h2,
 html[lang="ko"] .card h3,
 html[lang="ko"] .footer-title {
   font-family: "Noto Serif KR", "Noto Serif JP", Georgia, serif;
@@ -57,6 +58,7 @@ html[lang="ko"] .brand-title {
 html[lang="ko"] .page-copy,
 html[lang="ko"] .section-copy,
 html[lang="ko"] .lead-text,
+html[lang="ko"] .related-organizations-heading p,
 html[lang="ko"] .card p,
 html[lang="ko"] .card li,
 html[lang="ko"] .footer-copy,
@@ -1508,7 +1510,7 @@ html[lang="ko"] .home-scripture p {
 
 .profile-message p {
   margin: 0;
-  color: var(--brand-text);
+  color: var(--brand-ink);
   font-family: "Noto Serif JP", Georgia, serif;
   line-height: 2;
 }

@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (menuButton && mobileNav) {
-    const desktopBreakpoint = 1181;
+    const desktopBreakpoint = 921;
     let mobileMenuOpenedAt = 0;
     const closeMobileMenu = () => {
       mobileMenuOpenedAt = 0;
