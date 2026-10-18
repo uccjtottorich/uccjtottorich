@@ -478,4 +478,90 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  const facilityLightbox = document.querySelector("[data-facility-lightbox]");
+  const facilityCards = document.querySelectorAll(".facility-card--with-image");
+
+  if (facilityLightbox && facilityCards.length) {
+    const lightboxImage = facilityLightbox.querySelector("[data-facility-lightbox-image]");
+    const lightboxTitle = facilityLightbox.querySelector("[data-facility-lightbox-title]");
+    const lightboxDesc = facilityLightbox.querySelector("[data-facility-lightbox-desc]");
+    const closeButtons = facilityLightbox.querySelectorAll("[data-facility-lightbox-close]");
+    const closeBtn = facilityLightbox.querySelector(".facility-lightbox-close");
+    let lastFocusedCardImage = null;
+
+    const closeFacilityLightbox = () => {
+      facilityLightbox.hidden = true;
+      document.body.classList.remove("facility-lightbox-open");
+      if (lightboxImage) {
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+      }
+      lastFocusedCardImage?.focus?.();
+    };
+
+    const openFacilityLightbox = (card, triggerElement) => {
+      const img = card.querySelector(".facility-card-image img");
+      const title = card.querySelector(".facility-card-body h3");
+      const desc = card.querySelector(".facility-card-body p");
+
+      if (!img || !lightboxImage) {
+        return;
+      }
+
+      lastFocusedCardImage = triggerElement || img;
+      lightboxImage.src = img.currentSrc || img.src;
+      lightboxImage.alt = img.alt || "";
+      if (lightboxTitle) {
+        lightboxTitle.textContent = title ? title.textContent : "";
+      }
+      if (lightboxDesc) {
+        lightboxDesc.textContent = desc ? desc.textContent : "";
+      }
+
+      facilityLightbox.hidden = false;
+      document.body.classList.add("facility-lightbox-open");
+      closeBtn?.focus?.();
+    };
+
+    facilityCards.forEach((card) => {
+      const img = card.querySelector(".facility-card-image img");
+      const title = card.querySelector(".facility-card-body h3");
+      if (!img) {
+        return;
+      }
+
+      img.tabIndex = 0;
+      img.setAttribute("role", "button");
+      img.setAttribute("aria-label", `${title ? title.textContent : "施設写真"}を拡大表示`);
+
+      img.addEventListener("click", () => {
+        openFacilityLightbox(card, img);
+      });
+
+      img.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openFacilityLightbox(card, img);
+        }
+      });
+    });
+
+    closeButtons.forEach((button) => {
+      button.addEventListener("click", closeFacilityLightbox);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (facilityLightbox.hidden) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeFacilityLightbox();
+      } else if (event.key === "Tab" && closeBtn) {
+        event.preventDefault();
+        closeBtn.focus();
+      }
+    });
+  }
 });
