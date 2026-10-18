@@ -300,7 +300,17 @@ document.addEventListener("DOMContentLoaded", () => {
       activeSlide = 0;
     }
 
+    function preloadSlide(index) {
+      const img = slides[index]?.querySelector("img");
+      if (img && img.loading === "lazy") {
+        img.loading = "eager";
+      }
+    }
+
     function prepareSlidePositions(current, next) {
+      preloadSlide(next);
+      preloadSlide((next + 1) % slides.length);
+
       homeGallery.classList.add("is-preparing-slide");
 
       slides.forEach((slide, index) => {
@@ -333,6 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
         slides[nextSlide].classList.remove("is-after");
         slides[nextSlide].classList.add("is-active");
         activeSlide = nextSlide;
+        preloadSlide((activeSlide + 1) % slides.length);
       }, 6500);
     }
   }
