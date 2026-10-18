@@ -118,6 +118,24 @@ jobs:
               except Exception:
                   return esc(value)
 
+          def iso_date(value):
+              if not value:
+                  return ""
+
+              try:
+                  dt = datetime.fromisoformat(
+                      value.replace("Z", "+00:00")
+                  )
+
+                  dt = dt.astimezone(
+                      ZoneInfo("Asia/Tokyo")
+                  )
+
+                  return dt.date().isoformat()
+
+              except Exception:
+                  return ""
+
           def scripture_text(value):
               value = str(value or "").strip()
 
@@ -147,9 +165,8 @@ jobs:
 
           def preacher_text(value):
               value = str(value or "").strip()
-
-              if value.startswith("説教者："):
-                  return esc(value)
+              value = re.sub(r"^説教者\s*[:：]\s*", "", value)
+              value = re.sub(r"\s+", "", value)
 
               return f"説教者：{esc(value)}"
 
@@ -211,13 +228,17 @@ jobs:
               sermon_date = format_date(
                   sermon.get("sermonDate")
               )
+              sermon_iso = iso_date(
+                  sermon.get("sermonDate")
+              )
+              time_attr = f' datetime="{esc(sermon_iso)}"' if sermon_iso else ""
 
               archive_items.append(f"""
                 <article class="sermon-card">
 
                   <div class="sermon-card-main">
 
-                    <time>
+                    <time{time_attr}>
                       {sermon_date}
                     </time>
 

@@ -1977,6 +1977,30 @@ html[lang="ko"] .home-scripture p {
   line-height: 1.9;
 }
 
+.facility-card-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  margin-top: 14px;
+  color: var(--brand-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
+}
+
+.facility-card-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.facility-card-link:hover,
+.facility-card-link:focus-visible {
+  gap: 9px;
+  text-decoration: underline;
+}
+
 .facility-contact-section {
   padding-top: clamp(18px, 3vw, 36px);
 }
