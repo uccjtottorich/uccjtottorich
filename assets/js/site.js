@@ -134,6 +134,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    desktopDropdowns.forEach((button) => {
+      if (button.getAttribute("aria-expanded") === "true") {
+        button.setAttribute("aria-expanded", "false");
+        button.closest(".nav-dropdown")?.classList.remove("is-open");
+        button.focus();
+      }
+    });
+  });
+
   function enhanceCmsSermons() {
     if (!isCmsSermonPage || !sermonBoard) {
       return;
@@ -336,6 +347,12 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("touchmove", closeMobileMenuOnScrollIntent, { passive: true });
     window.addEventListener("wheel", closeMobileMenuOnScrollIntent, { passive: true });
     window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+        closeMobileMenu();
+        menuButton.focus();
+        return;
+      }
+
       if ([" ", "ArrowDown", "ArrowUp", "End", "Home", "PageDown", "PageUp"].includes(event.key)) {
         closeMobileMenuOnScrollIntent();
       }

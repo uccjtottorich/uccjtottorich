@@ -617,37 +617,6 @@ main {
   flex: 1;
 }
 
-.hero {
-  position: relative;
-  min-height: clamp(420px, 62vh, 680px);
-  display: grid;
-  align-items: end;
-  overflow: hidden;
-  background: var(--brand-surface);
-}
-
-.hero img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.92);
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(252, 251, 249, 0.9), rgba(252, 251, 249, 0.06) 68%);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  padding: 0 0 52px;
-}
-
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -667,26 +636,12 @@ main {
   background: var(--brand-primary);
 }
 
-.hero-title,
 .page-title {
   margin: 0;
   font-family: "Noto Serif JP", Georgia, serif;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.28;
-}
-
-.hero-title {
-  max-width: 760px;
-  font-size: clamp(2rem, 5vw, 4.2rem);
-}
-
-.hero-copy {
-  max-width: 690px;
-  margin: 20px 0 0;
-  color: var(--brand-muted);
-  font-size: clamp(1rem, 1.8vw, 1.12rem);
-  line-height: 2;
 }
 
 .home-banner {
@@ -1443,21 +1398,16 @@ html[lang="ko"] .home-scripture p {
   gap: 34px;
 }
 
-.profile-photo,
-.profile-photo-placeholder {
-  min-height: 420px;
+.profile-photo {
+  aspect-ratio: 4 / 5;
+  min-height: 0;
+  width: 100%;
   border: 1px solid var(--card-border);
   border-radius: 8px;
   background: var(--card-surface);
   color: var(--card-accent);
   overflow: hidden;
   box-shadow: var(--shadow-soft);
-}
-
-.profile-photo {
-  aspect-ratio: 4 / 5;
-  min-height: 0;
-  width: 100%;
 }
 
 .profile-photo img {
@@ -1472,17 +1422,6 @@ html[lang="ko"] .home-scripture p {
 .profile-photo:focus-within img {
   filter: brightness(0.98);
   transform: scale(1.035);
-}
-
-.profile-photo-placeholder {
-  display: grid;
-  place-items: center;
-}
-
-.profile-photo-placeholder svg {
-  width: 72px;
-  height: 72px;
-  stroke-width: 1.4;
 }
 
 .profile-content {
@@ -1621,26 +1560,6 @@ html[lang="ko"] .home-scripture p {
   box-shadow: 0 16px 36px rgba(46, 43, 42, 0.075);
 }
 
-.sermon-card-toggle {
-  display: flex;
-  width: 100%;
-  gap: 18px;
-  align-items: flex-start;
-  justify-content: space-between;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  padding: 24px;
-  text-align: left;
-}
-
-.sermon-card-toggle:focus-visible {
-  outline: 2px solid rgba(111, 101, 93, 0.36);
-  outline-offset: -5px;
-}
-
 .sermon-card-main {
   display: grid;
   gap: 8px;
@@ -1699,34 +1618,6 @@ html[lang="ko"] .home-scripture p {
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-}
-
-.sermon-card-action {
-  flex: 0 0 auto;
-  border: 1px solid var(--card-accent);
-  border-radius: 999px;
-  color: var(--card-accent);
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 8px 11px;
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.sermon-card-toggle[aria-expanded="true"] .sermon-card-action {
-  background: var(--card-accent);
-  color: white;
-}
-
-.sermon-card-detail {
-  border-top: 1px solid rgba(209, 202, 198, 0.52);
-  color: var(--brand-muted);
-  line-height: 2;
-  padding: 0 24px 24px;
-}
-
-.sermon-card-detail p {
-  margin: 18px 0 0;
 }
 
 /* CMS output remains fully readable before progressive enhancement runs. */
@@ -1913,17 +1804,6 @@ html[lang="ko"] .home-scripture p {
 
 .guide-link-card[href="heian-reido.html"] {
   transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
-}
-
-.related-guides {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
-  align-items: stretch;
-}
-
-.related-guides .guide-link-card {
-  height: 100%;
 }
 
 .facility-list {
@@ -2230,8 +2110,7 @@ body.facility-lightbox-open {
   gap: 48px;
 }
 
-.related-organizations-heading,
-.related-organizations-copy {
+.related-organizations-heading {
   min-height: 150px;
   display: flex;
   flex-direction: column;
@@ -2463,8 +2342,7 @@ body.facility-lightbox-open {
     grid-template-columns: 1fr;
   }
 
-  .related-organizations-heading,
-  .related-organizations-copy {
+  .related-organizations-heading {
     min-height: 0;
   }
 
@@ -2507,8 +2385,7 @@ body.facility-lightbox-open {
     flex-direction: column;
   }
 
-  .profile-photo,
-  .profile-photo-placeholder {
+  .profile-photo {
     min-height: 260px;
   }
 
@@ -2524,11 +2401,6 @@ body.facility-lightbox-open {
   .reido-visit-contact .button-row {
     flex: 1 1 auto;
   }
-
-  .sermon-card-toggle {
-    flex-direction: column;
-  }
-
 }
 
 @media (min-width: 561px) and (max-width: 700px) {
@@ -2666,11 +2538,6 @@ body.facility-lightbox-open {
   .reido-legacy {
     grid-template-columns: 1fr;
   }
-
-  .related-guides {
-    grid-template-columns: 1fr;
-  }
-
 }
 
 @media (max-width: 360px) {
