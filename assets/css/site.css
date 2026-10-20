@@ -706,11 +706,12 @@ main {
 .home-banner-caption {
   position: absolute;
   left: 50%;
-  bottom: clamp(24px, 5vw, 48px);
+  bottom: clamp(38px, 6vw, 56px);
   z-index: 3;
   transform: translateX(-50%);
-  width: min(calc(100% - 32px), 720px);
+  width: min(calc(100% - 104px), 720px);
   text-align: center;
+  pointer-events: none;
 }
 
 .home-banner-caption span {
@@ -727,6 +728,121 @@ main {
   font-weight: 700;
   letter-spacing: 0.14em;
   line-height: 1.7;
+}
+
+.home-banner-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(36px, 4.5vw, 44px);
+  height: clamp(36px, 4.5vw, 44px);
+  border: 1px solid rgba(209, 202, 198, 0.65);
+  border-radius: 999px;
+  background: rgba(252, 251, 249, 0.78);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(46, 43, 42, 0.12);
+  color: var(--brand-primary);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.home-banner-nav--prev {
+  left: clamp(10px, 2.2vw, 24px);
+}
+
+.home-banner-nav--next {
+  right: clamp(10px, 2.2vw, 24px);
+}
+
+.home-banner-nav svg {
+  width: clamp(18px, 2.2vw, 20px);
+  height: clamp(18px, 2.2vw, 20px);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.home-banner-nav:hover,
+.home-banner-nav:focus-visible {
+  background: rgba(255, 253, 249, 0.96);
+  border-color: rgba(138, 37, 44, 0.42);
+  box-shadow: 0 8px 22px rgba(46, 43, 42, 0.18);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.home-banner-nav:focus-visible,
+.home-banner-dot:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.home-banner-dots {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(10px, 2vw, 18px);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(46, 43, 42, 0.24);
+  backdrop-filter: blur(6px);
+  transform: translateX(-50%);
+}
+
+.home-banner-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.58);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.home-banner-dot:hover {
+  background: rgba(255, 253, 249, 0.9);
+}
+
+.home-banner-dot.is-active {
+  width: 20px;
+  background: #fffdf9;
+}
+
+@media (max-width: 560px) {
+  .home-banner-caption {
+    bottom: 34px;
+    width: calc(100% - 84px);
+  }
+
+  .home-banner-caption span {
+    padding: 8px 14px;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .home-banner-dots {
+    bottom: 8px;
+    gap: 5px;
+    padding: 4px 8px;
+  }
+
+  .home-banner-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .home-banner-dot.is-active {
+    width: 16px;
+  }
 }
 
 @media (min-width: 1081px) {

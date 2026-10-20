@@ -231,16 +231,39 @@ document.addEventListener("DOMContentLoaded", () => {
       activeSlide = 0;
     }
 
+    const galleryLabelSets = {
+      ja: {
+        prev: "前の写真",
+        next: "次の写真",
+        dots: "スライド選択",
+        dot: (index) => `${index}枚目の写真へ移動`
+      },
+      ko: {
+        prev: "이전 사진",
+        next: "다음 사진",
+        dots: "슬라이드 선택",
+        dot: (index) => `${index}번째 사진으로 이동`
+      },
+      en: {
+        prev: "Previous photo",
+        next: "Next photo",
+        dots: "Slide navigation",
+        dot: (index) => `Go to photo ${index}`
+      }
+    };
+    const galleryLabels = galleryLabelSets[document.documentElement.lang] || galleryLabelSets.ja;
+
     function preloadSlide(index) {
-      const img = slides[index]?.querySelector("img");
+      const normalizedIndex = ((index % slides.length) + slides.length) % slides.length;
+      const img = slides[normalizedIndex]?.querySelector("img");
       if (img && img.loading === "lazy") {
         img.loading = "eager";
       }
     }
 
-    function prepareSlidePositions(current, next) {
+    function prepareSlidePositions(current, next, direction = 1) {
       preloadSlide(next);
-      preloadSlide((next + 1) % slides.length);
+      preloadSlide(next + direction);
 
       homeGallery.classList.add("is-preparing-slide");
 
@@ -250,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (index === current) {
           slide.classList.add("is-active");
         } else if (index === next) {
-          slide.classList.add("is-after");
+          slide.classList.add(direction >= 0 ? "is-after" : "is-before");
         } else {
           slide.classList.add(index < current ? "is-before" : "is-after");
         }
@@ -260,22 +283,130 @@ document.addEventListener("DOMContentLoaded", () => {
       homeGallery.classList.remove("is-preparing-slide");
     }
 
-    prepareSlidePositions(activeSlide, (activeSlide + 1) % slides.length);
+    prepareSlidePositions(activeSlide, (activeSlide + 1) % slides.length, 1);
 
     if (slides.length > 1) {
-      window.setInterval(() => {
-        const currentSlide = activeSlide;
-        const nextSlide = (activeSlide + 1) % slides.length;
+      let autoPlayTimer = null;
+      const dotButtons = [];
 
-        prepareSlidePositions(currentSlide, nextSlide);
+      const prevButton = document.createElement("button");
+      prevButton.type = "button";
+      prevButton.className = "home-banner-nav home-banner-nav--prev";
+      prevButton.setAttribute("aria-label", galleryLabels.prev);
+      prevButton.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>`;
+
+      const nextButton = document.createElement("button");
+      nextButton.type = "button";
+      nextButton.className = "home-banner-nav home-banner-nav--next";
+      nextButton.setAttribute("aria-label", galleryLabels.next);
+      nextButton.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+
+      const dotsContainer = document.createElement("div");
+      dotsContainer.className = "home-banner-dots";
+      dotsContainer.setAttribute("role", "group");
+      dotsContainer.setAttribute("aria-label", galleryLabels.dots);
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "home-banner-dot";
+        dot.setAttribute("aria-label", galleryLabels.dot(index + 1));
+        dot.setAttribute("aria-current", index === activeSlide ? "true" : "false");
+        dot.classList.toggle("is-active", index === activeSlide);
+        dot.addEventListener("click", () => {
+          if (index === activeSlide) return;
+          const direction = index > activeSlide ? 1 : -1;
+          goToSlide(index, direction, true);
+        });
+        dotButtons.push(dot);
+        dotsContainer.append(dot);
+      });
+
+      homeGallery.append(prevButton, nextButton, dotsContainer);
+
+      function updateDots() {
+        dotButtons.forEach((dot, index) => {
+          const isCurrent = index === activeSlide;
+          dot.classList.toggle("is-active", isCurrent);
+          dot.setAttribute("aria-current", isCurrent ? "true" : "false");
+        });
+      }
+
+      function goToSlide(targetIndex, direction = 1, resetTimer = false) {
+        const nextSlide = ((targetIndex % slides.length) + slides.length) % slides.length;
+        if (nextSlide === activeSlide) return;
+
+        const currentSlide = activeSlide;
+        prepareSlidePositions(currentSlide, nextSlide, direction);
 
         slides[currentSlide].classList.remove("is-active");
-        slides[currentSlide].classList.add("is-before");
-        slides[nextSlide].classList.remove("is-after");
+        slides[currentSlide].classList.add(direction >= 0 ? "is-before" : "is-after");
+        slides[nextSlide].classList.remove("is-before", "is-after");
         slides[nextSlide].classList.add("is-active");
+
         activeSlide = nextSlide;
-        preloadSlide((activeSlide + 1) % slides.length);
-      }, 6500);
+        updateDots();
+        preloadSlide(activeSlide + direction);
+
+        if (resetTimer) {
+          restartAutoPlay();
+        }
+      }
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = window.setInterval(() => {
+          goToSlide(activeSlide + 1, 1, false);
+        }, 6500);
+      }
+
+      function stopAutoPlay() {
+        if (autoPlayTimer !== null) {
+          window.clearInterval(autoPlayTimer);
+          autoPlayTimer = null;
+        }
+      }
+
+      function restartAutoPlay() {
+        startAutoPlay();
+      }
+
+      prevButton.addEventListener("click", () => {
+        goToSlide(activeSlide - 1, -1, true);
+      });
+
+      nextButton.addEventListener("click", () => {
+        goToSlide(activeSlide + 1, 1, true);
+      });
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let isSwiping = false;
+
+      homeGallery.addEventListener("touchstart", (event) => {
+        if (event.touches.length !== 1) return;
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        isSwiping = true;
+      }, { passive: true });
+
+      homeGallery.addEventListener("touchend", (event) => {
+        if (!isSwiping || event.changedTouches.length !== 1) return;
+        isSwiping = false;
+
+        const deltaX = event.changedTouches[0].clientX - touchStartX;
+        const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+        if (Math.abs(deltaX) > 42 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+          if (deltaX < 0) {
+            goToSlide(activeSlide + 1, 1, true);
+          } else {
+            goToSlide(activeSlide - 1, -1, true);
+          }
+        }
+      }, { passive: true });
+
+      startAutoPlay();
     }
   }
 
