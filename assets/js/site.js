@@ -332,9 +332,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      function goToSlide(targetIndex, direction = 1, resetTimer = false) {
+      function goToSlide(targetIndex, direction = 1, isManual = false) {
         const nextSlide = ((targetIndex % slides.length) + slides.length) % slides.length;
         if (nextSlide === activeSlide) return;
+
+        homeGallery.classList.toggle("is-manual-transition", isManual);
 
         const currentSlide = activeSlide;
         prepareSlidePositions(currentSlide, nextSlide, direction);
@@ -348,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDots();
         preloadSlide(activeSlide + direction);
 
-        if (resetTimer) {
+        if (isManual) {
           restartAutoPlay();
         }
       }
