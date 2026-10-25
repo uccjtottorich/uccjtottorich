@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const revealTargets = document.querySelectorAll(".home-banner, .image-frame, .gathering-detail-image");
   const homeGallery = document.querySelector("[data-home-gallery]");
   const scriptureRotation = document.querySelector("[data-scripture-rotation]");
-  const specialEventModal = document.querySelector("[data-special-event-modal]");
   const isCmsSermonPage = document.body.classList.contains("cms-sermon-page");
   const sermonBoard = isCmsSermonPage ? document.querySelector(".sermon-board") : null;
   const menuLabelSets = {
@@ -26,80 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (window.lucide) {
     lucide.createIcons();
-  }
-
-  if (specialEventModal) {
-    const storageKey = "tottori-special-event-20261024-hide-until";
-    const today = new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Tokyo" });
-    const eventEnd = new Date("2026-10-25T23:59:59+09:00");
-    const closeButtons = specialEventModal.querySelectorAll("[data-special-event-close]");
-    const todayCheckbox = specialEventModal.querySelector("[data-special-event-today]");
-    const dialog = specialEventModal.querySelector(".special-event-dialog");
-    const focusableSelector = "button, input, a[href]";
-    let lastFocusedElement = null;
-
-    let isHiddenToday = false;
-    try {
-      isHiddenToday = window.localStorage.getItem(storageKey) === today;
-    } catch (error) {
-      isHiddenToday = false;
-    }
-
-    const closeSpecialEvent = () => {
-      if (todayCheckbox?.checked) {
-        try {
-          window.localStorage.setItem(storageKey, today);
-        } catch (error) {
-          // The notice can still be closed when storage is unavailable.
-        }
-      }
-
-      specialEventModal.hidden = true;
-      document.body.classList.remove("special-event-open");
-      lastFocusedElement?.focus?.();
-    };
-
-    todayCheckbox?.addEventListener("change", () => {
-      if (todayCheckbox.checked) {
-        closeSpecialEvent();
-      }
-    });
-
-    closeButtons.forEach((button) => {
-      button.addEventListener("click", closeSpecialEvent);
-    });
-
-    specialEventModal.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeSpecialEvent();
-        return;
-      }
-
-      if (event.key !== "Tab" || !dialog) {
-        return;
-      }
-
-      const focusable = Array.from(dialog.querySelectorAll(focusableSelector));
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last?.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first?.focus();
-      }
-    });
-
-    if (!isHiddenToday && new Date() <= eventEnd) {
-      window.setTimeout(() => {
-        lastFocusedElement = document.activeElement;
-        specialEventModal.hidden = false;
-        document.body.classList.add("special-event-open");
-        specialEventModal.querySelector(".special-event-close")?.focus();
-      }, 450);
-    }
   }
 
   desktopDropdowns.forEach((button) => {
